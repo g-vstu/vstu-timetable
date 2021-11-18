@@ -27,25 +27,16 @@ export default class App extends Component {
             return <ErrorMessage />;
         }
         return (
-            <Router>
-                <div className="app">
-                    <div>
+            <div className="app">
+                <div className="header">
+                    <div className="container">
                         <Header />
                     </div>
-                    <div>
-                        <h3>Выберите необходимый факультет</h3>
-                        <FacultiesAll />
-                        <Routes>
-                            <Route
-                                exact
-                                path="/department"
-                                element={<DepartmentChoose />}
-                            />
-                        </Routes>
-                        {/* <FacultiesInfo /> */}
-                    </div>
                 </div>
-            </Router>
+                <div className="container">
+                    <FacultiesAll />
+                </div>
+            </div>
         );
     }
 }

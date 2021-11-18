@@ -4,17 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
-        <div className="header">
-            <h3 className="header-title">Диспетчерская</h3>
-            <ul className="header-list">
-                <li>{/* <Link to="/facultie/">Факультет</Link> */}</li>
-                {/* <li>
-                    <Link to="/houses/">Houses</Link>
-                </li>
-                <li>
-                    <Link to="/books/">Books</Link>
-                </li> */}
-            </ul>
+        <div className="header__inner">
+            <h1 className="header__inner-title">Диспетчерская ВГТУ</h1>
         </div>
     );
 };

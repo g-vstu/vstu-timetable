@@ -13,6 +13,18 @@ export default class FacultiesAll extends Component {
         selectedFaculty: null,
     };
 
+    onItemSelected = (id) => {
+        this.setState({
+            selectedFaculty: id,
+        });
+    };
+
+    componentDidCatch() {
+        this.setState({
+            error: true,
+        });
+    }
+
     componentDidMount() {
         this.timetableService.getAllFaculties().then((item) => {
             this.setState({
@@ -21,47 +33,47 @@ export default class FacultiesAll extends Component {
         });
     }
 
-    onItemSelected = (id) => {
-        this.setState({
-            selectedFaculty: id,
-        });
-    };
-
     showFaculties(param) {
         return param.map((item) => {
-            const { id, name } = item;
+            const { id, name, shortName, dean, discription } = item;
             return (
-                <Link
-                    to="/department"
+                <div
                     key={id}
-                    className="faculties__choose-btn"
+                    className="faculties__item"
+                    onClick={() => {
+                        this.onItemSelected(id);
+                    }}
                 >
-                    {name}
-                </Link>
+                    <p className="faculties__item-title">{name}</p>
+                    <p className="faculties__item-text">Декан: {dean}</p>
+                    <p className="faculties__item-text">
+                        Описание: {discription ? discription : 'Отсутствует'}
+                    </p>
+                </div>
             );
         });
     }
 
-    componentDidCatch() {
-        this.setState({
-            error: true,
-        });
-    }
-
     render() {
-        const faculties = this.state.faculties;
+        const { faculties, selectedFaculty, error } = this.state;
 
-        if (this.state.error) {
+        if (error) {
             return <ErrorMessage />;
         }
 
         return (
-            <div>
-                <h3>
-                    Не нажимайте на "Заочный" и "Заочный факультет"! Они пока не
-                    работают!
-                </h3>
-                {this.showFaculties(faculties)}
+            <div className="faculties">
+                <h3 className="faculties__title">Факультеты:</h3>
+                <div className="faculties__inner">
+                    <div className="faculties__items">
+                        {this.showFaculties(faculties)}
+                    </div>
+                </div>
+                <p className="faculties__tooltip">
+                    ("Заочный", "Заочный факультет", "Магистратура"пока не
+                    работают)
+                </p>
+                <DepartmentChoose itemId={selectedFaculty} />
             </div>
         );
     }

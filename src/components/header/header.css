@@ -1,22 +1,19 @@
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    height: 80px;
+    background: #1c305c;
+    margin-bottom: 20px;
 }
-.header-title {
-    font-size: 24px;
-    color: black;
-    margin: 0;
+
+.header__inner {
+    width: 1220px;
 }
-.header-list {
-    display: flex;
-    margin: 0;
-    align-items: center;
-    color: black;
-    list-style-type: none;
-}
-.header-list li {
-    margin-right: 20px;
-    font-size: 18px;
+.header__inner-title {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 23px;
+    color: #ffffff;
+    padding: 10px 0 10px 0;
 }
