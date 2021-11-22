@@ -1,0 +1,126 @@
+.table__page {
+}
+
+.choose__section {
+    display: flex;
+}
+
+.choose__day {
+    display: flex;
+    width: 35%;
+}
+
+.choose__day-title {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #bababa;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.choose__day-select {
+    border: 1px solid #bababa;
+    border-radius: 3px;
+    width: 200px;
+    height: 30px;
+
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.choose__day-select__option {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #393939;
+}
+
+.choose__faculty {
+    display: flex;
+    width: 45%;
+}
+
+.choose__faculty-title {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #bababa;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.choose__faculty-select {
+    border: 1px solid #bababa;
+    border-radius: 3px;
+    width: 350px;
+    height: 30px;
+
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.choose__faculty-select__option {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #393939;
+}
+
+.choose__course {
+    display: flex;
+    width: 20%;
+}
+
+.choose__course-title {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #bababa;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.choose__course-select {
+    border: 1px solid #bababa;
+    border-radius: 3px;
+    width: 50px;
+    height: 30px;
+
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.choose__course-select__option {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #393939;
+}

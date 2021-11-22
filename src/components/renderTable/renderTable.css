@@ -1,0 +1,40 @@
+.table {
+    margin-top: 40px;
+}
+
+.table h3 {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 32px;
+
+    /* blue */
+
+    color: #1c305c;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+
+    border-collapse: collapse;
+    border: 2px solid #1c305c;
+}
+
+th,
+td {
+    border: 1px solid #1c305c;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 20px;
+
+    color: #333333;
+}
+
+td {
+    text-align: center;
+}

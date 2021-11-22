@@ -4,6 +4,7 @@ import ErrorMessage from '../errorMessage';
 import axios from 'axios';
 
 import './departmentChoose.css';
+import GroupChoose from '../groupChoose/groupChoose';
 
 export default class DepartmentChoose extends Component {
     timetableService = new TimetableService();
@@ -11,12 +12,12 @@ export default class DepartmentChoose extends Component {
     state = {
         departments: [],
         error: false,
-        selectedGroup: null,
+        selectedDepartment: null,
     };
 
     onItemSelected(id) {
         return this.setState({
-            selectedGroup: id,
+            selectedDepartment: id,
         });
     }
 
@@ -42,7 +43,7 @@ export default class DepartmentChoose extends Component {
             return;
         }
 
-        this.timetableService.getDepartmentsById(itemId).then((item) => {
+        this.timetableService.getDepartmentsByFacultyId(itemId).then((item) => {
             this.setState({
                 departments: item,
             });
@@ -70,19 +71,15 @@ export default class DepartmentChoose extends Component {
     }
 
     render() {
-        const { departments, error, selectedGroup } = this.state;
+        const { departments, error, selectedDepartment } = this.state;
 
-        if (!departments || departments === []) {
-            return <span>Please select department in the list</span>;
+        if (!departments) {
+            return <span>Please select faculty in the list</span>;
         }
 
         if (error) {
             return <ErrorMessage />;
         }
-
-        // if (selectedGroup != null) {
-        //     console.log('Группа с айди:' + selectedGroup);
-        // }
 
         return (
             <div className="departments">
@@ -94,6 +91,7 @@ export default class DepartmentChoose extends Component {
                         {this.showDepartments(departments)}
                     </div>
                 </div>
+                <GroupChoose itemId={selectedDepartment} />
             </div>
         );
     }

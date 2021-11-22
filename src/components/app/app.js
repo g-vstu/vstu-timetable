@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TimetableService from '../../services/timetableService';
-import FacultiesInfo from '../facultiesInfo';
 import FacultiesAll from '../facultiesAll';
 import ErrorMessage from '../errorMessage';
 import Header from '../header';
 import DepartmentChoose from '../departmentChoose';
+import GenerateTable from '../generateTable/generateTable';
+
 import './app.css';
 
 export default class App extends Component {
@@ -34,7 +35,8 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="container">
-                    <FacultiesAll />
+                    {/* <FacultiesAll /> */}
+                    <GenerateTable />
                 </div>
             </div>
         );

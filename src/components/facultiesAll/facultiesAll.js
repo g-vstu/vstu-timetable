@@ -1,9 +1,11 @@
 import React, { Component, useEffect } from 'react';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
-import './facultiesAll.css';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import DepartmentChoose from '../departmentChoose';
+
+import './facultiesAll.css';
+
 export default class FacultiesAll extends Component {
     timetableService = new TimetableService();
 
