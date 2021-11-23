@@ -3,6 +3,7 @@ export default class TimetableService {
         this._apiBase = 'http://192.168.11.252:8082';
     }
 
+    // GET
     getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
 
@@ -14,11 +15,13 @@ export default class TimetableService {
 
     getAllFaculties = async () => {
         const res = await this.getResource(`/common-info/faculties`);
+
         return res.map(this._transformFacultyResult);
     };
 
     getFaculty = async (id) => {
         const fac = await this.getResource(`/common-info/faculties/${id}`);
+
         return this._transformFacultyResult(fac);
     };
 
@@ -71,6 +74,23 @@ export default class TimetableService {
         return res.map(this._transformTypeOfClass);
     };
 
+    // POST
+    postResource = async (bodyItems) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyItems),
+        };
+
+        const res = await fetch(
+            `${this._apiBase}/timetable/patterns`,
+            requestOptions
+        );
+
+        return await res.json();
+    };
+
+    // TRANSFORM DATE
     _transformFacultyResult = (item) => {
         return {
             id: item.id,

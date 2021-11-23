@@ -1,12 +1,12 @@
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     background: #1c305c;
     margin-bottom: 20px;
 }
 
 .header__inner {
-    width: 1220px;
+    width: 100%;
 }
 .header__inner-title {
     font-family: 'Raleway';
