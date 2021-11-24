@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
+import Select from 'react-select';
 
 import './renderTable.css';
 
@@ -9,8 +10,20 @@ export default class RenderTable extends Component {
 
     state = {
         lessonTime: [],
+        lessonFrame: [
+            { value: 1, label: 1 },
+            { value: 2, label: 2 },
+            { value: 3, label: 3 },
+            { value: 4, label: 4 },
+            { value: 5, label: 5 },
+        ],
         disciplines: [],
         lessonType: [],
+        subGroups: [
+            { value: 0, label: 'Все' },
+            { value: 1, label: 1 },
+            { value: 2, label: 2 },
+        ],
         patternToSend: {
             lessonDay: null,
             numerator: null,
@@ -63,8 +76,15 @@ export default class RenderTable extends Component {
         this.timetableService
             .getDisciplinesByDepartmentFacultyId(selectedFaculty)
             .then((item) => {
-                this.setState({
-                    disciplines: item,
+                item.map((param) => {
+                    const { name } = param;
+
+                    return this.setState({
+                        disciplines: [
+                            ...this.state.disciplines,
+                            { value: name, label: name },
+                        ],
+                    });
                 });
             })
             .catch((error) => console.error(error));
@@ -74,8 +94,15 @@ export default class RenderTable extends Component {
         this.timetableService
             .getTypeOfClass()
             .then((item) => {
-                this.setState({
-                    lessonType: item,
+                item.map((param) => {
+                    const { name } = param;
+
+                    return this.setState({
+                        lessonType: [
+                            ...this.state.lessonType,
+                            { value: name, label: name },
+                        ],
+                    });
                 });
             })
             .catch((erorr) => console.error(erorr));
@@ -85,8 +112,15 @@ export default class RenderTable extends Component {
         this.timetableService
             .getPeriodClass()
             .then((item) => {
-                this.setState({
-                    lessonTime: item,
+                item.map((param) => {
+                    const { id, timeStart, timeStop } = param;
+
+                    return this.setState({
+                        lessonTime: [
+                            ...this.state.lessonTime,
+                            { value: id, label: `${timeStart} - ${timeStop}` },
+                        ],
+                    });
                 });
             })
             .catch((error) => console.error(error));
@@ -94,6 +128,7 @@ export default class RenderTable extends Component {
 
     // Все POST запросы
     postPatternItem(body) {
+        console.log(body);
         this.timetableService
             .postResource(body)
             .then((item) => {
@@ -105,90 +140,10 @@ export default class RenderTable extends Component {
     }
 
     // Все SELECT
-    selectLessonTime(item) {
-        return (
-            <select onChange={this.changeLessonTime}>
-                <option label="—" />
-                {this.selectLessonTimeOptions(item)}
-            </select>
-        );
-    }
-
-    selectLessonTimeOptions(param) {
-        return param.map((item) => {
-            const { id, timeStart, timeStop } = item;
-
-            return (
-                <option
-                    key={id}
-                    value={id}
-                    label={timeStart + ' - ' + timeStop}
-                />
-            );
-        });
-    }
-
-    selectLessonFrame() {
-        return (
-            <select onChange={this.changeLessonFrame}>
-                <option label="—" />
-                <option value="1" label="1" />
-                <option value="2" label="2" />
-                <option value="3" label="3" />
-                <option value="4" label="4" />
-                <option value="5" label="5" />
-            </select>
-        );
-    }
-
-    selectLessonDiscipline(item) {
-        return (
-            <select onChange={this.changeDiscipline}>
-                <option label="—" />
-                {this.selectLessonDisciplineOptions(item)}
-            </select>
-        );
-    }
-
-    selectLessonDisciplineOptions(param) {
-        return param.map((item) => {
-            const { id, name } = item;
-
-            return <option key={id} value={name} label={name} />;
-        });
-    }
-
-    selectLessonType(item) {
-        return (
-            <select onChange={this.changeLessonType}>
-                <option label="—" />
-                {this.selectLessonTypeOptions(item)}
-            </select>
-        );
-    }
-
-    selectLessonTypeOptions(param) {
-        return param.map((item) => {
-            const { id, name } = item;
-
-            return <option key={id} value={name} label={name} />;
-        });
-    }
-
-    selectSubGroup() {
-        return (
-            <select onChange={this.changeSubGroup}>
-                <option label="—" />
-                <option value="0" label="ВСЕ" />
-                <option value="1" label="1" />
-                <option value="2" label="2" />
-            </select>
-        );
-    }
 
     // Фиксация изменений в value в SELECT
-    changeLessonTime = (e) => {
-        let { value } = e.target;
+    changeLessonTime = (item) => {
+        let { value } = item;
         console.log('Номер пары:' + value);
         return this.setState({
             patternToSend: {
@@ -198,8 +153,8 @@ export default class RenderTable extends Component {
         });
     };
 
-    changeLessonFrame = (e) => {
-        let { value } = e.target;
+    changeLessonFrame = (item) => {
+        let { value } = item;
         console.log('Корпус:' + value);
         return this.setState({
             patternToSend: {
@@ -209,8 +164,8 @@ export default class RenderTable extends Component {
         });
     };
 
-    changeLessonType = (e) => {
-        let { value } = e.target;
+    changeLessonType = (item) => {
+        let { value } = item;
         console.log('Тип занятия:' + value);
         return this.setState({
             patternToSend: {
@@ -220,8 +175,8 @@ export default class RenderTable extends Component {
         });
     };
 
-    changeSubGroup = (e) => {
-        let { value } = e.target;
+    changeSubGroup = (item) => {
+        let { value } = item;
         console.log('Номер подгруппы:' + value);
         return this.setState({
             patternToSend: {
@@ -231,8 +186,8 @@ export default class RenderTable extends Component {
         });
     };
 
-    changeDiscipline = (e) => {
-        let { value } = e.target;
+    changeDiscipline = (item) => {
+        let { value } = item;
         console.log('Предмет:' + value);
         return this.setState({
             patternToSend: {
@@ -256,8 +211,16 @@ export default class RenderTable extends Component {
     };
 
     render() {
-        const { lessonTime, disciplines, lessonType, patternToSend } =
-            this.state;
+        const {
+            lessonTime,
+            lessonFrame,
+            disciplines,
+            lessonType,
+            patternToSend,
+            subGroups,
+        } = this.state;
+
+        // if (!this.props) return <div>Заполните данные</div>;
 
         return (
             <div className="table">
@@ -277,8 +240,22 @@ export default class RenderTable extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{this.selectLessonTime(lessonTime)}</td>
-                            <td>{this.selectLessonFrame()}</td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeLessonTime(item)
+                                    }
+                                    options={lessonTime}
+                                />
+                            </td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeLessonFrame(item)
+                                    }
+                                    options={lessonFrame}
+                                />
+                            </td>
                             <td>
                                 <input
                                     type="text"
@@ -286,10 +263,31 @@ export default class RenderTable extends Component {
                                     onChange={this.setClassLocation}
                                 />
                             </td>
-                            <td>{this.selectLessonDiscipline(disciplines)}</td>
-                            <td>{this.selectLessonType(lessonType)}</td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeDiscipline(item)
+                                    }
+                                    options={disciplines}
+                                />
+                            </td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeLessonType(item)
+                                    }
+                                    options={lessonType}
+                                />
+                            </td>
                             <td>Ит-5</td>
-                            <td>{this.selectSubGroup()}</td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeSubGroup(item)
+                                    }
+                                    options={subGroups}
+                                />
+                            </td>
                             <td>Казаков В.Е.</td>
                         </tr>
                     </tbody>

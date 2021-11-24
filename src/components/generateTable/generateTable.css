@@ -3,14 +3,17 @@
 
 .choose__section {
     display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
-.choose__day {
+.choose__item {
     display: flex;
-    width: 27%;
+    margin-right: 40px;
+    margin-bottom: 20px;
 }
 
-.choose__day-title {
+.choose__item-title {
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: 600;
@@ -22,10 +25,9 @@
     margin-right: 10px;
 }
 
-.choose__day-select {
+.choose__item-select {
     border: 1px solid #bababa;
-    border-radius: 3px;
-    width: 200px;
+    border-radius: 15px;
     height: 30px;
 
     font-family: 'Open Sans', sans-serif;
@@ -35,127 +37,7 @@
     line-height: 20px;
 }
 
-.choose__day-select__option {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #393939;
-}
-
-.choose__faculty {
-    display: flex;
-    width: 35%;
-}
-
-.choose__faculty-title {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #bababa;
-    padding-top: 5px;
-    margin-right: 10px;
-}
-
-.choose__faculty-select {
-    border: 1px solid #bababa;
-    border-radius: 3px;
-    width: 350px;
-    height: 30px;
-
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.choose__faculty-select__option {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #393939;
-}
-
-.choose__course {
-    display: flex;
-    width: 12%;
-}
-
-.choose__course-title {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #bababa;
-    padding-top: 5px;
-    margin-right: 10px;
-}
-
-.choose__course-select {
-    border: 1px solid #bababa;
-    border-radius: 3px;
-    width: 50px;
-    height: 30px;
-
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.choose__course-select__option {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #393939;
-}
-
-.choose__speciality {
-    display: flex;
-    width: 27%;
-}
-
-.choose__speciality-title {
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #bababa;
-    padding-top: 5px;
-    margin-right: 10px;
-}
-
-.choose__speciality-select {
-    border: 1px solid #bababa;
-    border-radius: 3px;
-    width: 230px;
-    height: 30px;
-
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.choose__speciality-select__option {
+.choose__item-select__option {
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: 600;

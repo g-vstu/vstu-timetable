@@ -76,7 +76,7 @@ export default class GenerateTable extends Component {
                     key={id}
                     value={id}
                     label={name}
-                    className="choose__faculty-select__option"
+                    className="choose__item-select__option"
                 />
             );
         });
@@ -90,7 +90,7 @@ export default class GenerateTable extends Component {
                     key={id}
                     value={id}
                     label={name}
-                    className="choose__speciality-select__option"
+                    className="choose__item-select__option"
                 />
             );
         });
@@ -142,128 +142,132 @@ export default class GenerateTable extends Component {
         return (
             <div className="table__page">
                 <div className="choose__section">
-                    <div className="choose__day">
-                        <p className="choose__day-title">
+                    <div className="choose__item">
+                        <p className="choose__item-title">
                             Выберите день недели:
                         </p>
                         <select
-                            className="choose__day-select"
+                            className="choose__item-select"
                             onChange={this.onDaySelected}
                         >
                             <option
-                                className="choose__day-select__option"
-                                label="—"
+                                className="choose__item-select__option"
+                                label="Ничего не выбрано"
                                 selected
                             />
                             <option
                                 value="MONDAY"
                                 label="Понедельник"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="TUESDAY"
                                 label="Вторник"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="WEDNESDAY"
                                 label="Среда"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="THURSDAY"
                                 label="Четверг"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="FRIDAY"
                                 label="Пятница"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="SATURDAY"
                                 label="Суббота"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="SUNDAY"
                                 label="Воскресенье"
-                                className="choose__day-select__option"
+                                className="choose__item-select__option"
                             />
                         </select>
                     </div>
-                    <div className="choose__faculty">
-                        <p className="choose__faculty-title">
+                    <div className="choose__item">
+                        <p className="choose__item-title">
                             Выберите факультет:
                         </p>
                         <select
-                            className="choose__faculty-select"
+                            className="choose__item-select"
                             onChange={this.onFacultySelected}
                         >
                             <option
-                                className="choose__faculty-select__option"
-                                label="—"
+                                className="choose__item-select__option"
+                                label="Ничего не выбрано"
                                 selected
                             />
                             {this.showFaculty(faculties)}
                         </select>
                     </div>
-                    <div className="choose__speciality">
-                        <p className="choose__speciality-title">
+                    <div className="choose__item">
+                        <p className="choose__item-title">
                             Выберите специальность:
                         </p>
                         <select
-                            className="choose__speciality-select"
+                            className="choose__item-select"
                             onChange={this.onSpecialitySelected}
                         >
                             <option
-                                className="choose__speciality-select__option"
-                                label="—"
+                                className="choose__item-select__option"
+                                label="Ничего не выбрано"
                                 selected
+                            />
+                            <option
+                                className="choose__item-select__option"
+                                label="Информационных технологий и робототехники"
                             />
                             {this.showSpeciality(specialities)}
                         </select>
                     </div>
-                    <div className="choose__course">
-                        <p className="choose__course-title">Выберите курс:</p>
+                    <div className="choose__item">
+                        <p className="choose__item-title">Выберите курс:</p>
                         <select
-                            className="choose__course-select"
+                            className="choose__item-select"
                             onChange={this.onCourseSelected}
                         >
                             <option
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                                 label="—"
                                 selected
                             />
                             <option
                                 value="1"
                                 label="1"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="2"
                                 label="2"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="3"
                                 label="3"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="4"
                                 label="4"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="5"
                                 label="5"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                             <option
                                 value="6"
                                 label="6"
-                                className="choose__course-select__option"
+                                className="choose__item-select__option"
                             />
                         </select>
                     </div>
