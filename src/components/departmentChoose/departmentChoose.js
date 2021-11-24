@@ -43,11 +43,16 @@ export default class DepartmentChoose extends Component {
             return;
         }
 
-        this.timetableService.getDepartmentsByFacultyId(itemId).then((item) => {
-            this.setState({
-                departments: item,
+        this.timetableService
+            .getDepartmentsByFacultyId(itemId)
+            .then((item) => {
+                this.setState({
+                    departments: item,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
-        });
     }
 
     showDepartments(param) {

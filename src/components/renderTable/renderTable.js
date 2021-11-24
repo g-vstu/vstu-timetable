@@ -66,23 +66,30 @@ export default class RenderTable extends Component {
                 this.setState({
                     disciplines: item,
                 });
-            });
+            })
+            .catch((error) => console.error(error));
     }
 
     getLessonType() {
-        this.timetableService.getTypeOfClass().then((item) => {
-            this.setState({
-                lessonType: item,
-            });
-        });
+        this.timetableService
+            .getTypeOfClass()
+            .then((item) => {
+                this.setState({
+                    lessonType: item,
+                });
+            })
+            .catch((erorr) => console.error(erorr));
     }
 
     getLessonTime() {
-        this.timetableService.getPeriodClass().then((item) => {
-            this.setState({
-                lessonTime: item,
-            });
-        });
+        this.timetableService
+            .getPeriodClass()
+            .then((item) => {
+                this.setState({
+                    lessonTime: item,
+                });
+            })
+            .catch((error) => console.error(error));
     }
 
     // Все POST запросы
@@ -90,10 +97,10 @@ export default class RenderTable extends Component {
         this.timetableService
             .postResource(body)
             .then((item) => {
-                alert(item.status);
+                alert('Данные добавлены');
             })
             .catch((error) => {
-                alert(error);
+                console.error(error);
             });
     }
 
@@ -256,32 +263,36 @@ export default class RenderTable extends Component {
             <div className="table">
                 <h3>{this.props.day}</h3>
                 <table>
-                    <tr>
-                        <th>Время</th>
-                        <th>Корпус</th>
-                        <th>Аудитория</th>
-                        <th>Дисциплина</th>
-                        <th>Тип занятия</th>
-                        <th>Группа</th>
-                        <th>Подгруппа</th>
-                        <th>Преподаватель</th>
-                    </tr>
-                    <tr>
-                        <td>{this.selectLessonTime(lessonTime)}</td>
-                        <td>{this.selectLessonFrame()}</td>
-                        <td>
-                            <input
-                                type="text"
-                                placeholder="Введите номер аудитории"
-                                onChange={this.setClassLocation}
-                            />
-                        </td>
-                        <td>{this.selectLessonDiscipline(disciplines)}</td>
-                        <td>{this.selectLessonType(lessonType)}</td>
-                        <td>Ит-5</td>
-                        <td>{this.selectSubGroup()}</td>
-                        <td>Казаков В.Е.</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Корпус</th>
+                            <th>Аудитория</th>
+                            <th>Дисциплина</th>
+                            <th>Тип занятия</th>
+                            <th>Группа</th>
+                            <th>Подгруппа</th>
+                            <th>Преподаватель</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{this.selectLessonTime(lessonTime)}</td>
+                            <td>{this.selectLessonFrame()}</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    placeholder="Введите номер аудитории"
+                                    onChange={this.setClassLocation}
+                                />
+                            </td>
+                            <td>{this.selectLessonDiscipline(disciplines)}</td>
+                            <td>{this.selectLessonType(lessonType)}</td>
+                            <td>Ит-5</td>
+                            <td>{this.selectSubGroup()}</td>
+                            <td>Казаков В.Е.</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <button onClick={() => this.postPatternItem(patternToSend)}>
                     Click!

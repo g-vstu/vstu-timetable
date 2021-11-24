@@ -28,11 +28,16 @@ export default class FacultiesAll extends Component {
     }
 
     componentDidMount() {
-        this.timetableService.getAllFaculties().then((item) => {
-            this.setState({
-                faculties: item,
+        this.timetableService
+            .getAllFaculties()
+            .then((item) => {
+                this.setState({
+                    faculties: item,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
-        });
     }
 
     showFaculties(param) {

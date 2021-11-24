@@ -97,11 +97,16 @@ export default class GenerateTable extends Component {
     }
 
     getFaculties() {
-        this.timetableService.getAllFaculties().then((item) => {
-            this.setState({
-                faculties: item,
+        this.timetableService
+            .getAllFaculties()
+            .then((item) => {
+                this.setState({
+                    faculties: item,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
-        });
     }
 
     getSpecialities() {
@@ -113,6 +118,9 @@ export default class GenerateTable extends Component {
                 this.setState({
                     specialities: item,
                 });
+            })
+            .catch((error) => {
+                console.error(error);
             });
     }
 
@@ -202,7 +210,7 @@ export default class GenerateTable extends Component {
                     </div>
                     <div className="choose__speciality">
                         <p className="choose__speciality-title">
-                            Выберите факультет:
+                            Выберите специальность:
                         </p>
                         <select
                             className="choose__speciality-select"

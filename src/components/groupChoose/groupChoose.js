@@ -41,11 +41,14 @@ export default class GroupChoose extends Component {
             return;
         }
 
-        this.timetableService.getGroupsByDepartmentId(itemId).then((item) => {
-            this.setState({
-                groups: item,
-            });
-        });
+        this.timetableService
+            .getGroupsByDepartmentId(itemId)
+            .then((item) => {
+                this.setState({
+                    groups: item,
+                });
+            })
+            .catch((error) => console.error(error));
     }
 
     showGroups(param) {
