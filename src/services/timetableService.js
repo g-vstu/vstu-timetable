@@ -32,19 +32,11 @@ export default class TimetableService {
         return res.map(this._transformDepartmentResult);
     };
 
-    getSpecialitiesByFacultyId = async (id) => {
-        const res = await this.getResource(
-            `/common-info/specialities/search?q=faculty.id==${id}`
-        );
+    getSpecialities = async (id) => {
+        const res = await this.getResource(`/common-info/specialities`);
 
         return res.map(this._transformSpecialityResult);
     };
-
-    // getGroupsBySpecialityId = async (id) => {
-    //     const res = await this.getResource(`/common-info`);
-
-    //     return res.map(this._transformResult);
-    // };
 
     getGroupsByDepartmentId = async (id) => {
         const res = await this.getResource(
@@ -54,10 +46,16 @@ export default class TimetableService {
         return res.map(this._transformGroupResult);
     };
 
-    getDisciplinesByDepartmentFacultyId = async (id) => {
+    getGroupsByCourseAndSpecialty = async (id, course) => {
         const res = await this.getResource(
-            `/common-info/disciplines/search?q=department.faculty.id==${id}`
+            `/common-info/groups/search?q=course==${course};specialty.id==${id}`
         );
+
+        return res.map(this._transformGroupResult);
+    };
+
+    getDisciplines = async () => {
+        const res = await this.getResource(`/common-info/disciplines`);
 
         return res.map(this._transformDisciplineResult);
     };

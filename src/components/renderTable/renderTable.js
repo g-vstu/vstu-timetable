@@ -19,6 +19,7 @@ export default class RenderTable extends Component {
         ],
         disciplines: [],
         lessonType: [],
+        groups: [],
         subGroups: [
             { value: 0, label: 'Все' },
             { value: 1, label: 1 },
@@ -41,15 +42,23 @@ export default class RenderTable extends Component {
 
     // Базовые функции компонента
     componentDidMount() {
+        if (!this.props.selectedSpeciality) {
+            console.log('Итс бэд!');
+        }
+
         this.getLessonTime();
-        this.getDisciplines();
         this.getLessonType();
         this.addLessonDay();
+        this.getGroups();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.selectedFaculty !== prevProps.selectedFaculty) {
-            this.getDisciplines();
+        // this.getDisciplines();
+        if (
+            this.props.selectedCourse !== prevProps.selectedCourse ||
+            this.props.selectedSpeciality !== prevProps.selectedSpeciality
+        ) {
+            this.getGroups();
         }
 
         if (this.props.day !== prevProps.day) {
@@ -69,12 +78,8 @@ export default class RenderTable extends Component {
 
     // Все GET запросы
     getDisciplines() {
-        const { selectedFaculty } = this.props;
-
-        if (!selectedFaculty) return alert('Выберите факультет!');
-
         this.timetableService
-            .getDisciplinesByDepartmentFacultyId(selectedFaculty)
+            .getDisciplines()
             .then((item) => {
                 item.map((param) => {
                     const { name } = param;
@@ -119,6 +124,30 @@ export default class RenderTable extends Component {
                         lessonTime: [
                             ...this.state.lessonTime,
                             { value: id, label: `${timeStart} - ${timeStop}` },
+                        ],
+                    });
+                });
+            })
+            .catch((error) => console.error(error));
+    }
+
+    getGroups() {
+        const { selectedSpeciality, selectedCourse } = this.props;
+
+        if (!selectedCourse || !selectedSpeciality) {
+            return console.log('Ebalo');
+        }
+
+        this.timetableService
+            .getGroupsByCourseAndSpecialty(selectedSpeciality, selectedCourse)
+            .then((item) => {
+                item.map((param) => {
+                    const { id, name } = param;
+
+                    return this.setState({
+                        groups: [
+                            ...this.state.groups,
+                            { value: name, label: name, key: id },
                         ],
                     });
                 });

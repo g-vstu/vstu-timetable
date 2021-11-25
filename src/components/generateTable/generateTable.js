@@ -12,26 +12,16 @@ export default class GenerateTable extends Component {
         error: false,
         dayValue: null,
         dayLabel: null,
-        selectedFaculty: null,
         selectedSpeciality: null,
         selectedCourse: null,
-        faculties: [],
         specialities: [],
     };
 
     componentDidMount() {
-        this.getFaculties();
-        // if (this.state.selectedFaculty) {
-        //     this.getSpecialities();
-        // }
+        this.getSpecialities();
     }
 
-    componentDidUpdate() {
-        this.getFaculties();
-        // if (this.state.selectedFaculty) {
-        //     this.getSpecialities();
-        // }
-    }
+    componentDidUpdate() {}
 
     componentDidCatch() {
         this.setState({
@@ -68,20 +58,6 @@ export default class GenerateTable extends Component {
         });
     };
 
-    showFaculty(param) {
-        return param.map((item) => {
-            const { id, name } = item;
-            return (
-                <option
-                    key={id}
-                    value={id}
-                    label={name}
-                    className="choose__item-select__option"
-                />
-            );
-        });
-    }
-
     showSpeciality(param) {
         return param.map((item) => {
             const { id, name } = item;
@@ -96,24 +72,9 @@ export default class GenerateTable extends Component {
         });
     }
 
-    getFaculties() {
-        this.timetableService
-            .getAllFaculties()
-            .then((item) => {
-                this.setState({
-                    faculties: item,
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
     getSpecialities() {
-        const { selectedFaculty } = this.state;
-
         this.timetableService
-            .getSpecialitiesByFacultyId(selectedFaculty)
+            .getSpecialities()
             .then((item) => {
                 this.setState({
                     specialities: item,
@@ -128,10 +89,8 @@ export default class GenerateTable extends Component {
         const {
             error,
             dayValue,
-            dayLabel,
-            selectedFaculty,
+            selectedSpeciality,
             selectedCourse,
-            faculties,
             specialities,
         } = this.state;
 
@@ -190,22 +149,6 @@ export default class GenerateTable extends Component {
                                 label="Воскресенье"
                                 className="choose__item-select__option"
                             />
-                        </select>
-                    </div>
-                    <div className="choose__item">
-                        <p className="choose__item-title">
-                            Выберите факультет:
-                        </p>
-                        <select
-                            className="choose__item-select"
-                            onChange={this.onFacultySelected}
-                        >
-                            <option
-                                className="choose__item-select__option"
-                                label="Ничего не выбрано"
-                                selected
-                            />
-                            {this.showFaculty(faculties)}
                         </select>
                     </div>
                     <div className="choose__item">
@@ -275,7 +218,7 @@ export default class GenerateTable extends Component {
                 <RenderTable
                     day={dayValue}
                     selectedCourse={selectedCourse}
-                    selectedFaculty={selectedFaculty}
+                    selectedSpeciality={selectedSpeciality}
                 />
             </div>
         );
