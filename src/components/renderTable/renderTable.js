@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
 import Select from 'react-select';
+import Spinner from '../spinner';
 
 import './renderTable.css';
 
@@ -20,11 +21,13 @@ export default class RenderTable extends Component {
         disciplines: [],
         lessonType: [],
         groups: [],
+        teachers: [],
         subGroups: [
             { value: 0, label: 'Все' },
             { value: 1, label: 1 },
             { value: 2, label: 2 },
         ],
+        // TODO:
         patternToSend: {
             lessonDay: null,
             numerator: null,
@@ -38,6 +41,7 @@ export default class RenderTable extends Component {
             groupName: null,
             teacherFio: null,
         },
+        loading: true,
     };
 
     // Базовые функции компонента
@@ -46,22 +50,22 @@ export default class RenderTable extends Component {
             console.log('Итс бэд!');
         }
 
+        this.getDisciplines();
         this.getLessonTime();
         this.getLessonType();
         this.addLessonDay();
         this.getGroups();
+        this.getTeachers();
     }
 
     componentDidUpdate(prevProps) {
-        // this.getDisciplines();
-        if (
-            this.props.selectedCourse !== prevProps.selectedCourse ||
-            this.props.selectedSpeciality !== prevProps.selectedSpeciality
-        ) {
+        if (this.props.selectedSpeciality !== prevProps.selectedSpeciality) {
+            this.getGroups();
+        } else if (this.props.selectedCourse !== prevProps.selectedCourse) {
             this.getGroups();
         }
 
-        if (this.props.day !== prevProps.day) {
+        if (this.props.day.value !== prevProps.day.value) {
             this.addLessonDay();
         }
     }
@@ -71,7 +75,7 @@ export default class RenderTable extends Component {
         this.setState({
             patternToSend: {
                 ...this.state.patternToSend,
-                lessonDay: this.props.day,
+                lessonDay: this.props.day.value,
             },
         });
     }
@@ -135,24 +139,60 @@ export default class RenderTable extends Component {
         const { selectedSpeciality, selectedCourse } = this.props;
 
         if (!selectedCourse || !selectedSpeciality) {
-            return console.log('Ebalo');
+            return alert('Сделайте нужные махинации');
         }
+
+        console.log(
+            `Специальность: ${selectedSpeciality}, Курс: ${selectedCourse}`
+        );
+
+        this.setState({
+            groups: [],
+        });
 
         this.timetableService
             .getGroupsByCourseAndSpecialty(selectedSpeciality, selectedCourse)
             .then((item) => {
                 item.map((param) => {
-                    const { id, name } = param;
+                    const { id, name, сourse } = param;
 
                     return this.setState({
                         groups: [
                             ...this.state.groups,
-                            { value: name, label: name, key: id },
+                            {
+                                value: name,
+                                label: name,
+                                key: id,
+                                сourse: сourse,
+                            },
                         ],
                     });
                 });
             })
             .catch((error) => console.error(error));
+    }
+
+    getTeachers() {
+        this.timetableService
+            .getTeachers()
+            .then((item) => {
+                item.map((param) => {
+                    const { id, surname, name, patronymic } = param;
+
+                    return this.setState({
+                        teachers: [
+                            ...this.state.teachers,
+                            {
+                                value: `${surname} ${name} ${patronymic}`,
+                                label: `${surname} ${name} ${patronymic}`,
+                                key: id,
+                            },
+                        ],
+                        loading: false,
+                    });
+                });
+            })
+            .catch((error) => console.log(error));
     }
 
     // Все POST запросы
@@ -164,6 +204,7 @@ export default class RenderTable extends Component {
                 alert('Данные добавлены');
             })
             .catch((error) => {
+                alert('Введите все данные');
                 console.error(error);
             });
     }
@@ -178,6 +219,17 @@ export default class RenderTable extends Component {
             patternToSend: {
                 ...this.state.patternToSend,
                 lessonNumber: +value,
+            },
+        });
+    };
+
+    changeTeacher = (item) => {
+        let { value } = item;
+        console.log('Выбранный преподаватель:' + ' ' + value);
+        return this.setState({
+            patternToSend: {
+                ...this.state.patternToSend,
+                teacherFio: value,
             },
         });
     };
@@ -225,6 +277,17 @@ export default class RenderTable extends Component {
             },
         });
     };
+    changeGroup = (item) => {
+        let { value } = item;
+        console.log('Группа:' + value);
+        return this.setState({
+            patternToSend: {
+                ...this.state.patternToSend,
+                groupName: value,
+            },
+        });
+    };
+
     // TODO: ТУТ СЕЙЧАС БУДУТ ХАРДКОДОВЫЕ ПЕРЕМЕННЫЕ!!!
     setClassLocation = (e) => {
         let { value } = e.target;
@@ -232,9 +295,7 @@ export default class RenderTable extends Component {
         return this.setState({
             patternToSend: {
                 ...this.state.patternToSend,
-                location: +value,
-                groupName: 'Ит-5',
-                teacherFio: 'Казаков В.Е.',
+                location: value,
             },
         });
     };
@@ -247,13 +308,16 @@ export default class RenderTable extends Component {
             lessonType,
             patternToSend,
             subGroups,
+            groups,
+            loading,
+            teachers,
         } = this.state;
 
         // if (!this.props) return <div>Заполните данные</div>;
 
-        return (
-            <div className="table">
-                <h3>{this.props.day}</h3>
+        const spinner = loading ? <Spinner /> : null;
+        const content = !loading ? (
+            <div>
                 <table>
                     <thead>
                         <tr>
@@ -308,7 +372,12 @@ export default class RenderTable extends Component {
                                     options={lessonType}
                                 />
                             </td>
-                            <td>Ит-5</td>
+                            <td>
+                                <Select
+                                    onChange={(item) => this.changeGroup(item)}
+                                    options={groups}
+                                />
+                            </td>
                             <td>
                                 <Select
                                     onChange={(item) =>
@@ -317,13 +386,31 @@ export default class RenderTable extends Component {
                                     options={subGroups}
                                 />
                             </td>
-                            <td>Казаков В.Е.</td>
+                            <td>
+                                <Select
+                                    onChange={(item) =>
+                                        this.changeTeacher(item)
+                                    }
+                                    options={teachers}
+                                />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+                <button onClick={() => console.log(this.props.day)}>
+                    Groups
+                </button>
                 <button onClick={() => this.postPatternItem(patternToSend)}>
                     Click!
                 </button>
+            </div>
+        ) : null;
+
+        return (
+            <div className="table">
+                <h3>{this.props.day.label}</h3>
+                {spinner}
+                {content}
             </div>
         );
     }

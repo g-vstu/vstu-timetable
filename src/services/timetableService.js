@@ -32,7 +32,7 @@ export default class TimetableService {
         return res.map(this._transformDepartmentResult);
     };
 
-    getSpecialities = async (id) => {
+    getSpecialities = async () => {
         const res = await this.getResource(`/common-info/specialities`);
 
         return res.map(this._transformSpecialityResult);
@@ -46,9 +46,9 @@ export default class TimetableService {
         return res.map(this._transformGroupResult);
     };
 
-    getGroupsByCourseAndSpecialty = async (id, course) => {
+    getGroupsByCourseAndSpecialty = async (id, courseNum) => {
         const res = await this.getResource(
-            `/common-info/groups/search?q=course==${course};specialty.id==${id}`
+            `/common-info/groups/search?q=сourse==${courseNum};specialty.id==${id}`
         );
 
         return res.map(this._transformGroupResult);
@@ -70,6 +70,12 @@ export default class TimetableService {
         const res = await this.getResource(`/common-info/types-of-classes`);
 
         return res.map(this._transformTypeOfClass);
+    };
+
+    getTeachers = async () => {
+        const res = await this.getResource(`/common-info/employees`);
+
+        return res.map(this._tranfromTeachers);
     };
 
     // POST
@@ -134,7 +140,7 @@ export default class TimetableService {
             name: item.name,
             yearStart: item.yearStart,
             yearEnd: item.yearEnd,
-            course: item.course,
+            сourse: item.сourse,
         };
     };
 
@@ -151,6 +157,18 @@ export default class TimetableService {
         return {
             id: item.id,
             name: item.name,
+        };
+    };
+
+    _tranfromTeachers = (item) => {
+        return {
+            id: item.id,
+            surname: item.surname,
+            name: item.name,
+            patronymic: item.patronymic,
+            degree: item.degree,
+            position: item.position,
+            photo: item.photo,
         };
     };
 }
