@@ -1,10 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function EditTable() {
-    const patterns = useSelector((state) => state.edit.patterns);
-
-    console.log(patterns);
+export default function EditTable({ patterns }) {
     return (
         <div>
             <table>

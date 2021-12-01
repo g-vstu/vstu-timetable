@@ -17,6 +17,18 @@ Select {
     margin-bottom: 20px;
 }
 
+.choose__item:nth-child(1) {
+    width: 20%;
+}
+
+.choose__item:nth-child(2) {
+    width: 53%;
+}
+
+.choose__item:nth-child(3) {
+    width: 20%;
+}
+
 .choose__item-title {
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
@@ -29,16 +41,16 @@ Select {
     margin-right: 10px;
 }
 
-.choose__item-select {
-    border: 1px solid #bababa;
-    border-radius: 15px;
-    height: 30px;
+.choose__item-select1 {
+    width: 40%;
+}
 
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 20px;
+.choose__item-select2 {
+    width: 75%;
+}
+
+.choose__item-select3 {
+    width: 43%;
 }
 
 .choose__item-select__option {

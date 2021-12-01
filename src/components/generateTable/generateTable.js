@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
+import { connect } from 'react-redux';
+
+import { getSpecialities } from '../../redux/commonInfoReducer/actions';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
 import RenderTable from '../renderTable/renderTable';
-import Select from 'react-select';
 
 import './generateTable.css';
 
-export default class GenerateTable extends Component {
+class GenerateTable extends Component {
     timetableService = new TimetableService();
 
     state = {
@@ -14,28 +17,10 @@ export default class GenerateTable extends Component {
         selectedDay: {},
         selectedSpeciality: null,
         selectedCourse: null,
-        specialities: [],
-        days: [
-            { value: 'MONDAY', label: 'Понедельник' },
-            { value: 'TUESDAY', label: 'Вторник' },
-            { value: 'WEDNESDAY', label: 'Среда' },
-            { value: 'THURSDAY', label: 'Четверг' },
-            { value: 'FRIDAY', label: 'Пятница' },
-            { value: 'SATURDAY', label: 'Суббота' },
-            { value: 'SUNDAY', label: 'Воскресенье' },
-        ],
-        courses: [
-            { value: '1', label: '1' },
-            { value: '2', label: '2' },
-            { value: '3', label: '3' },
-            { value: '4', label: '4' },
-            { value: '5', label: '5' },
-            { value: '6', label: '6' },
-        ],
     };
 
     componentDidMount() {
-        this.getSpecialities();
+        this.props.getSpecialities();
     }
 
     componentDidUpdate() {}
@@ -84,36 +69,10 @@ export default class GenerateTable extends Component {
         });
     }
 
-    getSpecialities() {
-        this.timetableService
-            .getSpecialities()
-            .then((item) => {
-                item.map((param) => {
-                    const { id, name } = param;
-
-                    return this.setState({
-                        specialities: [
-                            ...this.state.specialities,
-                            { value: id, label: name },
-                        ],
-                    });
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
     render() {
-        const {
-            error,
-            selectedDay,
-            selectedSpeciality,
-            selectedCourse,
-            specialities,
-            days,
-            courses,
-        } = this.state;
+        const { error, selectedDay, selectedSpeciality, selectedCourse } =
+            this.state;
+        const { specialities, days, courses } = this.props;
 
         if (error) {
             return <ErrorMessage />;
@@ -126,26 +85,34 @@ export default class GenerateTable extends Component {
                         <p className="choose__item-title">
                             Выберите день недели:
                         </p>
-                        <Select
-                            onChange={(item) => this.onDaySelected(item)}
-                            options={days}
-                        />
+                        <div className="choose__item-select1">
+                            <Select
+                                onChange={(item) => this.onDaySelected(item)}
+                                options={days}
+                            />
+                        </div>
                     </div>
                     <div className="choose__item">
                         <p className="choose__item-title">
                             Выберите специальность:
                         </p>
-                        <Select
-                            onChange={(item) => this.onSpecialitySelected(item)}
-                            options={specialities}
-                        />
+                        <div className="choose__item-select2">
+                            <Select
+                                onChange={(item) =>
+                                    this.onSpecialitySelected(item)
+                                }
+                                options={specialities}
+                            />
+                        </div>
                     </div>
                     <div className="choose__item">
                         <p className="choose__item-title">Выберите курс:</p>
-                        <Select
-                            onChange={(item) => this.onCourseSelected(item)}
-                            options={courses}
-                        />
+                        <div className="choose__item-select3">
+                            <Select
+                                onChange={(item) => this.onCourseSelected(item)}
+                                options={courses}
+                            />
+                        </div>
                     </div>
                 </div>
                 <RenderTable
@@ -157,3 +124,15 @@ export default class GenerateTable extends Component {
         );
     }
 }
+
+const mapDispatchToProps = {
+    getSpecialities,
+};
+
+const mapStateToProps = (state) => ({
+    specialities: state.common.specialities,
+    days: state.common.days,
+    courses: state.common.courses,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GenerateTable);

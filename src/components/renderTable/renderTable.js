@@ -1,33 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Select from 'react-select';
+
+import { getCommonData } from '../../redux/commonInfoReducer/actions';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
-import Select from 'react-select';
 import Spinner from '../spinner';
 
 import './renderTable.css';
 
-export default class RenderTable extends Component {
+class RenderTable extends Component {
     timetableService = new TimetableService();
 
     state = {
-        lessonTime: [],
-        lessonFrame: [
-            { value: 1, label: 1 },
-            { value: 2, label: 2 },
-            { value: 3, label: 3 },
-            { value: 4, label: 4 },
-            { value: 5, label: 5 },
-        ],
-        disciplines: [],
-        lessonType: [],
         groups: [],
-        teachers: [],
-        subGroups: [
-            { value: 0, label: 'Все' },
-            { value: 1, label: 1 },
-            { value: 2, label: 2 },
-        ],
-        // TODO:
         patternToSend: {
             lessonDay: null,
             numerator: null,
@@ -41,7 +27,6 @@ export default class RenderTable extends Component {
             groupName: null,
             teacherFio: null,
         },
-        loading: true,
     };
 
     // Базовые функции компонента
@@ -50,12 +35,9 @@ export default class RenderTable extends Component {
             console.log('Итс бэд!');
         }
 
-        this.getDisciplines();
-        this.getLessonTime();
-        this.getLessonType();
+        this.props.getCommonData();
         this.addLessonDay();
         this.getGroups();
-        this.getTeachers();
     }
 
     componentDidUpdate(prevProps) {
@@ -81,60 +63,6 @@ export default class RenderTable extends Component {
     }
 
     // Все GET запросы
-    getDisciplines() {
-        this.timetableService
-            .getDisciplines()
-            .then((item) => {
-                item.map((param) => {
-                    const { name } = param;
-
-                    return this.setState({
-                        disciplines: [
-                            ...this.state.disciplines,
-                            { value: name, label: name },
-                        ],
-                    });
-                });
-            })
-            .catch((error) => console.error(error));
-    }
-
-    getLessonType() {
-        this.timetableService
-            .getTypeOfClass()
-            .then((item) => {
-                item.map((param) => {
-                    const { name } = param;
-
-                    return this.setState({
-                        lessonType: [
-                            ...this.state.lessonType,
-                            { value: name, label: name },
-                        ],
-                    });
-                });
-            })
-            .catch((erorr) => console.error(erorr));
-    }
-
-    getLessonTime() {
-        this.timetableService
-            .getPeriodClass()
-            .then((item) => {
-                item.map((param) => {
-                    const { id, timeStart, timeStop } = param;
-
-                    return this.setState({
-                        lessonTime: [
-                            ...this.state.lessonTime,
-                            { value: id, label: `${timeStart} - ${timeStop}` },
-                        ],
-                    });
-                });
-            })
-            .catch((error) => console.error(error));
-    }
-
     getGroups() {
         const { selectedSpeciality, selectedCourse } = this.props;
 
@@ -170,29 +98,6 @@ export default class RenderTable extends Component {
                 });
             })
             .catch((error) => console.error(error));
-    }
-
-    getTeachers() {
-        this.timetableService
-            .getTeachers()
-            .then((item) => {
-                item.map((param) => {
-                    const { id, surname, name, patronymic } = param;
-
-                    return this.setState({
-                        teachers: [
-                            ...this.state.teachers,
-                            {
-                                value: `${surname} ${name} ${patronymic}`,
-                                label: `${surname} ${name} ${patronymic}`,
-                                key: id,
-                            },
-                        ],
-                        loading: false,
-                    });
-                });
-            })
-            .catch((error) => console.log(error));
     }
 
     // Все POST запросы
@@ -301,22 +206,17 @@ export default class RenderTable extends Component {
     };
 
     render() {
+        const { patternToSend, groups } = this.state;
         const {
-            lessonTime,
-            lessonFrame,
             disciplines,
-            lessonType,
-            patternToSend,
             subGroups,
-            groups,
-            loading,
+            lessonFrame,
+            lessonTime,
+            lessonType,
             teachers,
-        } = this.state;
+        } = this.props;
 
-        // if (!this.props) return <div>Заполните данные</div>;
-
-        const spinner = loading ? <Spinner /> : null;
-        const content = !loading ? (
+        const content = (
             <div>
                 <table>
                     <thead>
@@ -402,14 +302,28 @@ export default class RenderTable extends Component {
                     Click!
                 </button>
             </div>
-        ) : null;
+        );
 
         return (
             <div className="table">
                 <h3>{this.props.day.label}</h3>
-                {spinner}
                 {content}
             </div>
         );
     }
 }
+
+const mapDispatchToProps = {
+    getCommonData,
+};
+
+const mapStateToProps = (state) => ({
+    lessonFrame: state.common.lessonFrame,
+    subGroups: state.common.subGroups,
+    disciplines: state.common.disciplines,
+    lessonTime: state.common.lessonTime,
+    lessonType: state.common.lessonType,
+    teachers: state.common.teachers,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RenderTable);

@@ -12,7 +12,7 @@ const initialState = {
     alert: null,
 };
 
-export const editReducer = (state = initialState, action) => {
+export const editPatternsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_FILTER:
             return { ...state, filter: action.payload };

@@ -32,12 +32,6 @@ export default class TimetableService {
         return res.map(this._transformDepartmentResult);
     };
 
-    getSpecialities = async () => {
-        const res = await this.getResource(`/common-info/specialities`);
-
-        return res.map(this._transformSpecialityResult);
-    };
-
     getGroupsByDepartmentId = async (id) => {
         const res = await this.getResource(
             `/common-info/groups/search?q=department.id==${id}`
@@ -52,24 +46,6 @@ export default class TimetableService {
         );
 
         return res.map(this._transformGroupResult);
-    };
-
-    getDisciplines = async () => {
-        const res = await this.getResource(`/common-info/disciplines`);
-
-        return res.map(this._transformDisciplineResult);
-    };
-
-    getPeriodClass = async () => {
-        const res = await this.getResource(`/common-info/classes`);
-
-        return res.map(this._transformPeriodClassResult);
-    };
-
-    getTypeOfClass = async () => {
-        const res = await this.getResource(`/common-info/types-of-classes`);
-
-        return res.map(this._transformTypeOfClass);
     };
 
     getTeachers = async () => {
@@ -114,26 +90,6 @@ export default class TimetableService {
         };
     };
 
-    _transformSpecialityResult = (item) => {
-        return {
-            id: item.id,
-            name: item.name,
-            shortName: item.shortName,
-            codeSpeciality: item.codeSpeciality,
-            trainingPeriod: item.trainingPeriod,
-            qualification: item.qualification,
-            discription: item.discription,
-        };
-    };
-
-    _transformDisciplineResult = (item) => {
-        return {
-            id: item.id,
-            name: item.name,
-            shortName: item.shortName,
-        };
-    };
-
     _transformGroupResult = (item) => {
         return {
             id: item.id,
@@ -141,22 +97,6 @@ export default class TimetableService {
             yearStart: item.yearStart,
             yearEnd: item.yearEnd,
             сourse: item.сourse,
-        };
-    };
-
-    _transformPeriodClassResult = (item) => {
-        return {
-            id: item.id,
-            numberClass: item.numberClass,
-            timeStart: item.timeStart,
-            timeStop: item.timeStop,
-        };
-    };
-
-    _transformTypeOfClass = (item) => {
-        return {
-            id: item.id,
-            name: item.name,
         };
     };
 
