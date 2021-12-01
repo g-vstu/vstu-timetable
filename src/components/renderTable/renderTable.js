@@ -397,9 +397,7 @@ export default class RenderTable extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <button onClick={() => console.log(this.props.day)}>
-                    Groups
-                </button>
+                {/* <button onClick={() => console.log(this.groups)}>Groups</button> */}
                 <button onClick={() => this.postPatternItem(patternToSend)}>
                     Click!
                 </button>

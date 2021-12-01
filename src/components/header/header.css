@@ -17,3 +17,25 @@
     color: #ffffff;
     padding: 10px 0 10px 0;
 }
+
+.header__inner ul {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__inner ul li {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffffff;
+    padding: 10px 0 10px 0;
+}
+
+.header__inner ul li a {
+    display: inline-block;
+    margin-left: 40px;
+}
