@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 
-import { getSpecialities } from '../../redux/commonInfoReducer/actions';
+import {
+    getCommonData,
+    getGroups,
+} from '../../redux/commonInfoReducer/actions';
+import { fillPattern } from '../../redux/editPatternsReducer/actions';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
 import RenderTable from '../renderTable/renderTable';
@@ -14,16 +18,36 @@ class GenerateTable extends Component {
 
     state = {
         error: false,
-        selectedDay: {},
-        selectedSpeciality: null,
-        selectedCourse: null,
+        selectedDay: {
+            value: '',
+            label: '',
+        },
+        selectedSpeciality: {
+            value: '',
+            label: '',
+        },
+        selectedCourse: {
+            value: '',
+            label: '',
+        },
     };
 
     componentDidMount() {
-        this.props.getSpecialities();
+        this.props.getCommonData();
     }
 
-    componentDidUpdate() {}
+    componentDidUpdate(prevState) {
+        // const { selectedSpeciality, selectedCourse } = this.state;
+        // if (
+        //     selectedSpeciality !== prevState.selectedSpeciality ||
+        //     selectedCourse !== prevState.selectedCourse
+        // ) {
+        //     return this.props.getGroups(
+        //         selectedSpeciality.value,
+        //         selectedCourse.value
+        //     );
+        // }
+    }
 
     componentDidCatch() {
         this.setState({
@@ -31,48 +55,36 @@ class GenerateTable extends Component {
         });
     }
 
-    onDaySelected = (item) => {
+    onItemSelected = (item, name) => {
         let { value, label } = item;
         this.setState({
-            selectedDay: {
-                value: value,
-                label: label,
+            [name]: {
+                value,
+                label,
             },
         });
     };
 
-    onSpecialitySelected = (item) => {
-        let { value } = item;
-        this.setState({
-            selectedSpeciality: value,
-        });
-    };
+    addPropToPattern(item, name) {
+        const { value } = item;
 
-    onCourseSelected = (item) => {
-        let { value } = item;
-        this.setState({
-            selectedCourse: value,
-        });
-    };
-
-    showSpeciality(param) {
-        return param.map((item) => {
-            const { id, name } = item;
-            return (
-                <option
-                    key={id}
-                    value={id}
-                    label={name}
-                    className="choose__item-select__option"
-                />
-            );
-        });
+        return this.props.fillPattern({ value: value, name: name });
     }
 
     render() {
-        const { error, selectedDay, selectedSpeciality, selectedCourse } =
-            this.state;
-        const { specialities, days, courses } = this.props;
+        const { error, selectedDay } = this.state;
+        const {
+            specialities,
+            days,
+            courses,
+            disciplines,
+            subGroups,
+            lessonFrame,
+            lessonTime,
+            lessonType,
+            groups,
+            teachers,
+        } = this.props;
 
         if (error) {
             return <ErrorMessage />;
@@ -87,7 +99,10 @@ class GenerateTable extends Component {
                         </p>
                         <div className="choose__item-select1">
                             <Select
-                                onChange={(item) => this.onDaySelected(item)}
+                                onChange={(item) => {
+                                    this.onItemSelected(item, 'selectedDay');
+                                    this.addPropToPattern(item, 'lessonDay');
+                                }}
                                 options={days}
                             />
                         </div>
@@ -99,7 +114,10 @@ class GenerateTable extends Component {
                         <div className="choose__item-select2">
                             <Select
                                 onChange={(item) =>
-                                    this.onSpecialitySelected(item)
+                                    this.onItemSelected(
+                                        item,
+                                        'selectedSpeciality'
+                                    )
                                 }
                                 options={specialities}
                             />
@@ -109,30 +127,83 @@ class GenerateTable extends Component {
                         <p className="choose__item-title">Выберите курс:</p>
                         <div className="choose__item-select3">
                             <Select
-                                onChange={(item) => this.onCourseSelected(item)}
+                                onChange={(item) =>
+                                    this.onItemSelected(item, 'selectedCourse')
+                                }
                                 options={courses}
                             />
                         </div>
                     </div>
                 </div>
-                <RenderTable
-                    day={selectedDay}
-                    selectedCourse={selectedCourse}
-                    selectedSpeciality={selectedSpeciality}
-                />
+                <div className="table">
+                    <h3>{selectedDay.label}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Время</th>
+                                <th>Корпус</th>
+                                <th>Аудитория</th>
+                                <th>Дисциплина</th>
+                                <th>Тип занятия</th>
+                                <th>Группа</th>
+                                <th>Подгруппа</th>
+                                <th>Преподаватель</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <RenderTable
+                                dataForTable={{
+                                    selectedDay,
+                                    disciplines,
+                                    subGroups,
+                                    lessonFrame,
+                                    lessonTime,
+                                    lessonType,
+                                    groups,
+                                    teachers,
+                                }}
+                            />
+                            <RenderTable
+                                dataForTable={{
+                                    selectedDay,
+                                    disciplines,
+                                    subGroups,
+                                    lessonFrame,
+                                    lessonTime,
+                                    lessonType,
+                                    groups,
+                                    teachers,
+                                }}
+                            />
+                        </tbody>
+                    </table>
+                    {/* <button onClick={() => console.log(this.groups)}>Groups</button> */}
+                    {/* <button onClick={() => this.postPatternItem(patternToSend)}>
+                    Click!
+                </button> */}
+                </div>
             </div>
         );
     }
 }
 
 const mapDispatchToProps = {
-    getSpecialities,
+    getCommonData,
+    getGroups,
+    fillPattern,
 };
 
 const mapStateToProps = (state) => ({
     specialities: state.common.specialities,
     days: state.common.days,
     courses: state.common.courses,
+    lessonFrame: state.common.lessonFrame,
+    subGroups: state.common.subGroups,
+    disciplines: state.common.disciplines,
+    lessonTime: state.common.lessonTime,
+    lessonType: state.common.lessonType,
+    groups: state.common.groups,
+    teachers: state.common.teachers,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GenerateTable);

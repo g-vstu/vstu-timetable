@@ -30,6 +30,15 @@ export const _transformTypeOfClass = (item) => {
     };
 };
 
+export const _transformGroups = (item) => {
+    return {
+        key: item.id,
+        value: item.name,
+        label: item.name,
+        course: item.course,
+    };
+};
+
 export const _tranfromTeachers = (item) => {
     return {
         key: item.id,

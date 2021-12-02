@@ -2,6 +2,7 @@ import { hideLoader, showLoader, showAlert } from '../static/actions';
 import { BASE_URL } from '../static/static';
 import {
     GET_DISCIPLINES,
+    GET_GROUPS,
     GET_LESSON_TIME,
     GET_LESSON_TYPE,
     GET_SPECIALTIES,
@@ -12,6 +13,7 @@ import {
     _transformSpeciality,
     _transformPeriodClass,
     _transformTypeOfClass,
+    _transformGroups,
     _tranfromTeachers,
 } from './transformResults';
 
@@ -73,6 +75,23 @@ export function getLessonType() {
             const result = json.map(_transformTypeOfClass);
 
             dispatch({ type: GET_LESSON_TYPE, payload: result });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function getGroups(id, courseNum) {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(
+                `${BASE_URL}/common-info/groups/search?q=сourse==${courseNum};specialty.id==${id}`
+            );
+
+            const json = await response.json();
+            const result = json.map(_transformGroups);
+
+            dispatch({ type: GET_GROUPS, payload: result });
         } catch (error) {
             console.log(error);
         }

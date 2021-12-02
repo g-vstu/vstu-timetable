@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
-import { getCommonData } from '../../redux/commonInfoReducer/actions';
+import { fillPattern } from '../../redux/editPatternsReducer/actions';
 import TimetableService from '../../services/timetableService';
 import ErrorMessage from '../errorMessage';
 import Spinner from '../spinner';
@@ -13,92 +14,27 @@ class RenderTable extends Component {
     timetableService = new TimetableService();
 
     state = {
-        groups: [],
-        patternToSend: {
-            lessonDay: null,
-            numerator: null,
-            weekNumber: null,
-            lessonNumber: null,
-            subGroup: null,
-            frame: null,
-            location: null,
-            disciplineName: null,
-            typeClassName: null,
-            groupName: null,
-            teacherFio: null,
-        },
+        pattern: {},
     };
 
-    // Базовые функции компонента
     componentDidMount() {
-        if (!this.props.selectedSpeciality) {
-            console.log('Итс бэд!');
-        }
+        const { selectedDay } = this.props.dataForTable;
 
-        this.props.getCommonData();
-        this.addLessonDay();
-        this.getGroups();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.selectedSpeciality !== prevProps.selectedSpeciality) {
-            this.getGroups();
-        } else if (this.props.selectedCourse !== prevProps.selectedCourse) {
-            this.getGroups();
-        }
-
-        if (this.props.day.value !== prevProps.day.value) {
-            this.addLessonDay();
-        }
-    }
-
-    // Добавление в state День пары
-    addLessonDay() {
         this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                lessonDay: this.props.day.value,
+            pattern: {
+                ...this.state.pattern,
+                lessonDay: selectedDay.value,
             },
         });
     }
 
-    // Все GET запросы
-    getGroups() {
-        const { selectedSpeciality, selectedCourse } = this.props;
+    // componentDidUpdate(prevProps) {
+    //     const { selectedDay } = this.props.dataForTable;
 
-        if (!selectedCourse || !selectedSpeciality) {
-            return alert('Сделайте нужные махинации');
-        }
-
-        console.log(
-            `Специальность: ${selectedSpeciality}, Курс: ${selectedCourse}`
-        );
-
-        this.setState({
-            groups: [],
-        });
-
-        this.timetableService
-            .getGroupsByCourseAndSpecialty(selectedSpeciality, selectedCourse)
-            .then((item) => {
-                item.map((param) => {
-                    const { id, name, сourse } = param;
-
-                    return this.setState({
-                        groups: [
-                            ...this.state.groups,
-                            {
-                                value: name,
-                                label: name,
-                                key: id,
-                                сourse: сourse,
-                            },
-                        ],
-                    });
-                });
-            })
-            .catch((error) => console.error(error));
-    }
+    //     if (selectedDay !== prevProps.selectedDay) {
+    //         this.addDayToPattern(selectedDay);
+    //     }
+    // }
 
     // Все POST запросы
     postPatternItem(body) {
@@ -114,216 +50,136 @@ class RenderTable extends Component {
             });
     }
 
-    // Все SELECT
+    // addDayToPattern(item) {
+    //     this.setState({
+    //         pattern: {
+    //             ...this.state.pattern,
+    //             lessonDay: item.value,
+    //         },
+    //     });
+    // }
 
-    // Фиксация изменений в value в SELECT
-    changeLessonTime = (item) => {
-        let { value } = item;
-        console.log('Номер пары:' + value);
+    addPropToPattern(item, name) {
+        const { value } = item;
+
+        // return this.props.fillPattern({ value: value, name: name });
         return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                lessonNumber: +value,
+            pattern: {
+                ...this.state.pattern,
+                [name]: value,
             },
         });
-    };
+    }
 
-    changeTeacher = (item) => {
-        let { value } = item;
-        console.log('Выбранный преподаватель:' + ' ' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                teacherFio: value,
-            },
-        });
-    };
-
-    changeLessonFrame = (item) => {
-        let { value } = item;
-        console.log('Корпус:' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                frame: +value,
-            },
-        });
-    };
-
-    changeLessonType = (item) => {
-        let { value } = item;
-        console.log('Тип занятия:' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                typeClassName: value,
-            },
-        });
-    };
-
-    changeSubGroup = (item) => {
-        let { value } = item;
-        console.log('Номер подгруппы:' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                subGroup: +value,
-            },
-        });
-    };
-
-    changeDiscipline = (item) => {
-        let { value } = item;
-        console.log('Предмет:' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                disciplineName: value,
-            },
-        });
-    };
-    changeGroup = (item) => {
-        let { value } = item;
-        console.log('Группа:' + value);
-        return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
-                groupName: value,
-            },
-        });
-    };
-
-    // TODO: ТУТ СЕЙЧАС БУДУТ ХАРДКОДОВЫЕ ПЕРЕМЕННЫЕ!!!
-    setClassLocation = (e) => {
+    addLocationToPattern = (e) => {
         let { value } = e.target;
-        console.log('Аудитория номер ' + value);
+
+        // return this.props.fillPattern({ value: value, name: 'location' });
         return this.setState({
-            patternToSend: {
-                ...this.state.patternToSend,
+            pattern: {
+                ...this.state.pattern,
                 location: value,
             },
         });
     };
 
+    addPropToReduxPattern() {
+        const { pattern } = this.state;
+        let counter = 0;
+
+        for (let key in pattern) {
+            counter++;
+        }
+
+        if (counter === 8) {
+            this.props.fillPattern(pattern);
+        }
+    }
+
     render() {
-        const { patternToSend, groups } = this.state;
         const {
             disciplines,
             subGroups,
             lessonFrame,
             lessonTime,
             lessonType,
+            groups,
             teachers,
-        } = this.props;
-
-        const content = (
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Время</th>
-                            <th>Корпус</th>
-                            <th>Аудитория</th>
-                            <th>Дисциплина</th>
-                            <th>Тип занятия</th>
-                            <th>Группа</th>
-                            <th>Подгруппа</th>
-                            <th>Преподаватель</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeLessonTime(item)
-                                    }
-                                    options={lessonTime}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeLessonFrame(item)
-                                    }
-                                    options={lessonFrame}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Введите номер аудитории"
-                                    onChange={this.setClassLocation}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeDiscipline(item)
-                                    }
-                                    options={disciplines}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeLessonType(item)
-                                    }
-                                    options={lessonType}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) => this.changeGroup(item)}
-                                    options={groups}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeSubGroup(item)
-                                    }
-                                    options={subGroups}
-                                />
-                            </td>
-                            <td>
-                                <Select
-                                    onChange={(item) =>
-                                        this.changeTeacher(item)
-                                    }
-                                    options={teachers}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                {/* <button onClick={() => console.log(this.groups)}>Groups</button> */}
-                <button onClick={() => this.postPatternItem(patternToSend)}>
-                    Click!
-                </button>
-            </div>
-        );
+        } = this.props.dataForTable;
 
         return (
-            <div className="table">
-                <h3>{this.props.day.label}</h3>
-                {content}
-            </div>
+            <tr>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'lessonNumber')
+                        }
+                        options={lessonTime}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'frame')
+                        }
+                        options={lessonFrame}
+                    />
+                </td>
+                <td>
+                    <input
+                        type="text"
+                        placeholder="Введите номер аудитории"
+                        onChange={this.addLocationToPattern}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'disciplineName')
+                        }
+                        options={disciplines}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'typeClassName')
+                        }
+                        options={lessonType}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'groupName')
+                        }
+                        options={groups}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'subGroup')
+                        }
+                        options={subGroups}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'teacherFio')
+                        }
+                        options={teachers}
+                    />
+                </td>
+                {this.addPropToReduxPattern()}
+            </tr>
         );
     }
 }
 
 const mapDispatchToProps = {
-    getCommonData,
+    fillPattern,
 };
 
-const mapStateToProps = (state) => ({
-    lessonFrame: state.common.lessonFrame,
-    subGroups: state.common.subGroups,
-    disciplines: state.common.disciplines,
-    lessonTime: state.common.lessonTime,
-    lessonType: state.common.lessonType,
-    teachers: state.common.teachers,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RenderTable);
+export default connect(null, mapDispatchToProps)(RenderTable);

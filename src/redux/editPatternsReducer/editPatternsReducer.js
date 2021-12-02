@@ -3,10 +3,12 @@ import {
     HIDE_LOADER,
     SHOW_LOADER,
     GET_PATTERNS,
+    FILL_PATTERN,
 } from '../static/types';
 
 const initialState = {
     patterns: [],
+    patternsToSend: [],
     filter: '',
     loading: false,
     alert: null,
@@ -31,6 +33,11 @@ export const editPatternsReducer = (state = initialState, action) => {
                     }),
                 };
             }
+        case FILL_PATTERN:
+            return {
+                ...state,
+                patternsToSend: [...state.patternsToSend, action.payload],
+            };
         default:
             return state;
     }

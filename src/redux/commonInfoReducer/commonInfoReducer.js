@@ -1,5 +1,6 @@
 import {
     GET_DISCIPLINES,
+    GET_GROUPS,
     GET_LESSON_TIME,
     GET_LESSON_TYPE,
     GET_SPECIALTIES,
@@ -35,10 +36,13 @@ const initialState = {
     ],
     disciplines: [],
     lessonType: [],
+    groups: [],
     subGroups: [
         { value: 0, label: 'Все' },
         { value: 1, label: 1 },
         { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
     ],
     teachers: [],
     loading: false,
@@ -56,6 +60,8 @@ export const commonInfoReducer = (state = initialState, action) => {
             return { ...state, lessonType: action.payload };
         case GET_TEACHERS:
             return { ...state, teachers: action.payload };
+        case GET_GROUPS:
+            return { ...state, groups: action.payload };
         default:
             return state;
     }

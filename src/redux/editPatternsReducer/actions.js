@@ -1,4 +1,4 @@
-import { ADD_FILTER, GET_PATTERNS } from '../static/types';
+import { ADD_FILTER, FILL_PATTERN, GET_PATTERNS } from '../static/types';
 import { BASE_URL } from '../static/static';
 import { showLoader, hideLoader, showAlert } from '../static/actions';
 
@@ -6,6 +6,13 @@ export function addFilter(filter) {
     return {
         type: ADD_FILTER,
         payload: filter,
+    };
+}
+
+export function fillPattern(item) {
+    return {
+        type: FILL_PATTERN,
+        payload: item,
     };
 }
 
