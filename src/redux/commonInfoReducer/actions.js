@@ -30,6 +30,7 @@ export function getSpecialities() {
             dispatch({ type: GET_SPECIALTIES, payload: result });
         } catch (error) {
             console.log(error);
+            dispatch(showAlert('Что-то пошло не так'));
         }
     };
 }

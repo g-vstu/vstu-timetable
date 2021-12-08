@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
 import { fillPattern } from '../../redux/editPatternsReducer/actions';
-import TimetableService from '../../services/timetableService';
-import ErrorMessage from '../errorMessage';
-import Spinner from '../spinner';
-
 import './renderTable.css';
 
 class RenderTable extends Component {
-    timetableService = new TimetableService();
-
     state = {
         pattern: {},
     };
@@ -20,49 +13,22 @@ class RenderTable extends Component {
     componentDidMount() {
         const { selectedDay } = this.props.dataForTable;
 
-        this.setState({
-            pattern: {
-                ...this.state.pattern,
-                lessonDay: selectedDay.value,
-            },
-        });
+        this.addPropToPattern(selectedDay, 'lessonDay');
     }
 
-    // componentDidUpdate(prevProps) {
-    //     const { selectedDay } = this.props.dataForTable;
+    changePeriodicity(item) {
+        const { value } = item;
 
-    //     if (selectedDay !== prevProps.selectedDay) {
-    //         this.addDayToPattern(selectedDay);
-    //     }
-    // }
-
-    // Все POST запросы
-    postPatternItem(body) {
-        console.log(body);
-        this.timetableService
-            .postResource(body)
-            .then((item) => {
-                alert('Данные добавлены');
-            })
-            .catch((error) => {
-                alert('Введите все данные');
-                console.error(error);
-            });
+        if (Number.isInteger(value)) {
+            return this.addPropToPattern(item, 'weekNumber');
+        } else {
+            return this.addPropToPattern(item, 'numerator');
+        }
     }
-
-    // addDayToPattern(item) {
-    //     this.setState({
-    //         pattern: {
-    //             ...this.state.pattern,
-    //             lessonDay: item.value,
-    //         },
-    //     });
-    // }
 
     addPropToPattern(item, name) {
         const { value } = item;
 
-        // return this.props.fillPattern({ value: value, name: name });
         return this.setState({
             pattern: {
                 ...this.state.pattern,
@@ -74,7 +40,6 @@ class RenderTable extends Component {
     addLocationToPattern = (e) => {
         let { value } = e.target;
 
-        // return this.props.fillPattern({ value: value, name: 'location' });
         return this.setState({
             pattern: {
                 ...this.state.pattern,
@@ -91,7 +56,7 @@ class RenderTable extends Component {
             counter++;
         }
 
-        if (counter === 8) {
+        if (counter === 10) {
             this.props.fillPattern(pattern);
         }
     }
@@ -105,16 +70,23 @@ class RenderTable extends Component {
             lessonType,
             groups,
             teachers,
+            periodicity,
         } = this.props.dataForTable;
 
         return (
             <tr>
                 <td>
                     <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'lessonNumber')
-                        }
+                        onChange={(item) => {
+                            this.addPropToPattern(item, 'lessonNumber');
+                        }}
                         options={lessonTime}
+                    />
+                </td>
+                <td>
+                    <Select
+                        onChange={(item) => this.changePeriodicity(item)}
+                        options={periodicity}
                     />
                 </td>
                 <td>

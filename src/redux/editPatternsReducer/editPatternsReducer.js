@@ -4,6 +4,7 @@ import {
     SHOW_LOADER,
     GET_PATTERNS,
     FILL_PATTERN,
+    POST_PATTERNS_LIST,
 } from '../static/types';
 
 const initialState = {
@@ -37,6 +38,11 @@ export const editPatternsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 patternsToSend: [...state.patternsToSend, action.payload],
+            };
+        case POST_PATTERNS_LIST:
+            return {
+                ...state,
+                ...action.payload,
             };
         default:
             return state;

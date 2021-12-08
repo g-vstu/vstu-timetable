@@ -35,7 +35,7 @@ export const _transformGroups = (item) => {
         key: item.id,
         value: item.name,
         label: item.name,
-        course: item.course,
+        сourse: item.сourse,
     };
 };
 

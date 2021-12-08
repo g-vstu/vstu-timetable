@@ -1,4 +1,9 @@
-import { ADD_FILTER, FILL_PATTERN, GET_PATTERNS } from '../static/types';
+import {
+    ADD_FILTER,
+    FILL_PATTERN,
+    GET_PATTERNS,
+    POST_PATTERNS_LIST,
+} from '../static/types';
 import { BASE_URL } from '../static/static';
 import { showLoader, hideLoader, showAlert } from '../static/actions';
 
@@ -25,6 +30,31 @@ export function getPatterns() {
             dispatch({ type: GET_PATTERNS, payload: json });
             dispatch(hideLoader());
         } catch (error) {
+            dispatch(showAlert('Что-то пошло не так'));
+            dispatch(hideLoader());
+        }
+    };
+}
+
+export function postPatternsList(bodyItems) {
+    return async (dispatch) => {
+        try {
+            dispatch(showLoader());
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyItems),
+            };
+
+            const response = await fetch(
+                `${BASE_URL}/timetable/patterns/list`,
+                requestOptions
+            );
+            const result = await response.json();
+            dispatch({ type: POST_PATTERNS_LIST, payload: result });
+            dispatch(hideLoader());
+        } catch (error) {
+            console.log(error);
             dispatch(showAlert('Что-то пошло не так'));
             dispatch(hideLoader());
         }

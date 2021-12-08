@@ -5,6 +5,10 @@ import {
     GET_LESSON_TYPE,
     GET_SPECIALTIES,
     GET_TEACHERS,
+    HIDE_ALERT,
+    HIDE_LOADER,
+    SHOW_ALERT,
+    SHOW_LOADER,
 } from '../static/types';
 
 const initialState = {
@@ -27,6 +31,15 @@ const initialState = {
         { value: '6', label: '6' },
     ],
     lessonTime: [],
+    periodicity: [
+        { value: null, label: 'Всегда' },
+        { value: 1, label: '1 неделя' },
+        { value: 2, label: '2 неделя' },
+        { value: 3, label: '3 неделя' },
+        { value: 4, label: '4 неделя' },
+        { value: true, label: 'Числитель' },
+        { value: false, label: 'Знаменатель' },
+    ],
     lessonFrame: [
         { value: 1, label: 1 },
         { value: 2, label: 2 },
@@ -46,6 +59,7 @@ const initialState = {
     ],
     teachers: [],
     loading: false,
+    alert: null,
 };
 
 export const commonInfoReducer = (state = initialState, action) => {
@@ -62,6 +76,14 @@ export const commonInfoReducer = (state = initialState, action) => {
             return { ...state, teachers: action.payload };
         case GET_GROUPS:
             return { ...state, groups: action.payload };
+        case SHOW_LOADER:
+            return { ...state, loading: true };
+        case HIDE_LOADER:
+            return { ...state, loading: false };
+        case SHOW_ALERT:
+            return { ...state, alert: action.payload };
+        case HIDE_ALERT:
+            return { ...state, alert: null };
         default:
             return state;
     }

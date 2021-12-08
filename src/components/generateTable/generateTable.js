@@ -6,16 +6,14 @@ import {
     getCommonData,
     getGroups,
 } from '../../redux/commonInfoReducer/actions';
-import { fillPattern } from '../../redux/editPatternsReducer/actions';
-import TimetableService from '../../services/timetableService';
+import { postPatternsList } from '../../redux/editPatternsReducer/actions';
 import ErrorMessage from '../errorMessage';
 import RenderTable from '../renderTable/renderTable';
 
 import './generateTable.css';
+import { AlertMessage } from '../alert/alert';
 
 class GenerateTable extends Component {
-    timetableService = new TimetableService();
-
     state = {
         error: false,
         selectedDay: {
@@ -30,23 +28,25 @@ class GenerateTable extends Component {
             value: '',
             label: '',
         },
+        rows: [],
     };
 
     componentDidMount() {
         this.props.getCommonData();
     }
 
-    componentDidUpdate(prevState) {
-        // const { selectedSpeciality, selectedCourse } = this.state;
-        // if (
-        //     selectedSpeciality !== prevState.selectedSpeciality ||
-        //     selectedCourse !== prevState.selectedCourse
-        // ) {
-        //     return this.props.getGroups(
-        //         selectedSpeciality.value,
-        //         selectedCourse.value
-        //     );
-        // }
+    componentDidUpdate(prevProps, prevState) {
+        const { selectedSpeciality, selectedCourse } = this.state;
+
+        if (
+            selectedSpeciality !== prevState.selectedSpeciality ||
+            selectedCourse !== prevState.selectedCourse
+        ) {
+            this.props.getGroups(
+                selectedSpeciality.value,
+                selectedCourse.value
+            );
+        }
     }
 
     componentDidCatch() {
@@ -65,18 +65,9 @@ class GenerateTable extends Component {
         });
     };
 
-    addPropToPattern(item, name) {
-        const { value } = item;
-
-        return this.props.fillPattern({ value: value, name: name });
-    }
-
-    render() {
-        const { error, selectedDay } = this.state;
+    addRow = () => {
+        const { selectedDay } = this.state;
         const {
-            specialities,
-            days,
-            courses,
             disciplines,
             subGroups,
             lessonFrame,
@@ -84,14 +75,53 @@ class GenerateTable extends Component {
             lessonType,
             groups,
             teachers,
+            periodicity,
         } = this.props;
+
+        this.setState({
+            rows: [
+                ...this.state.rows,
+                <RenderTable
+                    key={Math.random()}
+                    dataForTable={{
+                        selectedDay,
+                        disciplines,
+                        subGroups,
+                        lessonFrame,
+                        lessonTime,
+                        lessonType,
+                        groups,
+                        teachers,
+                        periodicity,
+                    }}
+                />,
+            ],
+        });
+    };
+
+    render() {
+        const { error, selectedDay, rows } = this.state;
+        const { specialities, days, courses, patternsToSend } = this.props;
 
         if (error) {
             return <ErrorMessage />;
         }
 
+        const content = rows.length ? (
+            rows.map((item) => {
+                return item;
+            })
+        ) : (
+            <tr>
+                <td className="empty_rows" colSpan="8">
+                    Добавьте строчку
+                </td>
+            </tr>
+        );
+
         return (
             <div className="table__page">
+                {this.props.alert && <AlertMessage text={this.props.alert} />}
                 <div className="choose__section">
                     <div className="choose__item">
                         <p className="choose__item-title">
@@ -101,7 +131,6 @@ class GenerateTable extends Component {
                             <Select
                                 onChange={(item) => {
                                     this.onItemSelected(item, 'selectedDay');
-                                    this.addPropToPattern(item, 'lessonDay');
                                 }}
                                 options={days}
                             />
@@ -141,6 +170,7 @@ class GenerateTable extends Component {
                         <thead>
                             <tr>
                                 <th>Время</th>
+                                <th>Переодичность</th>
                                 <th>Корпус</th>
                                 <th>Аудитория</th>
                                 <th>Дисциплина</th>
@@ -150,37 +180,17 @@ class GenerateTable extends Component {
                                 <th>Преподаватель</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <RenderTable
-                                dataForTable={{
-                                    selectedDay,
-                                    disciplines,
-                                    subGroups,
-                                    lessonFrame,
-                                    lessonTime,
-                                    lessonType,
-                                    groups,
-                                    teachers,
-                                }}
-                            />
-                            <RenderTable
-                                dataForTable={{
-                                    selectedDay,
-                                    disciplines,
-                                    subGroups,
-                                    lessonFrame,
-                                    lessonTime,
-                                    lessonType,
-                                    groups,
-                                    teachers,
-                                }}
-                            />
-                        </tbody>
+                        <tbody>{content}</tbody>
                     </table>
-                    {/* <button onClick={() => console.log(this.groups)}>Groups</button> */}
-                    {/* <button onClick={() => this.postPatternItem(patternToSend)}>
-                    Click!
-                </button> */}
+                    <br />
+                    <button onClick={() => this.addRow()}>Новая строка</button>
+                    <button
+                        onClick={() =>
+                            this.props.postPatternsList(patternsToSend)
+                        }
+                    >
+                        Сохранить занятия
+                    </button>
                 </div>
             </div>
         );
@@ -190,7 +200,7 @@ class GenerateTable extends Component {
 const mapDispatchToProps = {
     getCommonData,
     getGroups,
-    fillPattern,
+    postPatternsList,
 };
 
 const mapStateToProps = (state) => ({
@@ -204,6 +214,9 @@ const mapStateToProps = (state) => ({
     lessonType: state.common.lessonType,
     groups: state.common.groups,
     teachers: state.common.teachers,
+    patternsToSend: state.edit.patternsToSend,
+    alert: state.common.alert,
+    periodicity: state.common.periodicity,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GenerateTable);

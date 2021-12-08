@@ -22,17 +22,13 @@ class EditPage extends Component {
         this.props.addFilter(value);
     }
 
-    renderEditTable() {
-        const { patterns } = this.props;
-
-        return <EditTable patterns={patterns} />;
-    }
-
     render() {
-        const { days } = this.props;
+        const { days, patterns } = this.props;
 
         const spinner = this.props.loading ? <Spinner /> : null;
-        const content = !this.props.loading ? this.renderEditTable() : null;
+        const content = !this.props.loading ? (
+            <EditTable patterns={patterns} />
+        ) : null;
 
         return (
             <div>

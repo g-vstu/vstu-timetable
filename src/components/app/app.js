@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Routes,
-    Navigate,
-} from 'react-router-dom';
-import TimetableService from '../../services/timetableService';
-// import FacultiesAll from '../facultiesAll';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ErrorMessage from '../errorMessage';
 import Header from '../header';
-// import DepartmentChoose from '../departmentChoose';
 import GenerateTable from '../generateTable/generateTable';
 import EditPage from '../editPage/editPage';
 import './app.css';
 
 export default class App extends Component {
-    timetableService = new TimetableService();
-
     state = {
         error: false,
     };
@@ -33,17 +23,6 @@ export default class App extends Component {
             return <ErrorMessage />;
         }
         return (
-            // <div className="app">
-            //     <div className="header">
-            //         <div className="container">
-            //             <Header />
-            //         </div>
-            //     </div>
-            //     <div className="container">
-            //         {/* <FacultiesAll /> */}
-            //         <GenerateTable />
-            //     </div>
-            // </div>
             <Router>
                 <div className="app">
                     <div className="header">
@@ -53,11 +32,7 @@ export default class App extends Component {
                     </div>
                     <div className="container">
                         <Routes>
-                            <Route
-                                exact
-                                path="/"
-                                element={() => <Navigate to="/timetable" />}
-                            />
+                            <Route exact path="/" element={<GenerateTable />} />
                             <Route
                                 exact
                                 path="/timetable"
