@@ -1,4 +1,5 @@
 import {
+    GET_ALL_GROUPS,
     GET_DISCIPLINES,
     GET_GROUPS,
     GET_LESSON_TIME,
@@ -75,6 +76,8 @@ export const commonInfoReducer = (state = initialState, action) => {
         case GET_TEACHERS:
             return { ...state, teachers: action.payload };
         case GET_GROUPS:
+            return { ...state, groups: action.payload };
+        case GET_ALL_GROUPS:
             return { ...state, groups: action.payload };
         case SHOW_LOADER:
             return { ...state, loading: true };

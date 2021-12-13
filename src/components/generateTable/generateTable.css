@@ -72,3 +72,30 @@ Select {
     color: #1c305c;
     text-align: center;
 }
+
+.button__section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.button__section-btn {
+    width: 170px;
+    height: 45px;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 110%;
+
+    border: none;
+    background: #2b4479;
+    color: #ffffff;
+    box-shadow: 0px 6px 15px rgba(68, 134, 217, 0.3);
+    border-radius: 5px;
+    transition: all 0.8s;
+}
+
+.button__section-btn:hover {
+    background: #7091da;
+}

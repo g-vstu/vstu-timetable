@@ -21,7 +21,18 @@ table {
     border: 2px solid #1c305c;
 }
 
-th,
+th {
+    border: 2px solid #1c305c;
+    vertical-align: middle;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #1c305c;
+}
+
 td {
     border: 1px solid #1c305c;
 

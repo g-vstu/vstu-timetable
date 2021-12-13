@@ -6,7 +6,10 @@ import {
     getCommonData,
     getGroups,
 } from '../../redux/commonInfoReducer/actions';
-import { postPatternsList } from '../../redux/editPatternsReducer/actions';
+import {
+    postPatternsList,
+    clearPatternToSend,
+} from '../../redux/editPatternsReducer/actions';
 import ErrorMessage from '../errorMessage';
 import RenderTable from '../renderTable/renderTable';
 
@@ -16,18 +19,9 @@ import { AlertMessage } from '../alert/alert';
 class GenerateTable extends Component {
     state = {
         error: false,
-        selectedDay: {
-            value: '',
-            label: '',
-        },
-        selectedSpeciality: {
-            value: '',
-            label: '',
-        },
-        selectedCourse: {
-            value: '',
-            label: '',
-        },
+        selectedDay: {},
+        selectedSpeciality: {},
+        selectedCourse: {},
         rows: [],
     };
 
@@ -42,6 +36,9 @@ class GenerateTable extends Component {
             selectedSpeciality !== prevState.selectedSpeciality ||
             selectedCourse !== prevState.selectedCourse
         ) {
+            this.setState({
+                rows: [],
+            });
             this.props.getGroups(
                 selectedSpeciality.value,
                 selectedCourse.value
@@ -53,6 +50,10 @@ class GenerateTable extends Component {
         this.setState({
             error: true,
         });
+    }
+
+    componentWillUnmount() {
+        this.props.clearPatternToSend();
     }
 
     onItemSelected = (item, name) => {
@@ -103,6 +104,46 @@ class GenerateTable extends Component {
         const { error, selectedDay, rows } = this.state;
         const { specialities, days, courses, patternsToSend } = this.props;
 
+        const selectedOptions = (
+            <div className="choose__section">
+                <div className="choose__item">
+                    <p className="choose__item-title">Выберите день недели:</p>
+                    <div className="choose__item-select1">
+                        <Select
+                            onChange={(item) => {
+                                this.onItemSelected(item, 'selectedDay');
+                            }}
+                            options={days}
+                        />
+                    </div>
+                </div>
+                <div className="choose__item">
+                    <p className="choose__item-title">
+                        Выберите специальность:
+                    </p>
+                    <div className="choose__item-select2">
+                        <Select
+                            onChange={(item) =>
+                                this.onItemSelected(item, 'selectedSpeciality')
+                            }
+                            options={specialities}
+                        />
+                    </div>
+                </div>
+                <div className="choose__item">
+                    <p className="choose__item-title">Выберите курс:</p>
+                    <div className="choose__item-select3">
+                        <Select
+                            onChange={(item) =>
+                                this.onItemSelected(item, 'selectedCourse')
+                            }
+                            options={courses}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+
         if (error) {
             return <ErrorMessage />;
         }
@@ -113,7 +154,7 @@ class GenerateTable extends Component {
             })
         ) : (
             <tr>
-                <td className="empty_rows" colSpan="8">
+                <td className="empty_rows" colSpan="9">
                     Добавьте строчку
                 </td>
             </tr>
@@ -121,49 +162,13 @@ class GenerateTable extends Component {
 
         return (
             <div className="table__page">
-                {this.props.alert && <AlertMessage text={this.props.alert} />}
-                <div className="choose__section">
-                    <div className="choose__item">
-                        <p className="choose__item-title">
-                            Выберите день недели:
-                        </p>
-                        <div className="choose__item-select1">
-                            <Select
-                                onChange={(item) => {
-                                    this.onItemSelected(item, 'selectedDay');
-                                }}
-                                options={days}
-                            />
-                        </div>
+                {this.props.alert && (
+                    <div>
+                        <AlertMessage text={this.props.alert} /> <br />
                     </div>
-                    <div className="choose__item">
-                        <p className="choose__item-title">
-                            Выберите специальность:
-                        </p>
-                        <div className="choose__item-select2">
-                            <Select
-                                onChange={(item) =>
-                                    this.onItemSelected(
-                                        item,
-                                        'selectedSpeciality'
-                                    )
-                                }
-                                options={specialities}
-                            />
-                        </div>
-                    </div>
-                    <div className="choose__item">
-                        <p className="choose__item-title">Выберите курс:</p>
-                        <div className="choose__item-select3">
-                            <Select
-                                onChange={(item) =>
-                                    this.onItemSelected(item, 'selectedCourse')
-                                }
-                                options={courses}
-                            />
-                        </div>
-                    </div>
-                </div>
+                )}
+
+                {selectedOptions}
                 <div className="table">
                     <h3>{selectedDay.label}</h3>
                     <table>
@@ -182,15 +187,22 @@ class GenerateTable extends Component {
                         </thead>
                         <tbody>{content}</tbody>
                     </table>
-                    <br />
-                    <button onClick={() => this.addRow()}>Новая строка</button>
-                    <button
-                        onClick={() =>
-                            this.props.postPatternsList(patternsToSend)
-                        }
-                    >
-                        Сохранить занятия
-                    </button>
+                    <div className="button__section">
+                        <button
+                            className="button__section-btn"
+                            onClick={() => this.addRow()}
+                        >
+                            Новая строка
+                        </button>
+                        <button
+                            className="button__section-btn"
+                            onClick={() =>
+                                this.props.postPatternsList(patternsToSend)
+                            }
+                        >
+                            Сохранить занятия
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -201,6 +213,7 @@ const mapDispatchToProps = {
     getCommonData,
     getGroups,
     postPatternsList,
+    clearPatternToSend,
 };
 
 const mapStateToProps = (state) => ({

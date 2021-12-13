@@ -18,7 +18,7 @@ export const _transformPeriodClass = (item) => {
     return {
         key: item.id,
         value: item.numberClass,
-        label: `${item.timeStart} - ${item.timeStop}`,
+        label: `${item.timeStart.slice(0, -3)} - ${item.timeStop.slice(0, -3)}`,
     };
 };
 

@@ -1,6 +1,7 @@
 import { hideLoader, showLoader, showAlert } from '../static/actions';
 import { BASE_URL } from '../static/static';
 import {
+    GET_ALL_GROUPS,
     GET_DISCIPLINES,
     GET_GROUPS,
     GET_LESSON_TIME,
@@ -93,6 +94,21 @@ export function getGroups(id, courseNum) {
             const result = json.map(_transformGroups);
 
             dispatch({ type: GET_GROUPS, payload: result });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function getAllGroups() {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(`${BASE_URL}/common-info/groups`);
+
+            const json = await response.json();
+            const result = json.map(_transformGroups);
+
+            dispatch({ type: GET_ALL_GROUPS, payload: result });
         } catch (error) {
             console.log(error);
         }
