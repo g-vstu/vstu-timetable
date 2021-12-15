@@ -75,6 +75,7 @@ class GenerateTable extends Component {
             lessonTime,
             lessonType,
             groups,
+            locations,
             teachers,
             periodicity,
         } = this.props;
@@ -91,6 +92,7 @@ class GenerateTable extends Component {
                         lessonFrame,
                         lessonTime,
                         lessonType,
+                        locations,
                         groups,
                         teachers,
                         periodicity,
@@ -225,6 +227,7 @@ const mapStateToProps = (state) => ({
     disciplines: state.common.disciplines,
     lessonTime: state.common.lessonTime,
     lessonType: state.common.lessonType,
+    locations: state.common.locations,
     groups: state.common.groups,
     teachers: state.common.teachers,
     patternsToSend: state.edit.patternsToSend,

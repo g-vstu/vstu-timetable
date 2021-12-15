@@ -4,6 +4,7 @@ import {
     GET_GROUPS,
     GET_LESSON_TIME,
     GET_LESSON_TYPE,
+    GET_LOCATIONS,
     GET_SPECIALTIES,
     GET_TEACHERS,
     HIDE_ALERT,
@@ -48,6 +49,7 @@ const initialState = {
         { value: 4, label: 4 },
         { value: 5, label: 5 },
     ],
+    locations: [],
     disciplines: [],
     lessonType: [],
     groups: [],
@@ -73,6 +75,8 @@ export const commonInfoReducer = (state = initialState, action) => {
             return { ...state, lessonTime: action.payload };
         case GET_LESSON_TYPE:
             return { ...state, lessonType: action.payload };
+        case GET_LOCATIONS:
+            return { ...state, locations: action.payload };
         case GET_TEACHERS:
             return { ...state, teachers: action.payload };
         case GET_GROUPS:

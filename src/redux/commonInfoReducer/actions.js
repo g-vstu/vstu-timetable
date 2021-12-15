@@ -1,5 +1,5 @@
 import { hideLoader, showLoader, showAlert } from '../static/actions';
-import { BASE_URL } from '../static/static';
+import { BASE_URL, LOCATIONS } from '../static/static';
 import {
     GET_ALL_GROUPS,
     GET_DISCIPLINES,
@@ -8,6 +8,7 @@ import {
     GET_LESSON_TYPE,
     GET_SPECIALTIES,
     GET_TEACHERS,
+    GET_LOCATIONS,
 } from '../static/types';
 import {
     _transformDiscipline,
@@ -16,6 +17,7 @@ import {
     _transformTypeOfClass,
     _transformGroups,
     _tranfromTeachers,
+    _transformLocations,
 } from './transformResults';
 
 export function getSpecialities() {
@@ -130,12 +132,25 @@ export function getTeachers() {
     };
 }
 
+export function getLocations() {
+    return async (dispatch) => {
+        try {
+            const result = LOCATIONS.map(_transformLocations);
+
+            dispatch({ type: GET_LOCATIONS, payload: result });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
 export function getCommonData() {
     return async (dispatch) => {
         try {
             dispatch(showLoader());
             dispatch(getSpecialities());
             dispatch(getLessonTime());
+            dispatch(getLocations());
             dispatch(getDisciplines());
             dispatch(getLessonType());
             dispatch(getTeachers());

@@ -15,6 +15,7 @@ const initialState = {
     filter: {
         day: '',
         group: '',
+        frame: '',
     },
     loading: false,
     alert: null,

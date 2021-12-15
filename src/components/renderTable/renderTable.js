@@ -68,6 +68,7 @@ class RenderTable extends Component {
             lessonFrame,
             lessonTime,
             lessonType,
+            locations,
             groups,
             teachers,
             periodicity,
@@ -98,10 +99,16 @@ class RenderTable extends Component {
                     />
                 </td>
                 <td>
-                    <input
+                    {/* <input
                         type="text"
                         placeholder="Введите номер аудитории"
                         onChange={this.addLocationToPattern}
+                    /> */}
+                    <Select
+                        onChange={(item) =>
+                            this.addPropToPattern(item, 'location')
+                        }
+                        options={locations}
                     />
                 </td>
                 <td>

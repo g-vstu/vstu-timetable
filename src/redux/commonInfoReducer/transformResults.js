@@ -46,3 +46,11 @@ export const _tranfromTeachers = (item) => {
         label: `${item.surname} ${item.name} ${item.patronymic}`,
     };
 };
+
+export const _transformLocations = (item) => {
+    return {
+        key: item.number,
+        value: item.number,
+        label: item.number,
+    };
+};

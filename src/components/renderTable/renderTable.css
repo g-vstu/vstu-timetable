@@ -29,13 +29,14 @@ th {
     font-weight: normal;
     font-size: 20px;
     line-height: 23px;
-
+    padding: 5px;
     color: #1c305c;
 }
 
 td {
     border: 1px solid #1c305c;
-
+    vertical-align: middle;
+    padding: 2px;
     font-family: 'Raleway';
     font-style: normal;
     font-weight: normal;
@@ -46,7 +47,7 @@ td {
 }
 
 td {
-    text-align: center;
+    text-align: left;
 }
 
 /* td select {
