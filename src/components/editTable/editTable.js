@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -6,12 +6,15 @@ import {
     getPatterns,
 } from '../../redux/editPatternsReducer/actions';
 import { AlertMessage } from '../alert/alert';
+import Modal from '../Modal/Modal';
 
 export default function EditTable({ patterns }) {
     const dispatch = useDispatch();
     const days = useSelector((state) => state.common.days);
     const subGroups = useSelector((state) => state.common.subGroups);
     const alert = useSelector((state) => state.common.alert);
+
+    const [modalActive, setModalActive] = useState(false);
 
     function whatDay(item) {
         return days.map((day) => {
@@ -95,6 +98,9 @@ export default function EditTable({ patterns }) {
                                         alt="delete"
                                     />
                                 </button>
+                                <button onClick={() => setModalActive(true)}>
+                                    Редактировать
+                                </button>
                             </td>
                         </tr>
                     );
@@ -113,6 +119,12 @@ export default function EditTable({ patterns }) {
                 </div>
             )}
             {tableContent}
+            <Modal active={modalActive} setActive={setModalActive}>
+                <p>
+                    Привет, это окно для редактирования занятия, очень удобно,
+                    согласен?
+                </p>
+            </Modal>
         </div>
     );
 }
