@@ -62,7 +62,7 @@ export function deletePattern(id) {
             // const result = await response.json();
             dispatch({ type: DELETE_PATTERN, payload: response });
             dispatch(hideLoader());
-            dispatch(showAlert('Успешное удаление произошло'));
+            dispatch(showAlert('Данные удалены'));
         } catch (error) {
             console.error(error);
             dispatch(showAlert('Что-то пошло не так!'));

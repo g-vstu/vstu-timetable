@@ -1,24 +1,28 @@
 import { React, Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 
 import {
     addFilter,
     getPatterns,
 } from '../../redux/editPatternsReducer/actions';
-import { getAllGroups } from '../../redux/commonInfoReducer/actions';
+import {
+    getAllGroups,
+    getCommonData,
+} from '../../redux/commonInfoReducer/actions';
 import EditTable from '../editTable/editTable';
 import Spinner from '../spinner';
+import { AlertMessage } from '../alert/alert';
 
 class EditPage extends Component {
     state = {
         isClearable: true,
+        day: '',
     };
 
     componentDidMount() {
         this.props.getPatterns();
+        this.props.getCommonData();
         this.props.getAllGroups();
     }
 
@@ -37,12 +41,44 @@ class EditPage extends Component {
     }
 
     render() {
-        const { isClearable } = this.state;
-        const { days, patterns, groups } = this.props;
+        const { isClearable, day } = this.state;
+        const { days, patterns, groups, periodicity, lessonTime } = this.props;
 
         const spinner = this.props.loading ? <Spinner /> : null;
         const content = !this.props.loading ? (
-            <EditTable key={Math.random()} patterns={patterns} />
+            this.props.patterns.length ? (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Переодичность</th>
+                            <th>Корпус</th>
+                            <th>Аудитория</th>
+                            <th>Дисциплина</th>
+                            <th>Тип занятия</th>
+                            <th>Группа</th>
+                            <th>Подгруппа</th>
+                            <th>Преподаватель</th>
+                            <th>Манипуляции</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {patterns.map((pattern) => {
+                            return (
+                                <EditTable
+                                    key={Math.random()}
+                                    pattern={pattern}
+                                    periodicity={periodicity}
+                                    lessonTime={lessonTime}
+                                    day={day}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </table>
+            ) : (
+                <div>Empty</div>
+            )
         ) : null;
 
         return (
@@ -61,6 +97,10 @@ class EditPage extends Component {
                                 isClearable={isClearable}
                                 onChange={(item) => {
                                     this.changeFilter(item, 'day');
+                                    this.setState({
+                                        ...this.state,
+                                        day: item,
+                                    });
                                     this.props.getPatterns();
                                 }}
                                 options={days}
@@ -82,6 +122,11 @@ class EditPage extends Component {
                     </div>
                 </div>
                 {spinner}
+                {/* {alert && (
+                    <div>
+                        <AlertMessage text={alert} /> <br />
+                    </div>
+                )} */}
                 {content}
             </div>
         );
@@ -92,6 +137,7 @@ const mapDispatchToProps = {
     addFilter,
     getPatterns,
     getAllGroups,
+    getCommonData,
 };
 
 const mapStateToProps = (state) => ({
@@ -100,6 +146,9 @@ const mapStateToProps = (state) => ({
     days: state.common.days,
     courses: state.common.courses,
     groups: state.common.groups,
+    periodicity: state.common.periodicity,
+    lessonTime: state.common.lessonTime,
+    alert: state.common.alert,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPage);
