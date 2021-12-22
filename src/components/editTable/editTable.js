@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Select from 'react-select';
 
@@ -7,15 +7,23 @@ import {
     getPatterns,
 } from '../../redux/editPatternsReducer/actions';
 
-export default function EditTable({ pattern, periodicity, lessonTime, day }) {
+export default function EditTable({ pattern, day, commonInfo }) {
     const dispatch = useDispatch();
-    const subGroups = useSelector((state) => state.common.subGroups);
+    const [patternToChange, addToPattern] = useState({});
+    const {
+        lessonTime,
+        subGroups,
+        periodicity,
+        lessonFrame,
+        locations,
+        disciplines,
+        lessonType,
+        teachers,
+    } = commonInfo;
 
-    function whatSubGroup(item) {
-        return subGroups.map((subGroup) => {
-            if (subGroup.value === item) return subGroup.label;
-        });
-    }
+    useEffect(() => {
+        addToPattern(pattern);
+    });
 
     function whatPeriodicity(weekNumber, numerator) {
         if (weekNumber != null) {
@@ -81,11 +89,37 @@ export default function EditTable({ pattern, periodicity, lessonTime, day }) {
         }
     }
 
+    function changePeriodicity(value) {
+        if (Number.isInteger(value)) {
+            return addToPattern((patternToChange.weekNumber = value));
+        } else {
+            return addToPattern((patternToChange.numerator = value));
+        }
+    }
+
     function whatNumber(number) {
         return (
             <Select
+                onChange={(item) =>
+                    addToPattern((patternToChange.lessonNumber = item.value))
+                }
                 defaultValue={lessonTime[number - 1]}
                 options={lessonTime}
+            />
+        );
+    }
+
+    function whatLabel(str, arr, name) {
+        console.log();
+        return (
+            <Select
+                onChange={(item) =>
+                    addToPattern((patternToChange[name] = item.value))
+                }
+                defaultValue={
+                    arr[arr.indexOf(arr.find((item) => item.value === str))]
+                }
+                options={arr}
             />
         );
     }
@@ -102,13 +136,21 @@ export default function EditTable({ pattern, periodicity, lessonTime, day }) {
         <tr key={pattern.id}>
             <td>{whatNumber(pattern.lessonNumber)}</td>
             <td>{whatPeriodicity(pattern.weekNumber, pattern.numerator)}</td>
-            <td>{pattern.frame}</td>
-            <td>{pattern.location}</td>
-            <td>{pattern.disciplineName}</td>
-            <td>{pattern.typeClassName}</td>
+            <td>{whatLabel(+pattern.frame, lessonFrame, 'frame')}</td>
+            <td>{whatLabel(pattern.location, locations, 'location')}</td>
+            <td>
+                {whatLabel(
+                    pattern.disciplineName,
+                    disciplines,
+                    'disciplineName'
+                )}
+            </td>
+            <td>
+                {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
+            </td>
             <td>{pattern.groupName}</td>
-            <td>{whatSubGroup(pattern.subGroup)}</td>
-            <td>{pattern.teacherFio}</td>
+            <td>{whatLabel(pattern.subGroup, subGroups, 'subGroup')}</td>
+            <td>{whatLabel(pattern.teacherFio, teachers, 'teacherFio')}</td>
             <td>
                 <button
                     className="delete__button"
@@ -116,16 +158,10 @@ export default function EditTable({ pattern, periodicity, lessonTime, day }) {
                 >
                     <img src="../../../delete-icon-png.svg" alt="delete" />
                 </button>
-                <button>Редактировать</button>
+                <button onClick={() => console.log(patternToChange)}>
+                    Редактировать
+                </button>
             </td>
         </tr>
     );
-    // <div>
-    //     {alert && (
-    //         <div>
-    //             <AlertMessage text={alert} /> <br />
-    //         </div>
-    //     )}
-    //     {tableContent}
-    // </div>
 }

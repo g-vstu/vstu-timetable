@@ -42,7 +42,19 @@ class EditPage extends Component {
 
     render() {
         const { isClearable, day } = this.state;
-        const { days, patterns, groups, periodicity, lessonTime } = this.props;
+        const {
+            days,
+            patterns,
+            groups,
+            periodicity,
+            lessonTime,
+            lessonFrame,
+            subGroups,
+            locations,
+            disciplines,
+            lessonType,
+            teachers,
+        } = this.props;
 
         const spinner = this.props.loading ? <Spinner /> : null;
         const content = !this.props.loading ? (
@@ -68,8 +80,16 @@ class EditPage extends Component {
                                 <EditTable
                                     key={Math.random()}
                                     pattern={pattern}
-                                    periodicity={periodicity}
-                                    lessonTime={lessonTime}
+                                    commonInfo={{
+                                        lessonTime,
+                                        subGroups,
+                                        periodicity,
+                                        lessonFrame,
+                                        locations,
+                                        disciplines,
+                                        lessonType,
+                                        teachers,
+                                    }}
                                     day={day}
                                 />
                             );
@@ -148,6 +168,12 @@ const mapStateToProps = (state) => ({
     groups: state.common.groups,
     periodicity: state.common.periodicity,
     lessonTime: state.common.lessonTime,
+    lessonFrame: state.common.lessonFrame,
+    subGroups: state.common.subGroups,
+    locations: state.common.locations,
+    disciplines: state.common.disciplines,
+    lessonType: state.common.lessonType,
+    teachers: state.common.teachers,
     alert: state.common.alert,
 });
 
