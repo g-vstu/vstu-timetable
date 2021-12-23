@@ -4,6 +4,7 @@ import {
     DELETE_PATTERN,
     FILL_PATTERN,
     GET_PATTERNS,
+    PATCH_PATTERNS_LIST,
     POST_PATTERNS_LIST,
 } from '../static/types';
 import { BASE_URL } from '../static/static';
@@ -63,6 +64,36 @@ export function deletePattern(id) {
             dispatch({ type: DELETE_PATTERN, payload: response });
             dispatch(hideLoader());
             dispatch(showAlert('Данные удалены'));
+        } catch (error) {
+            console.error(error);
+            dispatch(showAlert('Что-то пошло не так!'));
+            dispatch(hideLoader());
+        }
+    };
+}
+
+export function patchPattern(id, bodyItems) {
+    return async (dispatch) => {
+        try {
+            dispatch(showLoader());
+            const requestOptions = {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyItems),
+            };
+
+            const response = await fetch(
+                `${BASE_URL}/timetable/patterns/${id}`,
+                requestOptions
+            );
+            const result = await response.json();
+            dispatch({ type: PATCH_PATTERNS_LIST, payload: result });
+            dispatch(hideLoader());
+            if (!bodyItems.length) {
+                dispatch(showAlert('Что-то пошло не так!'));
+            } else {
+                dispatch(showAlert('Данные успешно обновлены!'));
+            }
         } catch (error) {
             console.error(error);
             dispatch(showAlert('Что-то пошло не так!'));

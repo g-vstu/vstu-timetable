@@ -7,6 +7,7 @@ import {
     POST_PATTERNS_LIST,
     DELETE_PATTERN,
     CLEAR_PATTERNS_TO_SEND,
+    PATCH_PATTERNS_LIST,
 } from '../static/types';
 
 const initialState = {
@@ -80,6 +81,10 @@ export const editPatternsReducer = (state = initialState, action) => {
                 patternsToSend: action.payload,
             };
         case POST_PATTERNS_LIST:
+            return {
+                ...state,
+            };
+        case PATCH_PATTERNS_LIST:
             return {
                 ...state,
             };

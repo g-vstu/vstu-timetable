@@ -5,6 +5,7 @@ import Select from 'react-select';
 import {
     deletePattern,
     getPatterns,
+    patchPattern,
 } from '../../redux/editPatternsReducer/actions';
 
 export default function EditTable({ pattern, day, commonInfo }) {
@@ -158,7 +159,14 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 >
                     <img src="../../../delete-icon-png.svg" alt="delete" />
                 </button>
-                <button onClick={() => console.log(patternToChange)}>
+                <button
+                    onClick={() => {
+                        console.log(patternToChange);
+                        return dispatch(
+                            patchPattern(pattern.id, patternToChange)
+                        );
+                    }}
+                >
                     Редактировать
                 </button>
             </td>
