@@ -24,7 +24,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     useEffect(() => {
         addToPattern(pattern);
-    });
+    }, []);
 
     function whatPeriodicity(weekNumber, numerator) {
         if (weekNumber != null) {
@@ -32,6 +32,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 case 1:
                     return (
                         <Select
+                            onChange={(item) => changePeriodicity(item.value)}
                             defaultValue={periodicity[1]}
                             options={periodicity}
                         />
@@ -39,6 +40,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 case 2:
                     return (
                         <Select
+                            onChange={(item) => changePeriodicity(item.value)}
                             defaultValue={periodicity[2]}
                             options={periodicity}
                         />
@@ -46,6 +48,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 case 3:
                     return (
                         <Select
+                            onChange={(item) => changePeriodicity(item.value)}
                             defaultValue={periodicity[3]}
                             options={periodicity}
                         />
@@ -53,6 +56,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 case 4:
                     return (
                         <Select
+                            onChange={(item) => changePeriodicity(item.value)}
                             defaultValue={periodicity[4]}
                             options={periodicity}
                         />
@@ -60,6 +64,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 default:
                     return (
                         <Select
+                            onChange={(item) => changePeriodicity(item.value)}
                             defaultValue={periodicity[0]}
                             options={periodicity}
                         />
@@ -70,6 +75,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
             if (numerator) {
                 return (
                     <Select
+                        onChange={(item) => changePeriodicity(item.value)}
                         defaultValue={periodicity[5]}
                         options={periodicity}
                     />
@@ -77,6 +83,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
             } else if (numerator === false) {
                 return (
                     <Select
+                        onChange={(item) => changePeriodicity(item.value)}
                         defaultValue={periodicity[6]}
                         options={periodicity}
                     />
@@ -92,9 +99,9 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     function changePeriodicity(value) {
         if (Number.isInteger(value)) {
-            return addToPattern((patternToChange.weekNumber = value));
+            return addToPattern({ ...patternToChange, weekNumber: value });
         } else {
-            return addToPattern((patternToChange.numerator = value));
+            return addToPattern({ ...patternToChange, numerator: value });
         }
     }
 
@@ -102,7 +109,10 @@ export default function EditTable({ pattern, day, commonInfo }) {
         return (
             <Select
                 onChange={(item) =>
-                    addToPattern((patternToChange.lessonNumber = item.value))
+                    addToPattern({
+                        ...patternToChange,
+                        lessonNumber: item.value,
+                    })
                 }
                 defaultValue={lessonTime[number - 1]}
                 options={lessonTime}
@@ -115,7 +125,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
         return (
             <Select
                 onChange={(item) =>
-                    addToPattern((patternToChange[name] = item.value))
+                    addToPattern({ ...patternToChange, [name]: item.value })
                 }
                 defaultValue={
                     arr[arr.indexOf(arr.find((item) => item.value === str))]
@@ -162,9 +172,10 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 <button
                     onClick={() => {
                         console.log(patternToChange);
-                        return dispatch(
-                            patchPattern(pattern.id, patternToChange)
-                        );
+                        dispatch(patchPattern(pattern.id, patternToChange));
+                        setTimeout(() => {
+                            dispatch(getPatterns());
+                        }, 0);
                     }}
                 >
                     Редактировать
