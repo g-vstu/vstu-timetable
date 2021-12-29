@@ -28,54 +28,22 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     function whatPeriodicity(weekNumber, numerator) {
         if (weekNumber != null) {
-            switch (weekNumber) {
-                case 1:
-                    return (
-                        <Select
-                            onChange={(item) => changePeriodicity(item.value)}
-                            defaultValue={periodicity[1]}
-                            options={periodicity}
-                        />
-                    );
-                case 2:
-                    return (
-                        <Select
-                            onChange={(item) => changePeriodicity(item.value)}
-                            defaultValue={periodicity[2]}
-                            options={periodicity}
-                        />
-                    );
-                case 3:
-                    return (
-                        <Select
-                            onChange={(item) => changePeriodicity(item.value)}
-                            defaultValue={periodicity[3]}
-                            options={periodicity}
-                        />
-                    );
-                case 4:
-                    return (
-                        <Select
-                            onChange={(item) => changePeriodicity(item.value)}
-                            defaultValue={periodicity[4]}
-                            options={periodicity}
-                        />
-                    );
-                default:
-                    return (
-                        <Select
-                            onChange={(item) => changePeriodicity(item.value)}
-                            defaultValue={periodicity[0]}
-                            options={periodicity}
-                        />
-                    );
-            }
+            return (
+                <Select
+                    onChange={(item) => changePeriodicity(item.value)}
+                    defaultValue={periodicity[weekNumber]}
+                    options={periodicity}
+                />
+            );
         }
         if (numerator != null) {
             if (numerator) {
                 return (
                     <Select
-                        onChange={(item) => changePeriodicity(item.value)}
+                        onChange={(item) => {
+                            console.log(item);
+                            changePeriodicity(item.value);
+                        }}
                         defaultValue={periodicity[5]}
                         options={periodicity}
                     />
@@ -83,7 +51,10 @@ export default function EditTable({ pattern, day, commonInfo }) {
             } else if (numerator === false) {
                 return (
                     <Select
-                        onChange={(item) => changePeriodicity(item.value)}
+                        onChange={(item) => {
+                            console.log(item);
+                            changePeriodicity(item.value);
+                        }}
                         defaultValue={periodicity[6]}
                         options={periodicity}
                     />
@@ -92,12 +63,20 @@ export default function EditTable({ pattern, day, commonInfo }) {
         }
         if (weekNumber === null && numerator === null) {
             return (
-                <Select defaultValue={periodicity[0]} options={periodicity} />
+                <Select
+                    onChange={(item) => {
+                        console.log(item);
+                        changePeriodicity(item.value);
+                    }}
+                    defaultValue={periodicity[0]}
+                    options={periodicity}
+                />
             );
         }
     }
 
     function changePeriodicity(value) {
+        console.log(value);
         if (Number.isInteger(value)) {
             return addToPattern({ ...patternToChange, weekNumber: value });
         } else {
@@ -121,15 +100,12 @@ export default function EditTable({ pattern, day, commonInfo }) {
     }
 
     function whatLabel(str, arr, name) {
-        console.log();
         return (
             <Select
                 onChange={(item) =>
                     addToPattern({ ...patternToChange, [name]: item.value })
                 }
-                defaultValue={
-                    arr[arr.indexOf(arr.find((item) => item.value === str))]
-                }
+                defaultValue={arr[arr.findIndex((item) => item.value === str)]}
                 options={arr}
             />
         );
@@ -167,7 +143,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                     className="delete__button"
                     onClick={() => deleteTableRow(pattern.id)}
                 >
-                    <img src="../../../delete-icon-png.svg" alt="delete" />
+                    <img src="./delete-icon.svg" alt="delete" />
                 </button>
                 <button
                     onClick={() => {
