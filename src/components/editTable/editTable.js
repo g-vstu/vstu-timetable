@@ -8,6 +8,10 @@ import {
     patchPattern,
 } from '../../redux/editPatternsReducer/actions';
 
+import deleteIcon from '../../images/delete-icon.svg';
+import editIcon from '../../images/edit-icon.png';
+import './editTable.css';
+
 export default function EditTable({ pattern, day, commonInfo }) {
     const dispatch = useDispatch();
     const [patternToChange, addToPattern] = useState({});
@@ -138,14 +142,15 @@ export default function EditTable({ pattern, day, commonInfo }) {
             <td>{pattern.groupName}</td>
             <td>{whatLabel(pattern.subGroup, subGroups, 'subGroup')}</td>
             <td>{whatLabel(pattern.teacherFio, teachers, 'teacherFio')}</td>
-            <td>
+            <td Style="display: flex;justify-content: space-evenly;padding: 8px 0;">
                 <button
-                    className="delete__button"
+                    className="change__button"
                     onClick={() => deleteTableRow(pattern.id)}
                 >
-                    <img src="./delete-icon.svg" alt="delete" />
+                    <img src={deleteIcon} alt="Удалить" />
                 </button>
                 <button
+                    className="change__button"
                     onClick={() => {
                         console.log(patternToChange);
                         dispatch(patchPattern(pattern.id, patternToChange));
@@ -154,7 +159,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                         }, 0);
                     }}
                 >
-                    Редактировать
+                    <img src={editIcon} alt="Редактировать" />
                 </button>
             </td>
         </tr>

@@ -38,9 +38,6 @@ export const editPatternsReducer = (state = initialState, action) => {
                 return {
                     ...state,
                     patterns: [],
-                    // patterns: action.payload.sort(function (a, b) {
-                    //     return a.lessonNumber - b.lessonNumber;
-                    // }),
                 };
             } else {
                 if (!state.filter.group.trim()) {

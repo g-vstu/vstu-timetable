@@ -37,16 +37,16 @@ class RenderTable extends Component {
         });
     }
 
-    addLocationToPattern = (e) => {
-        let { value } = e.target;
+    // addLocationToPattern = (e) => {
+    //     let { value } = e.target;
 
-        return this.setState({
-            pattern: {
-                ...this.state.pattern,
-                location: value,
-            },
-        });
-    };
+    //     return this.setState({
+    //         pattern: {
+    //             ...this.state.pattern,
+    //             location: value,
+    //         },
+    //     });
+    // };
 
     addPropToReduxPattern() {
         const { pattern } = this.state;

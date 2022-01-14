@@ -12,7 +12,6 @@ import {
 } from '../../redux/commonInfoReducer/actions';
 import EditTable from '../editTable/editTable';
 import Spinner from '../spinner';
-import { AlertMessage } from '../alert/alert';
 
 class EditPage extends Component {
     state = {
@@ -142,11 +141,6 @@ class EditPage extends Component {
                     </div>
                 </div>
                 {spinner}
-                {/* {alert && (
-                    <div>
-                        <AlertMessage text={alert} /> <br />
-                    </div>
-                )} */}
                 {content}
             </div>
         );
