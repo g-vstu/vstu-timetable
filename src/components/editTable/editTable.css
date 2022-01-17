@@ -3,3 +3,38 @@
     border: 0.5px solid gray;
     background-color: transparent;
 }
+
+.lessonTD {
+    width: 165px;
+}
+
+.weekNumberTD {
+    width: 160px;
+}
+
+.frameTD {
+}
+
+.locationTD {
+}
+
+.disciplineTD {
+}
+
+.typeClassTD {
+}
+
+.groupTD {
+}
+
+.subGroupTD {
+}
+
+.teacherTD {
+}
+
+.btnTD {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 8px 0;
+}

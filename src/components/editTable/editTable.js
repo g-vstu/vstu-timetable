@@ -125,24 +125,34 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     return (
         <tr key={pattern.id}>
-            <td>{whatNumber(pattern.lessonNumber)}</td>
-            <td>{whatPeriodicity(pattern.weekNumber, pattern.numerator)}</td>
-            <td>{whatLabel(+pattern.frame, lessonFrame, 'frame')}</td>
-            <td>{whatLabel(pattern.location, locations, 'location')}</td>
-            <td>
+            <td className="lessonTD">{whatNumber(pattern.lessonNumber)}</td>
+            <td className="weekNumberTD">
+                {whatPeriodicity(pattern.weekNumber, pattern.numerator)}
+            </td>
+            <td className="frameTD">
+                {whatLabel(+pattern.frame, lessonFrame, 'frame')}
+            </td>
+            <td className="locationTD">
+                {whatLabel(pattern.location, locations, 'location')}
+            </td>
+            <td className="disciplineTD">
                 {whatLabel(
                     pattern.disciplineName,
                     disciplines,
                     'disciplineName'
                 )}
             </td>
-            <td>
+            <td className="typeClassTD">
                 {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
             </td>
-            <td>{pattern.groupName}</td>
-            <td>{whatLabel(pattern.subGroup, subGroups, 'subGroup')}</td>
-            <td>{whatLabel(pattern.teacherFio, teachers, 'teacherFio')}</td>
-            <td Style="display: flex;justify-content: space-evenly;padding: 8px 0;">
+            <td className="groupTD">{pattern.groupName}</td>
+            <td className="subGroupTD">
+                {whatLabel(pattern.subGroup, subGroups, 'subGroup')}
+            </td>
+            <td className="teacherTD">
+                {whatLabel(pattern.teacherFio, teachers, 'teacherFio')}
+            </td>
+            <td className="btnTD">
                 <button
                     className="change__button"
                     onClick={() => deleteTableRow(pattern.id)}
