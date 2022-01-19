@@ -49,8 +49,8 @@ export const _tranfromTeachers = (item) => {
 
 export const _transformLocations = (item) => {
     return {
-        key: item.number,
-        value: item.number,
-        label: item.number,
+        key: item.id,
+        value: item.location,
+        label: `${item.location}(${item.typeClassRoom.name}, ${item.seats} мест)`,
     };
 };

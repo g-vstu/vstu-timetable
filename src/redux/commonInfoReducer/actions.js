@@ -1,5 +1,5 @@
 import { hideLoader, showLoader, showAlert } from '../static/actions';
-import { BASE_URL, LOCATIONS } from '../static/static';
+import { BASE_URL } from '../static/static';
 import {
     GET_ALL_GROUPS,
     GET_DISCIPLINES,
@@ -135,7 +135,10 @@ export function getTeachers() {
 export function getLocations() {
     return async (dispatch) => {
         try {
-            const result = LOCATIONS.map(_transformLocations);
+            const response = await fetch(`${BASE_URL}/common-info/classrooms`);
+
+            const json = await response.json();
+            const result = json.map(_transformLocations);
 
             dispatch({ type: GET_LOCATIONS, payload: result });
         } catch (error) {

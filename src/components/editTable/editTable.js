@@ -28,7 +28,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     useEffect(() => {
         addToPattern(pattern);
-    }, []);
+    }, [pattern]);
 
     function whatPeriodicity(weekNumber, numerator) {
         if (weekNumber != null) {
