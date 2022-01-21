@@ -132,10 +132,12 @@ export function getTeachers() {
     };
 }
 
-export function getLocations() {
+export function getLocations(frame) {
     return async (dispatch) => {
         try {
-            const response = await fetch(`${BASE_URL}/common-info/classrooms`);
+            const response = await fetch(
+                `${BASE_URL}/common-info/classrooms/search?q=frame==${frame}`
+            );
 
             const json = await response.json();
             const result = json.map(_transformLocations);
@@ -153,7 +155,6 @@ export function getCommonData() {
             dispatch(showLoader());
             dispatch(getSpecialities());
             dispatch(getLessonTime());
-            dispatch(getLocations());
             dispatch(getDisciplines());
             dispatch(getLessonType());
             dispatch(getTeachers());

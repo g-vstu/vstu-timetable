@@ -51,6 +51,7 @@ export const _transformLocations = (item) => {
     return {
         key: item.id,
         value: item.location,
+        frame: item.frame,
         label: `${item.location}(${item.typeClassRoom.name}, ${item.seats} мест)`,
     };
 };

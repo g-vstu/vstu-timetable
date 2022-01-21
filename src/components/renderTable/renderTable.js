@@ -1,55 +1,58 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 
 import { fillPattern } from '../../redux/editPatternsReducer/actions';
+import { getLocations } from '../../redux/commonInfoReducer/actions';
 import './renderTable.css';
 
-class RenderTable extends Component {
-    state = {
-        pattern: {},
-    };
+export default function RenderTable({ dataForTable }) {
+    const [pattern, setPattern] = useState({});
+    const dispatch = useDispatch();
+    const {
+        selectedDay,
+        disciplines,
+        subGroups,
+        lessonTime,
+        lessonType,
+        lessonFrame,
+        groups,
+        teachers,
+        periodicity,
+    } = dataForTable;
+    let locations = useSelector((state) => state.common.locations);
+    useEffect(() => {
+        addPropToPattern(selectedDay, 'lessonDay');
+    }, [selectedDay]);
 
-    componentDidMount() {
-        const { selectedDay } = this.props.dataForTable;
-
-        this.addPropToPattern(selectedDay, 'lessonDay');
-    }
-
-    changePeriodicity(item) {
+    function changePeriodicity(item) {
         const { value } = item;
 
         if (Number.isInteger(value)) {
-            return this.addPropToPattern(item, 'weekNumber');
+            return addPropToPattern(item, 'weekNumber');
         } else {
-            return this.addPropToPattern(item, 'numerator');
+            return addPropToPattern(item, 'numerator');
         }
     }
 
-    addPropToPattern(item, name) {
+    function selectLocationsForFrame(item, name) {
+        dispatch(getLocations(item.value));
+        return addPropToPattern(item, name);
+    }
+
+    function whatLocation() {
+        return;
+    }
+
+    function addPropToPattern(item, name) {
         const { value } = item;
 
-        return this.setState({
-            pattern: {
-                ...this.state.pattern,
-                [name]: value,
-            },
+        return setPattern((prev) => {
+            return { ...prev, [name]: value };
         });
     }
 
-    // addLocationToPattern = (e) => {
-    //     let { value } = e.target;
-
-    //     return this.setState({
-    //         pattern: {
-    //             ...this.state.pattern,
-    //             location: value,
-    //         },
-    //     });
-    // };
-
-    addPropToReduxPattern() {
-        const { pattern } = this.state;
+    function addPropToReduxPattern() {
         let counter = 0;
 
         for (let key in pattern) {
@@ -57,108 +60,77 @@ class RenderTable extends Component {
         }
 
         if (counter === 10) {
-            this.props.fillPattern(pattern);
+            dispatch(fillPattern(pattern));
         }
     }
 
-    render() {
-        const {
-            disciplines,
-            subGroups,
-            lessonFrame,
-            lessonTime,
-            lessonType,
-            locations,
-            groups,
-            teachers,
-            periodicity,
-        } = this.props.dataForTable;
-
-        return (
-            <tr>
-                <td>
-                    <Select
-                        onChange={(item) => {
-                            this.addPropToPattern(item, 'lessonNumber');
-                        }}
-                        options={lessonTime}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) => this.changePeriodicity(item)}
-                        options={periodicity}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'frame')
-                        }
-                        options={lessonFrame}
-                    />
-                </td>
-                <td>
-                    {/* <input
+    return (
+        <tr>
+            <td>
+                <Select
+                    onChange={(item) => {
+                        addPropToPattern(item, 'lessonNumber');
+                    }}
+                    options={lessonTime}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => changePeriodicity(item)}
+                    options={periodicity}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => selectLocationsForFrame(item, 'frame')}
+                    options={lessonFrame}
+                />
+            </td>
+            <td>
+                {/* <input
                         type="text"
                         placeholder="Введите номер аудитории"
                         onChange={this.addLocationToPattern}
                     /> */}
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'location')
-                        }
-                        options={locations}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'disciplineName')
-                        }
-                        options={disciplines}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'typeClassName')
-                        }
-                        options={lessonType}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'groupName')
-                        }
-                        options={groups}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'subGroup')
-                        }
-                        options={subGroups}
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={(item) =>
-                            this.addPropToPattern(item, 'teacherFio')
-                        }
-                        options={teachers}
-                    />
-                </td>
-                {this.addPropToReduxPattern()}
-            </tr>
-        );
-    }
+                <Select
+                    onChange={(item) => addPropToPattern(item, 'location')}
+                    options={locations}
+                />
+                {/* {whatLocation()} */}
+            </td>
+            <td>
+                <Select
+                    onChange={(item) =>
+                        addPropToPattern(item, 'disciplineName')
+                    }
+                    options={disciplines}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => addPropToPattern(item, 'typeClassName')}
+                    options={lessonType}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => addPropToPattern(item, 'groupName')}
+                    options={groups}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => addPropToPattern(item, 'subGroup')}
+                    options={subGroups}
+                />
+            </td>
+            <td>
+                <Select
+                    onChange={(item) => addPropToPattern(item, 'teacherFio')}
+                    options={teachers}
+                />
+            </td>
+            {addPropToReduxPattern()}
+        </tr>
+    );
 }
-
-const mapDispatchToProps = {
-    fillPattern,
-};
-
-export default connect(null, mapDispatchToProps)(RenderTable);
