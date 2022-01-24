@@ -10,6 +10,7 @@ import {
 import { BASE_URL } from '../static/static';
 import { showLoader, hideLoader, showAlert } from '../static/actions';
 
+// функция фильтра для отображения занятий в расписании
 export function addFilter(filter, name) {
     return {
         type: ADD_FILTER,
@@ -18,6 +19,7 @@ export function addFilter(filter, name) {
     };
 }
 
+// экшен добавления заполненного занятия в массив
 export function fillPattern(item) {
     return {
         type: FILL_PATTERN,
@@ -25,6 +27,7 @@ export function fillPattern(item) {
     };
 }
 
+// функция очистки массива занятий
 export function clearPatternToSend() {
     return {
         type: CLEAR_PATTERNS_TO_SEND,
@@ -32,6 +35,7 @@ export function clearPatternToSend() {
     };
 }
 
+// функция получения занятий с сервера timetable
 export function getPatterns() {
     return async (dispatch) => {
         try {
@@ -47,6 +51,7 @@ export function getPatterns() {
     };
 }
 
+// функция удаления занятия
 export function deletePattern(id) {
     return async (dispatch) => {
         try {
@@ -72,6 +77,7 @@ export function deletePattern(id) {
     };
 }
 
+// функция редактирования занятия
 export function patchPattern(id, bodyItems) {
     return async (dispatch) => {
         try {
@@ -102,6 +108,7 @@ export function patchPattern(id, bodyItems) {
     };
 }
 
+// функция отправки массива занятий на сервер timetable
 export function postPatternsList(bodyItems) {
     return async (dispatch) => {
         try {

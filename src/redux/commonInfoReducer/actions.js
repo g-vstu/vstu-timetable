@@ -20,6 +20,7 @@ import {
     _transformLocations,
 } from './transformResults';
 
+// Получение специальностей
 export function getSpecialities() {
     return async (dispatch) => {
         try {
@@ -38,6 +39,7 @@ export function getSpecialities() {
     };
 }
 
+// Получение времени занятий
 export function getLessonTime() {
     return async (dispatch) => {
         try {
@@ -53,6 +55,7 @@ export function getLessonTime() {
     };
 }
 
+// Получение дисциплин
 export function getDisciplines() {
     return async (dispatch) => {
         try {
@@ -68,6 +71,7 @@ export function getDisciplines() {
     };
 }
 
+// Получение типов занятий
 export function getLessonType() {
     return async (dispatch) => {
         try {
@@ -85,6 +89,7 @@ export function getLessonType() {
     };
 }
 
+// Получение групп по специальности и курсу
 export function getGroups(id, courseNum) {
     return async (dispatch) => {
         try {
@@ -102,6 +107,7 @@ export function getGroups(id, courseNum) {
     };
 }
 
+// Получение всех групп
 export function getAllGroups() {
     return async (dispatch) => {
         try {
@@ -117,6 +123,7 @@ export function getAllGroups() {
     };
 }
 
+// Получение преподавателей
 export function getTeachers() {
     return async (dispatch) => {
         try {
@@ -132,6 +139,7 @@ export function getTeachers() {
     };
 }
 
+// Получение аудиторий
 export function getLocations(frame) {
     return async (dispatch) => {
         try {
@@ -149,6 +157,7 @@ export function getLocations(frame) {
     };
 }
 
+// Фкункция для "активации" почти всех экшенов из этого файла
 export function getCommonData() {
     return async (dispatch) => {
         try {

@@ -10,6 +10,7 @@ import {
     PATCH_PATTERNS_LIST,
 } from '../static/types';
 
+// Дефолтый стейт с некоторыми захардкоженными данными
 const initialState = {
     patterns: [],
     patternsToSend: [],

@@ -1,3 +1,5 @@
+// Файл с трансформацией ответов от бэка для дальнейшего использования в селектах
+
 export const _transformDiscipline = (item) => {
     return {
         key: item.id,

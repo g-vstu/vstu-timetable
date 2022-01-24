@@ -1,8 +1,10 @@
+// Типы для общих экшенов
 export const SHOW_LOADER = 'APP/SHOW_LOADER';
 export const HIDE_LOADER = 'APP/HIDE_LOADER';
 export const SHOW_ALERT = 'APP/SHOW_ALERT';
 export const HIDE_ALERT = 'APP/HIDE_ALERT';
 
+// Типы для экшенов, связанных с сервером common-info
 export const GET_GROUPS = 'COMMON/GET_GROUPS';
 export const GET_ALL_GROUPS = 'COMMON/GET_ALL_GROUPS';
 export const GET_SPECIALTIES = 'COMMON/GET_SPECIALTIES';
@@ -12,6 +14,7 @@ export const GET_LESSON_TYPE = 'COMMON/GET_LESSON_TYPE';
 export const GET_TEACHERS = 'COMMON/GET_TEACHERS';
 export const GET_LOCATIONS = 'COMMON/GET_LOCATIONS';
 
+// Типы для экшенов, связанных с сервером timetable
 export const ADD_FILTER = 'TIMETABLE/ADD_FILTER';
 export const FILL_PATTERN = 'TIMETABLE/FILL_PATTERN';
 export const GET_PATTERNS = 'TIMETABLE/GET_PATTERNS';

@@ -13,6 +13,7 @@ import {
     SHOW_LOADER,
 } from '../static/types';
 
+// Дефолтый стейт с некоторыми захардкоженными данными
 const initialState = {
     days: [
         { value: 'MONDAY', label: 'Понедельник' },
