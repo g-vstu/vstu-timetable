@@ -14,6 +14,7 @@ import ErrorMessage from '../errorMessage';
 import RenderTable from '../renderTable/renderTable';
 
 import './generateTable.css';
+import Spinner from '../spinner';
 import { AlertMessage } from '../alert/alert';
 
 class GenerateTable extends Component {
@@ -165,6 +166,7 @@ class GenerateTable extends Component {
             return <ErrorMessage />;
         }
 
+        const spinner = this.props.loading ? <Spinner /> : null;
         const content = rows.length ? (
             rows.map((item) => {
                 return item;
@@ -190,6 +192,7 @@ class GenerateTable extends Component {
                     {selectedOptions}
                     {buttonSection}
                 </section>
+                {spinner}
                 <section className="table__section">
                     <table className="table">
                         <thead>
@@ -221,6 +224,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
+    loading: state.edit.loading,
     specialities: state.common.specialities,
     days: state.common.days,
     courses: state.common.courses,

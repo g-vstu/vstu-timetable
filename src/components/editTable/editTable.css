@@ -1,40 +1,19 @@
 .change__button {
     width: 32px;
-    border: 0.5px solid gray;
+    border: none;
     background-color: transparent;
 }
 
-.lessonTD {
-    width: 165px;
+.change__button:nth-child(1)::after {
+    /* content: url('../../images/vertical_line.svg'); */
 }
 
-.weekNumberTD {
-    width: 160px;
-}
-
-.frameTD {
-}
-
-.locationTD {
-}
-
-.disciplineTD {
-}
-
-.typeClassTD {
-}
-
-.groupTD {
-}
-
-.subGroupTD {
-}
-
-.teacherTD {
-}
-
-.btnTD {
+.btn__td {
     display: flex;
     justify-content: space-evenly;
     padding: 8px 0;
+    border: 1px solid #ebebeb;
+    box-sizing: border-box;
+    box-shadow: 2px 8px 15px rgba(201, 201, 201, 0.1);
+    border-radius: 7px;
 }

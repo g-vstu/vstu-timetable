@@ -8,8 +8,8 @@ import {
     patchPattern,
 } from '../../redux/editPatternsReducer/actions';
 
-import deleteIcon from '../../images/delete-icon.svg';
-import editIcon from '../../images/edit-icon.png';
+import deleteIcon from '../../images/delete.svg';
+import editIcon from '../../images/edit.svg';
 import './editTable.css';
 
 export default function EditTable({ pattern, day, commonInfo }) {
@@ -125,40 +125,36 @@ export default function EditTable({ pattern, day, commonInfo }) {
 
     return (
         <tr key={pattern.id}>
-            <td className="lessonTD">{whatNumber(pattern.lessonNumber)}</td>
-            <td className="weekNumberTD">
+            <td className="lessonNumber__td">
+                {whatNumber(pattern.lessonNumber)}
+            </td>
+            <td className="pereodicity__td">
                 {whatPeriodicity(pattern.weekNumber, pattern.numerator)}
             </td>
-            <td className="frameTD">
+            <td className="frame__td">
                 {whatLabel(+pattern.frame, lessonFrame, 'frame')}
             </td>
-            <td className="locationTD">
+            <td className="location__td">
                 {whatLabel(pattern.location, locations, 'location')}
             </td>
-            <td className="disciplineTD">
+            <td className="discipline__td">
                 {whatLabel(
                     pattern.disciplineName,
                     disciplines,
                     'disciplineName'
                 )}
             </td>
-            <td className="typeClassTD">
+            <td className="typeClassName__td">
                 {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
             </td>
-            <td className="groupTD">{pattern.groupName}</td>
-            <td className="subGroupTD">
+            <td className="groupName__td">{pattern.groupName}</td>
+            <td className="subGroup__td">
                 {whatLabel(pattern.subGroup, subGroups, 'subGroup')}
             </td>
-            <td className="teacherTD">
+            <td className="teacherFio__td">
                 {whatLabel(pattern.teacherFio, teachers, 'teacherFio')}
             </td>
-            <td className="btnTD">
-                <button
-                    className="change__button"
-                    onClick={() => deleteTableRow(pattern.id)}
-                >
-                    <img src={deleteIcon} alt="Удалить" />
-                </button>
+            <td className="btn__td">
                 <button
                     className="change__button"
                     onClick={() => {
@@ -170,6 +166,12 @@ export default function EditTable({ pattern, day, commonInfo }) {
                     }}
                 >
                     <img src={editIcon} alt="Редактировать" />
+                </button>
+                <button
+                    className="change__button"
+                    onClick={() => deleteTableRow(pattern.id)}
+                >
+                    <img src={deleteIcon} alt="Удалить" />
                 </button>
             </td>
         </tr>

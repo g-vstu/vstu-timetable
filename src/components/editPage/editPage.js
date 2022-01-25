@@ -12,6 +12,7 @@ import {
 } from '../../redux/commonInfoReducer/actions';
 import EditTable from '../editTable/editTable';
 import Spinner from '../spinner';
+import { AlertMessage } from '../alert/alert';
 
 class EditPage extends Component {
     state = {
@@ -58,86 +59,96 @@ class EditPage extends Component {
         const spinner = this.props.loading ? <Spinner /> : null;
         const content = !this.props.loading ? (
             this.props.patterns.length ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Время</th>
-                            <th>Переодичность</th>
-                            <th>Корпус</th>
-                            <th>Аудитория</th>
-                            <th>Дисциплина</th>
-                            <th>Тип занятия</th>
-                            <th>Группа</th>
-                            <th>Подгруппа</th>
-                            <th>Преподаватель</th>
-                            <th>Манипуляции</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {patterns.map((pattern) => {
-                            return (
-                                <EditTable
-                                    key={Math.random()}
-                                    pattern={pattern}
-                                    commonInfo={{
-                                        lessonTime,
-                                        subGroups,
-                                        periodicity,
-                                        lessonFrame,
-                                        locations,
-                                        disciplines,
-                                        lessonType,
-                                        teachers,
-                                    }}
-                                    day={day}
-                                />
-                            );
-                        })}
-                    </tbody>
-                </table>
+                patterns.map((pattern) => {
+                    return (
+                        <EditTable
+                            key={Math.random()}
+                            pattern={pattern}
+                            commonInfo={{
+                                lessonTime,
+                                subGroups,
+                                periodicity,
+                                lessonFrame,
+                                locations,
+                                disciplines,
+                                lessonType,
+                                teachers,
+                            }}
+                            day={day}
+                        />
+                    );
+                })
             ) : (
-                <div>Empty</div>
+                <tr className="empty">
+                    <td className="empty_rows" colSpan="9">
+                        Чтобы добавьте строчку, заполните день недели, группу и
+                        курс, а затем нажмите на кнопку «Новая строка»
+                    </td>
+                </tr>
             )
         ) : null;
 
         return (
-            <div>
-                <div className="choose__section">
-                    <div className="choose__item">
-                        <p className="choose__item-title">
-                            Выберите день недели:
-                        </p>
-                        <div className="choose__item-select1">
-                            <Select
-                                isClearable={isClearable}
-                                onChange={(item) => {
-                                    this.changeFilter(item, 'day');
-                                    this.setState({
-                                        ...this.state,
-                                        day: item,
-                                    });
-                                    this.props.getPatterns();
-                                }}
-                                options={days}
-                            />
+            <div className="table_page">
+                {this.props.alert && (
+                    <div>
+                        <AlertMessage alert={this.props.alert} /> <br />
+                    </div>
+                )}
+                <section className="table__header">
+                    <div className="choose__section">
+                        <div className="choose__item">
+                            <p className="choose__item-title">День недели</p>
+                            <div className="choose__item-select1">
+                                <Select
+                                    isClearable={isClearable}
+                                    onChange={(item) => {
+                                        this.changeFilter(item, 'day');
+                                        this.setState({
+                                            ...this.state,
+                                            day: item,
+                                        });
+                                        this.props.getPatterns();
+                                    }}
+                                    options={days}
+                                />
+                            </div>
+                        </div>
+                        <div className="choose__item">
+                            <p className="choose__item-title">Группа</p>
+                            <div className="choose__item-select1">
+                                <Select
+                                    isClearable={isClearable}
+                                    onChange={(item) => {
+                                        this.changeFilter(item, 'group');
+                                        this.props.getPatterns();
+                                    }}
+                                    options={groups}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="choose__item">
-                        <p className="choose__item-title">Выберите группу:</p>
-                        <div className="choose__item-select1">
-                            <Select
-                                isClearable={isClearable}
-                                onChange={(item) => {
-                                    this.changeFilter(item, 'group');
-                                    this.props.getPatterns();
-                                }}
-                                options={groups}
-                            />
-                        </div>
-                    </div>
-                </div>
+                </section>
                 {spinner}
-                {content}
+                <section className="table__section">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Время</th>
+                                <th>Переодичность</th>
+                                <th>Корпус</th>
+                                <th>Аудитория</th>
+                                <th>Дисциплина</th>
+                                <th>Тип занятия</th>
+                                <th>Группа</th>
+                                <th>Подгруппа</th>
+                                <th>Преподаватель</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>{content}</tbody>
+                    </table>
+                </section>
             </div>
         );
     }
