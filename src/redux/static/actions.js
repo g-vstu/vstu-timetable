@@ -15,11 +15,11 @@ export function hideLoader() {
 }
 
 // Экшн для показа алерта
-export function showAlert(text) {
+export function showAlert(text, status) {
     return (dispatch) => {
         dispatch({
             type: SHOW_ALERT,
-            payload: text,
+            payload: { text, status },
         });
 
         setTimeout(() => {

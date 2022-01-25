@@ -34,7 +34,7 @@ export function getSpecialities() {
             dispatch({ type: GET_SPECIALTIES, payload: result });
         } catch (error) {
             console.log(error);
-            dispatch(showAlert('Что-то пошло не так'));
+            dispatch(showAlert('Что-то пошло не так', 'warning'));
         }
     };
 }
@@ -169,7 +169,7 @@ export function getCommonData() {
             dispatch(getTeachers());
             dispatch(hideLoader());
         } catch (error) {
-            dispatch(showAlert('Что-то пошло не так'));
+            dispatch(showAlert('Что-то пошло не так', 'warning'));
             dispatch(hideLoader());
         }
     };

@@ -182,7 +182,7 @@ class GenerateTable extends Component {
             <div className="table__page">
                 {this.props.alert && (
                     <div>
-                        <AlertMessage text={this.props.alert} /> <br />
+                        <AlertMessage alert={this.props.alert} /> <br />
                     </div>
                 )}
 

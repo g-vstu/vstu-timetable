@@ -45,7 +45,7 @@ export function getPatterns() {
             dispatch({ type: GET_PATTERNS, payload: json });
             dispatch(hideLoader());
         } catch (error) {
-            dispatch(showAlert('Что-то пошло не так'));
+            dispatch(showAlert('Что-то пошло не так', 'warning'));
             dispatch(hideLoader());
         }
     };
@@ -68,10 +68,10 @@ export function deletePattern(id) {
             // const result = await response.json();
             dispatch({ type: DELETE_PATTERN, payload: response });
             dispatch(hideLoader());
-            dispatch(showAlert('Данные удалены'));
+            dispatch(showAlert('Данные удалены', 'success'));
         } catch (error) {
             console.error(error);
-            dispatch(showAlert('Что-то пошло не так!'));
+            dispatch(showAlert('Что-то пошло не так!', 'warning'));
             dispatch(hideLoader());
         }
     };
@@ -96,13 +96,13 @@ export function patchPattern(id, bodyItems) {
             dispatch({ type: PATCH_PATTERNS_LIST, payload: result });
             dispatch(hideLoader());
             if (!bodyItems.length) {
-                dispatch(showAlert('Что-то пошло не так!'));
+                dispatch(showAlert('Что-то пошло не так!', 'warning'));
             } else {
-                dispatch(showAlert('Данные успешно обновлены!'));
+                dispatch(showAlert('Данные успешно обновлены!', 'success'));
             }
         } catch (error) {
             console.error(error);
-            dispatch(showAlert('Что-то пошло не так!'));
+            dispatch(showAlert('Что-то пошло не так!', 'warning'));
             dispatch(hideLoader());
         }
     };
@@ -127,13 +127,15 @@ export function postPatternsList(bodyItems) {
             dispatch({ type: POST_PATTERNS_LIST, payload: result });
             dispatch(hideLoader());
             if (!bodyItems.length) {
-                dispatch(showAlert('Что-то пошло не так!'));
+                dispatch(showAlert('Что-то пошло не так!', 'warning'));
             } else {
-                dispatch(showAlert('Данные успешно отправлены на сервер!'));
+                dispatch(
+                    showAlert('Данные успешно отправлены на сервер!', 'success')
+                );
             }
         } catch (error) {
             console.log(error);
-            dispatch(showAlert('Что-то пошло не так!'));
+            dispatch(showAlert('Что-то пошло не так!', 'warning'));
             dispatch(hideLoader());
         }
     };
