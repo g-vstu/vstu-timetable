@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Select from 'react-select';
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
 import {
     deletePattern,
@@ -10,7 +12,20 @@ import {
 
 import deleteIcon from '../../images/delete.svg';
 import editIcon from '../../images/edit.svg';
+import tooltipImage from '../../images/tooltip.svg';
 import './editTable.css';
+
+const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[3],
+        fontSize: 15,
+        maxWidth: 500,
+    },
+}));
 
 export default function EditTable({ pattern, day, commonInfo }) {
     const dispatch = useDispatch();
@@ -123,6 +138,13 @@ export default function EditTable({ pattern, day, commonInfo }) {
         }, 10);
     }
 
+    // function createTooltipForLocation() {
+    //     return <div className="tooltip">{pattern.location}</div>;
+    // }
+    function tooltipContent(arr, str) {
+        return `${arr[arr.findIndex((item) => item.value === str)].tooltip}`;
+    }
+
     return (
         <tr key={pattern.id}>
             <td className="lessonNumber__td">
@@ -136,6 +158,11 @@ export default function EditTable({ pattern, day, commonInfo }) {
             </td>
             <td className="location__td">
                 {whatLabel(pattern.location, locations, 'location')}
+                <LightTooltip
+                    title={tooltipContent(locations, pattern.location)}
+                >
+                    <img src={tooltipImage} alt="tooltip" className="tooltip" />
+                </LightTooltip>
             </td>
             <td className="discipline__td">
                 {whatLabel(
@@ -143,6 +170,11 @@ export default function EditTable({ pattern, day, commonInfo }) {
                     disciplines,
                     'disciplineName'
                 )}
+                <LightTooltip
+                    title={tooltipContent(disciplines, pattern.disciplineName)}
+                >
+                    <img src={tooltipImage} alt="tooltip" className="tooltip" />
+                </LightTooltip>
             </td>
             <td className="typeClassName__td">
                 {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}

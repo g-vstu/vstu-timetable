@@ -17,3 +17,7 @@
     box-shadow: 2px 8px 15px rgba(201, 201, 201, 0.1);
     border-radius: 7px;
 }
+
+.tooltip {
+    padding: 0 10px;
+}

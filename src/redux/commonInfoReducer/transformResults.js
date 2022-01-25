@@ -5,6 +5,7 @@ export const _transformDiscipline = (item) => {
         key: item.id,
         value: item.name,
         label: item.name,
+        tooltip: `Наименование дисциплины: ${item.name}`,
     };
 };
 
@@ -54,6 +55,9 @@ export const _transformLocations = (item) => {
         key: item.id,
         value: item.location,
         frame: item.frame,
-        label: `${item.location}(${item.typeClassRoom.name}, ${item.seats} мест)`,
+        label: `Ауд. ${item.location}(${item.typeClassRoom.name})`,
+        tooltip: `№ аудитории: ${item.location},
+            Тип аудитории: ${item.typeClassRoom.name}, 
+            Кол-во мест: ${item.seats}`,
     };
 };
