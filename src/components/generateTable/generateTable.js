@@ -109,7 +109,7 @@ class GenerateTable extends Component {
         const selectedOptions = (
             <div className="choose__section">
                 <div className="choose__item">
-                    <p className="choose__item-title">Выберите день недели:</p>
+                    <p className="choose__item-title">День недели</p>
                     <div className="choose__item-select1">
                         <Select
                             onChange={(item) => {
@@ -120,9 +120,7 @@ class GenerateTable extends Component {
                     </div>
                 </div>
                 <div className="choose__item">
-                    <p className="choose__item-title">
-                        Выберите специальность:
-                    </p>
+                    <p className="choose__item-title">Специальность</p>
                     <div className="choose__item-select2">
                         <Select
                             onChange={(item) =>
@@ -133,7 +131,7 @@ class GenerateTable extends Component {
                     </div>
                 </div>
                 <div className="choose__item">
-                    <p className="choose__item-title">Выберите курс:</p>
+                    <p className="choose__item-title">Курс</p>
                     <div className="choose__item-select3">
                         <Select
                             onChange={(item) =>
@@ -143,6 +141,23 @@ class GenerateTable extends Component {
                         />
                     </div>
                 </div>
+            </div>
+        );
+
+        const buttonSection = (
+            <div className="button__section">
+                <button
+                    className="button__section-btn"
+                    onClick={() => this.addRow()}
+                >
+                    Новая строка
+                </button>
+                <button
+                    className="button__section-btn"
+                    onClick={() => this.props.postPatternsList(patternsToSend)}
+                >
+                    Сохранить занятия
+                </button>
             </div>
         );
 
@@ -170,7 +185,10 @@ class GenerateTable extends Component {
                     </div>
                 )}
 
-                {selectedOptions}
+                <section className="table__header">
+                    {selectedOptions}
+                    {buttonSection}
+                </section>
                 <div className="table">
                     <h3>{selectedDay.label}</h3>
                     <table>
@@ -189,22 +207,6 @@ class GenerateTable extends Component {
                         </thead>
                         <tbody>{content}</tbody>
                     </table>
-                    <div className="button__section">
-                        <button
-                            className="button__section-btn"
-                            onClick={() => this.addRow()}
-                        >
-                            Новая строка
-                        </button>
-                        <button
-                            className="button__section-btn"
-                            onClick={() =>
-                                this.props.postPatternsList(patternsToSend)
-                            }
-                        >
-                            Сохранить занятия
-                        </button>
-                    </div>
                 </div>
             </div>
         );

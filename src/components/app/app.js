@@ -10,8 +10,7 @@ export default function App() {
         <Router>
             <div className="app">
                 <Header />
-                <br />
-                <div className="container">
+                <main>
                     <Routes>
                         <Route exact path="/" element={<GenerateTable />} />
                         <Route
@@ -21,7 +20,7 @@ export default function App() {
                         />
                         <Route exact path="/edittable" element={<EditPage />} />
                     </Routes>
-                </div>
+                </main>
             </div>
         </Router>
     );
