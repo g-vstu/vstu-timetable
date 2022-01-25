@@ -9,6 +9,7 @@ import {
 import {
     getAllGroups,
     getCommonData,
+    getAllLocations,
 } from '../../redux/commonInfoReducer/actions';
 import EditTable from '../editTable/editTable';
 import Spinner from '../spinner';
@@ -24,6 +25,7 @@ class EditPage extends Component {
         this.props.getPatterns();
         this.props.getCommonData();
         this.props.getAllGroups();
+        this.props.getAllLocations();
     }
 
     componentWillUnmount() {
@@ -159,6 +161,7 @@ const mapDispatchToProps = {
     getPatterns,
     getAllGroups,
     getCommonData,
+    getAllLocations,
 };
 
 const mapStateToProps = (state) => ({
