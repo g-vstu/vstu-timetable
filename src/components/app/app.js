@@ -9,11 +9,8 @@ export default function App() {
     return (
         <Router>
             <div className="app">
-                <div className="header">
-                    <div className="container">
-                        <Header />
-                    </div>
-                </div>
+                <Header />
+                <br />
                 <div className="container">
                     <Routes>
                         <Route exact path="/" element={<GenerateTable />} />
