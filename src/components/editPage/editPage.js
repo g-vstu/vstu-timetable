@@ -102,10 +102,6 @@ class EditPage extends Component {
 
         return (
             <div>
-                <h3 className="empty_rows">
-                    Страница редактирования/отображения расписания
-                </h3>
-                <br />
                 <div className="choose__section">
                     <div className="choose__item">
                         <p className="choose__item-title">

@@ -66,7 +66,7 @@ export default function RenderTable({ dataForTable }) {
 
     return (
         <tr>
-            <td>
+            <td className="lessonNumber__td">
                 <Select
                     onChange={(item) => {
                         addPropToPattern(item, 'lessonNumber');
@@ -74,31 +74,25 @@ export default function RenderTable({ dataForTable }) {
                     options={lessonTime}
                 />
             </td>
-            <td>
+            <td className="pereodicity__td">
                 <Select
                     onChange={(item) => changePeriodicity(item)}
                     options={periodicity}
                 />
             </td>
-            <td>
+            <td className="frame__td">
                 <Select
                     onChange={(item) => selectLocationsForFrame(item, 'frame')}
                     options={lessonFrame}
                 />
             </td>
-            <td>
-                {/* <input
-                        type="text"
-                        placeholder="Введите номер аудитории"
-                        onChange={this.addLocationToPattern}
-                    /> */}
+            <td className="location__td">
                 <Select
                     onChange={(item) => addPropToPattern(item, 'location')}
                     options={locations}
                 />
-                {/* {whatLocation()} */}
             </td>
-            <td>
+            <td className="discipline__td">
                 <Select
                     onChange={(item) =>
                         addPropToPattern(item, 'disciplineName')
@@ -106,25 +100,25 @@ export default function RenderTable({ dataForTable }) {
                     options={disciplines}
                 />
             </td>
-            <td>
+            <td className="typeClassName__td">
                 <Select
                     onChange={(item) => addPropToPattern(item, 'typeClassName')}
                     options={lessonType}
                 />
             </td>
-            <td>
+            <td className="groupName__td">
                 <Select
                     onChange={(item) => addPropToPattern(item, 'groupName')}
                     options={groups}
                 />
             </td>
-            <td>
+            <td className="subGroup__td">
                 <Select
                     onChange={(item) => addPropToPattern(item, 'subGroup')}
                     options={subGroups}
                 />
             </td>
-            <td>
+            <td className="teacherFio__td">
                 <Select
                     onChange={(item) => addPropToPattern(item, 'teacherFio')}
                     options={teachers}

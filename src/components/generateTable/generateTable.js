@@ -103,7 +103,7 @@ class GenerateTable extends Component {
     };
 
     render() {
-        const { error, selectedDay, rows } = this.state;
+        const { error, rows } = this.state;
         const { specialities, days, courses, patternsToSend } = this.props;
 
         const selectedOptions = (
@@ -170,9 +170,10 @@ class GenerateTable extends Component {
                 return item;
             })
         ) : (
-            <tr>
+            <tr className="empty">
                 <td className="empty_rows" colSpan="9">
-                    Добавьте строчку
+                    Чтобы добавьте строчку заполните день недели, группу и курс
+                    а затем нажмите на кнопку «Новая строка»
                 </td>
             </tr>
         );
@@ -189,9 +190,8 @@ class GenerateTable extends Component {
                     {selectedOptions}
                     {buttonSection}
                 </section>
-                <div className="table">
-                    <h3>{selectedDay.label}</h3>
-                    <table>
+                <section className="table__section">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>Время</th>
@@ -207,7 +207,7 @@ class GenerateTable extends Component {
                         </thead>
                         <tbody>{content}</tbody>
                     </table>
-                </div>
+                </section>
             </div>
         );
     }

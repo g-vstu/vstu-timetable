@@ -1,61 +1,47 @@
-.table {
-}
-
-.table h3 {
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 27px;
-    line-height: 32px;
-
-    /* blue */
-
-    color: #1c305c;
-}
-
-table {
-    width: 100%;
-    margin-top: 20px;
-
-    border-collapse: collapse;
-    border: 2px solid #1c305c;
-}
-
-th {
-    border: 2px solid #1c305c;
-    vertical-align: middle;
-    font-family: 'Raleway';
+td {
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
-    line-height: 23px;
-    padding: 5px;
-    color: #1c305c;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #212323;
+
+    padding: 15px 20px 15px 0;
 }
 
-td {
-    border: 1px solid #1c305c;
-    vertical-align: middle;
-    padding: 2px;
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: normal;
-    font-size: 17px;
-    line-height: 20px;
-
-    color: #333333;
+.lessonNumber__td {
+    width: 192px;
 }
 
-td {
-    text-align: left;
+.pereodicity__td {
+    width: 158px;
 }
 
-/* td select {
-    width: 90%;
-    border: 0.5 solid #1c305c;
+.frame__td {
+    width: 100px;
 }
 
-td input {
-    width: 90%;
-    border: none;
-} */
+.location__td {
+    width: 254px;
+}
+
+.discipline__td {
+    width: 176px;
+}
+
+.typeClassName__td {
+    width: 199px;
+}
+
+.groupName__td {
+    width: 144px;
+}
+
+.subGroup__td {
+    width: 105px;
+}
+
+.teacherFio__td {
+    width: 239px;
+}
