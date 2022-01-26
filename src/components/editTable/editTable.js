@@ -179,7 +179,11 @@ export default function EditTable({ pattern, day, commonInfo }) {
             <td className="typeClassName__td">
                 {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
             </td>
-            <td className="groupName__td">{pattern.groupName}</td>
+            <td className="groupName__td vertical__top">
+                <div className="groupName__td-label">
+                    <p>{pattern.groupName}</p>
+                </div>
+            </td>
             <td className="subGroup__td">
                 {whatLabel(pattern.subGroup, subGroups, 'subGroup')}
             </td>
@@ -187,24 +191,26 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 {whatLabel(pattern.teacherFio, teachers, 'teacherFio')}
             </td>
             <td className="btn__td">
-                <button
-                    className="change__button"
-                    onClick={() => {
-                        console.log(patternToChange);
-                        dispatch(patchPattern(pattern.id, patternToChange));
-                        setTimeout(() => {
-                            dispatch(getPatterns());
-                        }, 0);
-                    }}
-                >
-                    <img src={editIcon} alt="Редактировать" />
-                </button>
-                <button
-                    className="change__button"
-                    onClick={() => deleteTableRow(pattern.id)}
-                >
-                    <img src={deleteIcon} alt="Удалить" />
-                </button>
+                <div>
+                    <button
+                        className="change__button"
+                        onClick={() => {
+                            console.log(patternToChange);
+                            dispatch(patchPattern(pattern.id, patternToChange));
+                            setTimeout(() => {
+                                dispatch(getPatterns());
+                            }, 0);
+                        }}
+                    >
+                        <img src={editIcon} alt="Редактировать" />
+                    </button>
+                    <button
+                        className="change__button"
+                        onClick={() => deleteTableRow(pattern.id)}
+                    >
+                        <img src={deleteIcon} alt="Удалить" />
+                    </button>
+                </div>
             </td>
         </tr>
     );

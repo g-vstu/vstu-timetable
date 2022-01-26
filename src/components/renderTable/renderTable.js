@@ -6,6 +6,8 @@ import { fillPattern } from '../../redux/editPatternsReducer/actions';
 import { getLocations } from '../../redux/commonInfoReducer/actions';
 import './renderTable.css';
 
+import deleteIcon from '../../images/delete.svg';
+
 export default function RenderTable({ dataForTable }) {
     const [pattern, setPattern] = useState({});
     const dispatch = useDispatch();
@@ -123,6 +125,11 @@ export default function RenderTable({ dataForTable }) {
                     onChange={(item) => addPropToPattern(item, 'teacherFio')}
                     options={teachers}
                 />
+            </td>
+            <td className="delete__td">
+                <button>
+                    <img src={deleteIcon} alt="delete" />
+                </button>
             </td>
             {addPropToReduxPattern()}
         </tr>
