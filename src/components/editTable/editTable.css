@@ -4,6 +4,10 @@
     background-color: transparent;
 }
 
+.discipline__td-div {
+    display: flex;
+}
+
 .groupName__td-label {
     position: relative;
     height: 38px;

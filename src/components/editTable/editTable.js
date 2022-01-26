@@ -156,25 +156,40 @@ export default function EditTable({ pattern, day, commonInfo }) {
             <td className="frame__td">
                 {whatLabel(+pattern.frame, lessonFrame, 'frame')}
             </td>
-            <td className="location__td">
-                {whatLabel(pattern.location, locations, 'location')}
-                <LightTooltip
-                    title={tooltipContent(locations, pattern.location)}
-                >
-                    <img src={tooltipImage} alt="tooltip" className="tooltip" />
-                </LightTooltip>
+            <td className="location__td" style={{ width: '260px' }}>
+                <div className="discipline__td-div">
+                    {whatLabel(pattern.location, locations, 'location')}
+                    <LightTooltip
+                        title={tooltipContent(locations, pattern.location)}
+                    >
+                        <img
+                            src={tooltipImage}
+                            alt="tooltip"
+                            className="tooltip"
+                        />
+                    </LightTooltip>
+                </div>
             </td>
-            <td className="discipline__td">
-                {whatLabel(
-                    pattern.disciplineName,
-                    disciplines,
-                    'disciplineName'
-                )}
-                <LightTooltip
-                    title={tooltipContent(disciplines, pattern.disciplineName)}
-                >
-                    <img src={tooltipImage} alt="tooltip" className="tooltip" />
-                </LightTooltip>
+            <td className="discipline__td" style={{ width: '230px' }}>
+                <div className="discipline__td-div">
+                    {whatLabel(
+                        pattern.disciplineName,
+                        disciplines,
+                        'disciplineName'
+                    )}
+                    <LightTooltip
+                        title={tooltipContent(
+                            disciplines,
+                            pattern.disciplineName
+                        )}
+                    >
+                        <img
+                            src={tooltipImage}
+                            alt="tooltip"
+                            className="tooltip"
+                        />
+                    </LightTooltip>
+                </div>
             </td>
             <td className="typeClassName__td">
                 {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
