@@ -7,6 +7,7 @@ import { getLocations } from '../../redux/commonInfoReducer/actions';
 import './renderTable.css';
 
 import deleteIcon from '../../images/delete.svg';
+import { useMemo } from 'react';
 
 export default function RenderTable({ dataForTable }) {
     const [pattern, setPattern] = useState({});
@@ -54,7 +55,7 @@ export default function RenderTable({ dataForTable }) {
         });
     }
 
-    function addPropToReduxPattern() {
+    const addPropToReduxPattern = useMemo(() => {
         let counter = 0;
 
         for (let key in pattern) {
@@ -64,7 +65,7 @@ export default function RenderTable({ dataForTable }) {
         if (counter === 10) {
             dispatch(fillPattern(pattern));
         }
-    }
+    }, [pattern, dispatch]);
 
     return (
         <tr>
@@ -131,7 +132,7 @@ export default function RenderTable({ dataForTable }) {
                     <img src={deleteIcon} alt="delete" />
                 </button>
             </td>
-            {addPropToReduxPattern()}
+            {addPropToReduxPattern}
         </tr>
     );
 }
