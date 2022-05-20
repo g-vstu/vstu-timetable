@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Header from "./components/header";
-import GenerateTable from "./pages/generateTable";
-import EditPage from "./pages/editPage";
+import Header from "./components/Header";
+import GenerateTable from "./pages/GenerateTable";
+import EditPage from "./pages/EditPage";
 
 export default function App() {
     return (
