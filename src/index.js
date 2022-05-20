@@ -1,12 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { compose, createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import React from "react";
+import { render } from "react-dom";
+import { compose, createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 
-import App from './components/app';
-import './index.css';
-import { rootReducer } from './redux/rootReducer';
+import App from "./App";
+import "./index.css";
+import { rootReducer } from "./store/rootReducer";
 
 const store = createStore(
     rootReducer,
@@ -23,4 +23,4 @@ const app = (
     </Provider>
 );
 
-render(app, document.getElementById('root'));
+render(app, document.getElementById("root"));

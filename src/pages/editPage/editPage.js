@@ -1,24 +1,24 @@
-import { React, Component } from 'react';
-import { connect } from 'react-redux';
-import Select from 'react-select';
+import { React, Component } from "react";
+import { connect } from "react-redux";
+import Select from "react-select";
 
 import {
     addFilter,
     getPatterns,
-} from '../../redux/editPatternsReducer/actions';
+} from "../../store/editPatternsReducer/actions";
 import {
     getAllGroups,
     getCommonData,
     getAllLocations,
-} from '../../redux/commonInfoReducer/actions';
-import EditTable from '../editTable/editTable';
-import Spinner from '../spinner';
-import { AlertMessage } from '../alert/alert';
+} from "../../store/commonInfoReducer/actions";
+import EditTable from "./editTable";
+import Spinner from "../../components/spinner";
+import { AlertMessage } from "../../components/alert/alert";
 
 class EditPage extends Component {
     state = {
         isClearable: true,
-        day: '',
+        day: "",
     };
 
     componentDidMount() {
@@ -29,8 +29,8 @@ class EditPage extends Component {
     }
 
     componentWillUnmount() {
-        this.props.addFilter('', 'day');
-        this.props.addFilter('', 'group');
+        this.props.addFilter("", "day");
+        this.props.addFilter("", "group");
     }
 
     changeFilter(item, name) {
@@ -38,7 +38,7 @@ class EditPage extends Component {
             const { value } = item;
             this.props.addFilter(value, name);
         } else {
-            this.props.addFilter('', name);
+            this.props.addFilter("", name);
         }
     }
 
@@ -105,7 +105,7 @@ class EditPage extends Component {
                                 <Select
                                     isClearable={isClearable}
                                     onChange={(item) => {
-                                        this.changeFilter(item, 'day');
+                                        this.changeFilter(item, "day");
                                         this.setState({
                                             ...this.state,
                                             day: item,
@@ -122,7 +122,7 @@ class EditPage extends Component {
                                 <Select
                                     isClearable={isClearable}
                                     onChange={(item) => {
-                                        this.changeFilter(item, 'group');
+                                        this.changeFilter(item, "group");
                                         this.props.getPatterns();
                                     }}
                                     options={groups}

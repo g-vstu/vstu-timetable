@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import Select from "react-select";
+import { connect } from "react-redux";
 
 import {
     getCommonData,
     getGroups,
-} from '../../redux/commonInfoReducer/actions';
+} from "../../store/commonInfoReducer/actions";
 import {
     postPatternsList,
     clearPatternToSend,
-} from '../../redux/editPatternsReducer/actions';
-import ErrorMessage from '../errorMessage';
-import RenderTable from '../renderTable/renderTable';
+} from "../../store/editPatternsReducer/actions";
 
-import './generateTable.css';
-import Spinner from '../spinner';
-import { AlertMessage } from '../alert/alert';
+import ErrorMessage from "../../components/errorMessage";
+import RenderTable from "./renderTable/renderTable";
+import Spinner from "../../components/spinner";
+import { AlertMessage } from "../../components/alert/alert";
+
+import "./generateTable.css";
 
 class GenerateTable extends Component {
     state = {
@@ -114,7 +115,7 @@ class GenerateTable extends Component {
                     <div className="choose__item-select1">
                         <Select
                             onChange={(item) => {
-                                this.onItemSelected(item, 'selectedDay');
+                                this.onItemSelected(item, "selectedDay");
                             }}
                             options={days}
                         />
@@ -125,7 +126,7 @@ class GenerateTable extends Component {
                     <div className="choose__item-select2">
                         <Select
                             onChange={(item) =>
-                                this.onItemSelected(item, 'selectedSpeciality')
+                                this.onItemSelected(item, "selectedSpeciality")
                             }
                             options={specialities}
                         />
@@ -136,7 +137,7 @@ class GenerateTable extends Component {
                     <div className="choose__item-select3">
                         <Select
                             onChange={(item) =>
-                                this.onItemSelected(item, 'selectedCourse')
+                                this.onItemSelected(item, "selectedCourse")
                             }
                             options={courses}
                         />

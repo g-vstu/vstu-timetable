@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 
-import { fillPattern } from "../../redux/editPatternsReducer/actions";
-import { getLocations } from "../../redux/commonInfoReducer/actions";
+import { fillPattern } from "../../../store/editPatternsReducer/actions";
+import { getLocations } from "../../../store/commonInfoReducer/actions";
 import "./renderTable.css";
 
-import deleteIcon from "../../assets/images/delete.svg";
+import deleteIcon from "../../../assets/images/delete.svg";
 import { useMemo } from "react";
 
 export default function RenderTable({ dataForTable }) {

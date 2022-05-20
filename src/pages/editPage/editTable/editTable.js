@@ -8,11 +8,12 @@ import {
     deletePattern,
     getPatterns,
     patchPattern,
-} from "../../redux/editPatternsReducer/actions";
+} from "../../../store/editPatternsReducer/actions";
 
-import deleteIcon from "../../assets/images/delete.svg";
-import editIcon from "../../assets/images/edit.svg";
-import tooltipImage from "../../assets/images/tooltip.svg";
+import deleteIcon from "../../../assets/images/delete.svg";
+import editIcon from "../../../assets/images/edit.svg";
+import tooltipImage from "../../../assets/images/tooltip.svg";
+
 import "./editTable.css";
 
 const LightTooltip = styled(({ className, ...props }) => (
