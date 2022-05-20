@@ -10,9 +10,9 @@ import {
     patchPattern,
 } from "../../redux/editPatternsReducer/actions";
 
-import deleteIcon from "../../images/delete.svg";
-import editIcon from "../../images/edit.svg";
-import tooltipImage from "../../images/tooltip.svg";
+import deleteIcon from "../../assets/images/delete.svg";
+import editIcon from "../../assets/images/edit.svg";
+import tooltipImage from "../../assets/images/tooltip.svg";
 import "./editTable.css";
 
 const LightTooltip = styled(({ className, ...props }) => (

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Select from 'react-select';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
 
-import { fillPattern } from '../../redux/editPatternsReducer/actions';
-import { getLocations } from '../../redux/commonInfoReducer/actions';
-import './renderTable.css';
+import { fillPattern } from "../../redux/editPatternsReducer/actions";
+import { getLocations } from "../../redux/commonInfoReducer/actions";
+import "./renderTable.css";
 
-import deleteIcon from '../../images/delete.svg';
-import { useMemo } from 'react';
+import deleteIcon from "../../assets/images/delete.svg";
+import { useMemo } from "react";
 
 export default function RenderTable({ dataForTable }) {
     const [pattern, setPattern] = useState({});
@@ -25,16 +25,16 @@ export default function RenderTable({ dataForTable }) {
     } = dataForTable;
     let locations = useSelector((state) => state.common.locations);
     useEffect(() => {
-        addPropToPattern(selectedDay, 'lessonDay');
+        addPropToPattern(selectedDay, "lessonDay");
     }, [selectedDay]);
 
     function changePeriodicity(item) {
         const { value } = item;
 
         if (Number.isInteger(value)) {
-            return addPropToPattern(item, 'weekNumber');
+            return addPropToPattern(item, "weekNumber");
         } else {
-            return addPropToPattern(item, 'numerator');
+            return addPropToPattern(item, "numerator");
         }
     }
 
@@ -72,7 +72,7 @@ export default function RenderTable({ dataForTable }) {
             <td className="lessonNumber__td">
                 <Select
                     onChange={(item) => {
-                        addPropToPattern(item, 'lessonNumber');
+                        addPropToPattern(item, "lessonNumber");
                     }}
                     options={lessonTime}
                 />
@@ -85,45 +85,45 @@ export default function RenderTable({ dataForTable }) {
             </td>
             <td className="frame__td">
                 <Select
-                    onChange={(item) => selectLocationsForFrame(item, 'frame')}
+                    onChange={(item) => selectLocationsForFrame(item, "frame")}
                     options={lessonFrame}
                 />
             </td>
             <td className="location__td">
                 <Select
-                    onChange={(item) => addPropToPattern(item, 'location')}
+                    onChange={(item) => addPropToPattern(item, "location")}
                     options={locations}
                 />
             </td>
             <td className="discipline__td">
                 <Select
                     onChange={(item) =>
-                        addPropToPattern(item, 'disciplineName')
+                        addPropToPattern(item, "disciplineName")
                     }
                     options={disciplines}
                 />
             </td>
             <td className="typeClassName__td">
                 <Select
-                    onChange={(item) => addPropToPattern(item, 'typeClassName')}
+                    onChange={(item) => addPropToPattern(item, "typeClassName")}
                     options={lessonType}
                 />
             </td>
             <td className="groupName__td">
                 <Select
-                    onChange={(item) => addPropToPattern(item, 'groupName')}
+                    onChange={(item) => addPropToPattern(item, "groupName")}
                     options={groups}
                 />
             </td>
             <td className="subGroup__td">
                 <Select
-                    onChange={(item) => addPropToPattern(item, 'subGroup')}
+                    onChange={(item) => addPropToPattern(item, "subGroup")}
                     options={subGroups}
                 />
             </td>
             <td className="teacherFio__td">
                 <Select
-                    onChange={(item) => addPropToPattern(item, 'teacherFio')}
+                    onChange={(item) => addPropToPattern(item, "teacherFio")}
                     options={teachers}
                 />
             </td>

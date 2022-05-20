@@ -1,11 +1,11 @@
-import React from 'react';
-import './header.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "./header.css";
+import { Link } from "react-router-dom";
 
-import userPhoto from '../../images/user-photo.svg';
-import faqImage from '../../images/faq.svg';
-import bellImage from '../../images/bell.svg';
-import optionsImage from '../../images/options.svg';
+import userPhoto from "../../assets/images/user-photo.svg";
+import faqImage from "../../assets/images/faq.svg";
+import bellImage from "../../assets/images/bell.svg";
+import optionsImage from "../../assets/images/options.svg";
 
 const Header = () => {
     return (
