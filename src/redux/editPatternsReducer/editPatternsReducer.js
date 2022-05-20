@@ -8,16 +8,16 @@ import {
     DELETE_PATTERN,
     CLEAR_PATTERNS_TO_SEND,
     PATCH_PATTERNS_LIST,
-} from '../static/types';
+} from "../static/types";
 
 // Дефолтый стейт с некоторыми захардкоженными данными
 const initialState = {
     patterns: [],
     patternsToSend: [],
     filter: {
-        day: '',
-        group: '',
-        frame: '',
+        day: "",
+        group: "",
+        frame: "",
     },
     loading: false,
     alert: null,

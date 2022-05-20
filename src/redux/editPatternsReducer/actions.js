@@ -6,9 +6,9 @@ import {
     GET_PATTERNS,
     PATCH_PATTERNS_LIST,
     POST_PATTERNS_LIST,
-} from '../static/types';
-import { BASE_URL } from '../static/static';
-import { showLoader, hideLoader, showAlert } from '../static/actions';
+} from "../static/types";
+import { BASE_URL } from "../static/static";
+import { showLoader, hideLoader, showAlert } from "../static/actions";
 
 // функция фильтра для отображения занятий в расписании
 export function addFilter(filter, name) {
@@ -45,7 +45,7 @@ export function getPatterns() {
             dispatch({ type: GET_PATTERNS, payload: json });
             dispatch(hideLoader());
         } catch (error) {
-            dispatch(showAlert('Что-то пошло не так', 'warning'));
+            dispatch(showAlert("Что-то пошло не так", "warning"));
             dispatch(hideLoader());
         }
     };
@@ -57,8 +57,8 @@ export function deletePattern(id) {
         try {
             dispatch(showLoader());
             const requestOptions = {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
             };
 
             const response = await fetch(
@@ -68,10 +68,10 @@ export function deletePattern(id) {
             // const result = await response.json();
             dispatch({ type: DELETE_PATTERN, payload: response });
             dispatch(hideLoader());
-            dispatch(showAlert('Данные удалены', 'success'));
+            dispatch(showAlert("Данные удалены", "success"));
         } catch (error) {
             console.error(error);
-            dispatch(showAlert('Что-то пошло не так!', 'warning'));
+            dispatch(showAlert("Что-то пошло не так!", "warning"));
             dispatch(hideLoader());
         }
     };
@@ -83,8 +83,8 @@ export function patchPattern(id, bodyItems) {
         try {
             dispatch(showLoader());
             const requestOptions = {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(bodyItems),
             };
 
@@ -96,13 +96,13 @@ export function patchPattern(id, bodyItems) {
             dispatch({ type: PATCH_PATTERNS_LIST, payload: result });
             dispatch(hideLoader());
             if (!bodyItems.length) {
-                dispatch(showAlert('Что-то пошло не так!', 'warning'));
+                dispatch(showAlert("Что-то пошло не так!", "warning"));
             } else {
-                dispatch(showAlert('Данные успешно обновлены!', 'success'));
+                dispatch(showAlert("Данные успешно обновлены!", "success"));
             }
         } catch (error) {
             console.error(error);
-            dispatch(showAlert('Что-то пошло не так!', 'warning'));
+            dispatch(showAlert("Что-то пошло не так!", "warning"));
             dispatch(hideLoader());
         }
     };
@@ -114,28 +114,33 @@ export function postPatternsList(bodyItems) {
         try {
             dispatch(showLoader());
             const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(bodyItems),
             };
 
             const response = await fetch(
-                `${BASE_URL}/timetable/patterns/list`,
+                `${BASE_URL}/timetable/patterns/list/2`,
                 requestOptions
             );
-            const result = await response.json();
-            dispatch({ type: POST_PATTERNS_LIST, payload: result });
+            console.log(response);
+            dispatch({ type: POST_PATTERNS_LIST });
             dispatch(hideLoader());
-            if (!bodyItems.length) {
-                dispatch(showAlert('Что-то пошло не так!', 'warning'));
+            if (response.status === 200) {
+                dispatch(
+                    showAlert("Данные успешно отправлены на сервер!", "success")
+                );
             } else {
                 dispatch(
-                    showAlert('Данные успешно отправлены на сервер!', 'success')
+                    showAlert(
+                        "Что-то пошло не так, попробуйте сохранить занятия ещё раз!",
+                        "warning"
+                    )
                 );
             }
         } catch (error) {
-            console.log(error);
-            dispatch(showAlert('Что-то пошло не так!', 'warning'));
+            console.error(error, "err");
+            dispatch(showAlert("Что-то пошло не так!", "warning"));
             dispatch(hideLoader());
         }
     };

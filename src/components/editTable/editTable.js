@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Select from 'react-select';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Select from "react-select";
+import { styled } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 import {
     deletePattern,
     getPatterns,
     patchPattern,
-} from '../../redux/editPatternsReducer/actions';
+} from "../../redux/editPatternsReducer/actions";
 
-import deleteIcon from '../../images/delete.svg';
-import editIcon from '../../images/edit.svg';
-import tooltipImage from '../../images/tooltip.svg';
-import './editTable.css';
+import deleteIcon from "../../images/delete.svg";
+import editIcon from "../../images/edit.svg";
+import tooltipImage from "../../images/tooltip.svg";
+import "./editTable.css";
 
 const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
         backgroundColor: theme.palette.common.white,
-        color: 'rgba(0, 0, 0, 0.87)',
+        color: "rgba(0, 0, 0, 0.87)",
         boxShadow: theme.shadows[3],
         fontSize: 15,
         maxWidth: 500,
@@ -154,11 +154,11 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 {whatPeriodicity(pattern.weekNumber, pattern.numerator)}
             </td>
             <td className="frame__td">
-                {whatLabel(+pattern.frame, lessonFrame, 'frame')}
+                {whatLabel(+pattern.frame, lessonFrame, "frame")}
             </td>
-            <td className="location__td" style={{ width: '260px' }}>
+            <td className="location__td" style={{ width: "260px" }}>
                 <div className="discipline__td-div">
-                    {whatLabel(pattern.location, locations, 'location')}
+                    {whatLabel(pattern.location, locations, "location")}
                     <LightTooltip
                         title={tooltipContent(locations, pattern.location)}
                     >
@@ -170,12 +170,12 @@ export default function EditTable({ pattern, day, commonInfo }) {
                     </LightTooltip>
                 </div>
             </td>
-            <td className="discipline__td" style={{ width: '230px' }}>
+            <td className="discipline__td" style={{ width: "230px" }}>
                 <div className="discipline__td-div">
                     {whatLabel(
                         pattern.disciplineName,
                         disciplines,
-                        'disciplineName'
+                        "disciplineName"
                     )}
                     <LightTooltip
                         title={tooltipContent(
@@ -192,7 +192,7 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 </div>
             </td>
             <td className="typeClassName__td">
-                {whatLabel(pattern.typeClassName, lessonType, 'typeClassName')}
+                {whatLabel(pattern.typeClassName, lessonType, "typeClassName")}
             </td>
             <td className="groupName__td vertical__top">
                 <div className="groupName__td-label">
@@ -200,10 +200,10 @@ export default function EditTable({ pattern, day, commonInfo }) {
                 </div>
             </td>
             <td className="subGroup__td">
-                {whatLabel(pattern.subGroup, subGroups, 'subGroup')}
+                {whatLabel(pattern.subGroup, subGroups, "subGroup")}
             </td>
             <td className="teacherFio__td">
-                {whatLabel(pattern.teacherFio, teachers, 'teacherFio')}
+                {whatLabel(pattern.teacherFio, teachers, "teacherFio")}
             </td>
             <td className="btn__td">
                 <div>
