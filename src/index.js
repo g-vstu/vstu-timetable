@@ -1,12 +1,14 @@
-import React from "react";
 import { render } from "react-dom";
 import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { BrowserRouter } from "react-router-dom";
+
+import { rootReducer } from "./store/rootReducer";
 
 import App from "./App";
+
 import "./index.css";
-import { rootReducer } from "./store/rootReducer";
 
 const store = createStore(
     rootReducer,
@@ -18,9 +20,11 @@ const store = createStore(
 );
 
 const app = (
-    <Provider store={store}>
-        <App />
-    </Provider>
+    <BrowserRouter>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </BrowserRouter>
 );
 
 render(app, document.getElementById("root"));
