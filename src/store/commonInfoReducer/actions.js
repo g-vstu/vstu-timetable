@@ -1,5 +1,7 @@
-import { hideLoader, showLoader, showAlert } from '../static/actions';
-import { BASE_URL } from '../static/static';
+import { hideLoader, showLoader, showAlert } from "../static/actions";
+import { BASE_URL } from "../static/static";
+import { getSpecialitie } from "../../api/common";
+
 import {
     GET_ALL_GROUPS,
     GET_DISCIPLINES,
@@ -9,7 +11,7 @@ import {
     GET_SPECIALTIES,
     GET_TEACHERS,
     GET_LOCATIONS,
-} from '../static/types';
+} from "../static/types";
 import {
     _transformDiscipline,
     _transformSpeciality,
@@ -18,24 +20,20 @@ import {
     _transformGroups,
     _tranfromTeachers,
     _transformLocations,
-} from './transformResults';
+} from "./transformResults";
 
 // Получение специальностей
 export function getSpecialities() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(
-                `${BASE_URL}/common-info/specialities`
-            );
-
-            const json = await response.json();
-            const result = json.map(_transformSpeciality);
-
-            dispatch({ type: GET_SPECIALTIES, payload: result });
-        } catch (error) {
-            console.log(error);
-            dispatch(showAlert('Что-то пошло не так', 'warning'));
-        }
+        await getSpecialitie()
+            .then((data) => {
+                const result = data.map(_transformSpeciality);
+                dispatch({ type: GET_SPECIALTIES, payload: result });
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
@@ -184,7 +182,7 @@ export function getCommonData() {
             dispatch(getTeachers());
             dispatch(hideLoader());
         } catch (error) {
-            dispatch(showAlert('Что-то пошло не так', 'warning'));
+            dispatch(showAlert("Что-то пошло не так", "warning"));
             dispatch(hideLoader());
         }
     };

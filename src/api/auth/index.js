@@ -1,5 +1,5 @@
-import { auth } from "..";
+import { api } from "..";
 
 export function getToken(data) {
-    return auth.post("/token?grant_type=password", data);
+    return api.post("/authorization/token?grant_type=password", data);
 }
