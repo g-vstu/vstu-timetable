@@ -7,7 +7,6 @@ import {
     PATCH_PATTERNS_LIST,
     POST_PATTERNS_LIST,
 } from "../static/types";
-import { BASE_URL } from "../static/static";
 import { showLoader, hideLoader, showAlert } from "../static/actions";
 import {
     addPatternsList,

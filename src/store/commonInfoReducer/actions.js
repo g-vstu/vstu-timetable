@@ -153,16 +153,6 @@ export function getLocations(frame) {
 
 export function getAllLocations() {
     return async (dispatch) => {
-        // try {
-        //     const response = await fetch(`${BASE_URL}`);
-
-        //     const json = await response.json();
-        //     const result = json.map(_transformLocations);
-
-        //     dispatch({ type: GET_LOCATIONS, payload: result });
-        // } catch (error) {
-        //     console.log(error);
-        // }
         await getLocationsAll()
             .then((data) => {
                 const result = data.map(_transformLocations);
