@@ -1,7 +1,15 @@
 import { hideLoader, showLoader, showAlert } from "../static/actions";
-import { BASE_URL } from "../static/static";
-import { getSpecialitie } from "../../api/common";
-
+import {
+    getAllDisciplines,
+    getAllSpecialties,
+    getAllTeachers,
+    getGroupsAll,
+    getGroupsByParams,
+    getLessonTimes,
+    getLessonTypes,
+    getLocationsAll,
+    getLocationsByFrame,
+} from "../../api/general";
 import {
     GET_ALL_GROUPS,
     GET_DISCIPLINES,
@@ -25,13 +33,13 @@ import {
 // Получение специальностей
 export function getSpecialities() {
     return async (dispatch) => {
-        await getSpecialitie()
+        await getAllSpecialties()
             .then((data) => {
                 const result = data.map(_transformSpeciality);
                 dispatch({ type: GET_SPECIALTIES, payload: result });
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 dispatch(showAlert("Что-то пошло не так", "warning"));
             });
     };
@@ -40,133 +48,120 @@ export function getSpecialities() {
 // Получение времени занятий
 export function getLessonTime() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(`${BASE_URL}/common-info/classes`);
-
-            const json = await response.json();
-            const result = await json.map(_transformPeriodClass);
-
-            dispatch({ type: GET_LESSON_TIME, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getLessonTimes()
+            .then((data) => {
+                const result = data.map(_transformPeriodClass);
+                dispatch({ type: GET_LESSON_TIME, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 // Получение дисциплин
 export function getDisciplines() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(`${BASE_URL}/common-info/disciplines`);
-
-            const json = await response.json();
-            const result = json.map(_transformDiscipline);
-
-            dispatch({ type: GET_DISCIPLINES, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getAllDisciplines()
+            .then((data) => {
+                const result = data.map(_transformDiscipline);
+                dispatch({ type: GET_DISCIPLINES, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 // Получение типов занятий
 export function getLessonType() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(
-                `${BASE_URL}/common-info/types-of-classes`
-            );
-
-            const json = await response.json();
-            const result = json.map(_transformTypeOfClass);
-
-            dispatch({ type: GET_LESSON_TYPE, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getLessonTypes()
+            .then((data) => {
+                const result = data.map(_transformTypeOfClass);
+                dispatch({ type: GET_LESSON_TYPE, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 // Получение групп по специальности и курсу
 export function getGroups(id, courseNum) {
     return async (dispatch) => {
-        try {
-            const response = await fetch(
-                `${BASE_URL}/common-info/groups/search?q=сourse==${courseNum};specialty.id==${id}`
-            );
-
-            const json = await response.json();
-            const result = json.map(_transformGroups);
-
-            dispatch({ type: GET_GROUPS, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getGroupsByParams(id, courseNum)
+            .then((data) => {
+                const result = data.map(_transformGroups);
+                dispatch({ type: GET_GROUPS, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 }
 
 // Получение всех групп
 export function getAllGroups() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(`${BASE_URL}/common-info/groups`);
-
-            const json = await response.json();
-            const result = json.map(_transformGroups);
-
-            dispatch({ type: GET_ALL_GROUPS, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getGroupsAll()
+            .then((data) => {
+                dispatch({
+                    type: GET_ALL_GROUPS,
+                    payload: data.map(_transformGroups),
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 // Получение преподавателей
 export function getTeachers() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(`${BASE_URL}/common-info/employees`);
-
-            const json = await response.json();
-            const result = json.map(_tranfromTeachers);
-
-            dispatch({ type: GET_TEACHERS, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getAllTeachers()
+            .then((data) => {
+                const result = data.map(_tranfromTeachers);
+                dispatch({ type: GET_TEACHERS, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 // Получение аудиторий
 export function getLocations(frame) {
     return async (dispatch) => {
-        try {
-            const response = await fetch(
-                `${BASE_URL}/common-info/classrooms/search?q=frame==${frame}`
-            );
-
-            const json = await response.json();
-            const result = json.map(_transformLocations);
-
-            dispatch({ type: GET_LOCATIONS, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getLocationsByFrame(frame)
+            .then((data) => {
+                const result = data.map(_transformLocations);
+                dispatch({ type: GET_LOCATIONS, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 
 export function getAllLocations() {
     return async (dispatch) => {
-        try {
-            const response = await fetch(`${BASE_URL}/common-info/classrooms`);
-
-            const json = await response.json();
-            const result = json.map(_transformLocations);
-
-            dispatch({ type: GET_LOCATIONS, payload: result });
-        } catch (error) {
-            console.log(error);
-        }
+        await getLocationsAll()
+            .then((data) => {
+                const result = data.map(_transformLocations);
+                dispatch({ type: GET_LOCATIONS, payload: result });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch(showAlert("Что-то пошло не так", "warning"));
+            });
     };
 }
 

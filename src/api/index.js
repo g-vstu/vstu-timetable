@@ -9,9 +9,4 @@ export const api = create({
     },
 });
 
-// export const common = create({
-//     baseURL: "http://192.168.11.252:8082",
-//     headers: {},
-// });
-
 api.interceptors.response.use((response) => response.data);
