@@ -2,15 +2,22 @@ import { React, Component } from "react";
 import { connect } from "react-redux";
 import Select from "react-select";
 
-import {
-    addFilter,
-    getPatterns,
-} from "../../store/editPatternsReducer/actions";
+import { addFilter, getPatterns } from "../../redux/timetable/reducer";
 import {
     getAllGroups,
-    getCommonData,
     getAllLocations,
-} from "../../store/commonInfoReducer/actions";
+    getDisciplines,
+    getLessonTime,
+    getLessonType,
+    getTeachers,
+} from "../../redux/general/reducer";
+import {
+    showAlert,
+    hideAlert,
+    showLoader,
+    hideLoader,
+} from "../../redux/common/reducer";
+
 import EditTable from "./EditTable";
 import Spinner from "../../components/Spinner";
 import AlertMessage from "../../components/Alert";
@@ -22,23 +29,30 @@ class EditPage extends Component {
     };
 
     componentDidMount() {
+        this.props.showLoader();
         this.props.getPatterns();
-        this.props.getCommonData();
         this.props.getAllGroups();
+        this.props.getLessonTime();
+        this.props.getLessonType();
+        this.props.getDisciplines();
+        this.props.getTeachers();
         this.props.getAllLocations();
+        this.props.hideLoader();
     }
 
     componentWillUnmount() {
-        this.props.addFilter("", "day");
-        this.props.addFilter("", "group");
+        this.props.addFilter({ filter: "", name: "day" });
+        this.props.addFilter({ filter: "", name: "group" });
     }
 
     changeFilter(item, name) {
         if (item) {
             const { value } = item;
-            this.props.addFilter(value, name);
+            console.log(item);
+            this.props.addFilter({ filter: value, name });
         } else {
-            this.props.addFilter("", name);
+            console.log(item);
+            this.props.addFilter({ filter: "", name });
         }
     }
 
@@ -160,24 +174,31 @@ const mapDispatchToProps = {
     addFilter,
     getPatterns,
     getAllGroups,
-    getCommonData,
     getAllLocations,
+    getDisciplines,
+    getLessonTime,
+    getLessonType,
+    getTeachers,
+    showAlert,
+    hideAlert,
+    showLoader,
+    hideLoader,
 };
 
 const mapStateToProps = (state) => ({
-    loading: state.edit.loading,
-    patterns: state.edit.patterns,
-    days: state.common.days,
-    courses: state.common.courses,
-    groups: state.common.groups,
-    periodicity: state.common.periodicity,
-    lessonTime: state.common.lessonTime,
-    lessonFrame: state.common.lessonFrame,
-    subGroups: state.common.subGroups,
-    locations: state.common.locations,
-    disciplines: state.common.disciplines,
-    lessonType: state.common.lessonType,
-    teachers: state.common.teachers,
+    loading: state.common.loading,
+    patterns: state.timetable.patterns,
+    days: state.general.days,
+    courses: state.general.courses,
+    groups: state.general.groups,
+    periodicity: state.general.periodicity,
+    lessonTime: state.general.lessonTime,
+    lessonFrame: state.general.lessonFrame,
+    subGroups: state.general.subGroups,
+    locations: state.general.locations,
+    disciplines: state.general.disciplines,
+    lessonType: state.general.lessonType,
+    teachers: state.general.teachers,
     alert: state.common.alert,
 });
 

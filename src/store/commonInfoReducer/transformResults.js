@@ -4,12 +4,12 @@ export const _transformDiscipline = (item) => {
     return {
         key: item.id,
         value: item.name,
-        label: item.name,
+        label: item.shortName,
         tooltip: `Наименование дисциплины: ${item.name}`,
     };
 };
 
-export const _transformSpeciality = (item) => {
+export const _transformSpecialty = (item) => {
     return {
         key: item.id,
         value: item.id,
@@ -42,7 +42,7 @@ export const _transformGroups = (item) => {
     };
 };
 
-export const _tranfromTeachers = (item) => {
+export const _transformTeachers = (item) => {
     return {
         key: item.id,
         value: `${item.surname} ${item.name} ${item.patronymic}`,

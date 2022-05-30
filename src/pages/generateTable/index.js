@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import Select from "react-select";
+import { Component } from "react";
 import { connect } from "react-redux";
+import Select from "react-select";
 
 import {
     getLessonType,
@@ -10,6 +10,13 @@ import {
     getSpecialties,
     getGroups,
 } from "../../redux/general/reducer";
+
+import {
+    showAlert,
+    hideAlert,
+    showLoader,
+    hideLoader,
+} from "../../redux/common/reducer";
 
 import {
     postPatternsList,
@@ -27,37 +34,34 @@ class GenerateTable extends Component {
     state = {
         error: false,
         selectedDay: {},
-        selectedSpeciality: {},
+        selectedSpecialty: {},
         selectedCourse: {},
         rows: [],
     };
 
     componentDidMount() {
+        this.props.showLoader();
         this.props.getSpecialties();
         this.props.getLessonTime();
         this.props.getDisciplines();
         this.props.getLessonType();
         this.props.getTeachers();
-        //     getLessonType,
-        // getLessonTime,
-        // getTeachers,
-        // getDisciplines,
-        // getSpecialties,
+        this.props.hideLoader();
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { selectedSpeciality, selectedCourse } = this.state;
+        const { selectedSpecialty, selectedCourse } = this.state;
 
         if (
-            selectedSpeciality !== prevState.selectedSpeciality ||
+            selectedSpecialty !== prevState.selectedSpecialty ||
             selectedCourse !== prevState.selectedCourse
         ) {
             this.setState({
                 rows: [],
             });
-            if (selectedSpeciality.value && selectedCourse.value) {
+            if (selectedSpecialty.value && selectedCourse.value) {
                 this.props.getGroups({
-                    id: selectedSpeciality.value,
+                    id: selectedSpecialty.value,
                     courseNum: selectedCourse.value,
                 });
             }
@@ -183,7 +187,7 @@ class GenerateTable extends Component {
             return <ErrorMessage />;
         }
 
-        // const spinner = this.props.loading ? <Spinner /> : null;
+        const spinner = this.props.loading ? <Spinner /> : null;
         const content = rows.length ? (
             rows.map((item) => {
                 return item;
@@ -209,7 +213,7 @@ class GenerateTable extends Component {
                     {selectedOptions}
                     {buttonSection}
                 </section>
-                {/* {spinner} */}
+                {spinner}
                 <section className="table__section">
                     <table className="table">
                         <thead>
@@ -234,7 +238,6 @@ class GenerateTable extends Component {
 }
 
 const mapDispatchToProps = {
-    // getCommonData,
     getGroups,
     getLessonType,
     getLessonTime,
@@ -243,24 +246,28 @@ const mapDispatchToProps = {
     getSpecialties,
     postPatternsList,
     clearPatternToSend,
+    showAlert,
+    hideAlert,
+    showLoader,
+    hideLoader,
 };
 
 const mapStateToProps = (state) => ({
-    // loading: state.edit.loading,
-    specialties: state.common.specialties,
-    days: state.common.days,
-    courses: state.common.courses,
-    lessonFrame: state.common.lessonFrame,
-    subGroups: state.common.subGroups,
-    disciplines: state.common.disciplines,
-    lessonTime: state.common.lessonTime,
-    lessonType: state.common.lessonType,
-    locations: state.common.locations,
-    groups: state.common.groups,
-    teachers: state.common.teachers,
+    loading: state.common.loading,
+    specialties: state.general.specialties,
+    days: state.general.days,
+    courses: state.general.courses,
+    lessonFrame: state.general.lessonFrame,
+    subGroups: state.general.subGroups,
+    disciplines: state.general.disciplines,
+    lessonTime: state.general.lessonTime,
+    lessonType: state.general.lessonType,
+    locations: state.general.locations,
+    groups: state.general.groups,
+    teachers: state.general.teachers,
     // patternsToSend: state.edit.patternsToSend,
     alert: state.common.alert,
-    periodicity: state.common.periodicity,
+    periodicity: state.general.periodicity,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GenerateTable);

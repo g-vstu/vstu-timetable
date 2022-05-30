@@ -11,20 +11,14 @@ import {
     getLocationsByFrame,
 } from "../../api/general";
 import {
-    _tranfromTeachers,
+    _transformTeachers,
     _transformDiscipline,
     _transformGroups,
     _transformLocations,
     _transformPeriodClass,
-    _transformSpeciality,
+    _transformSpecialty,
     _transformTypeOfClass,
 } from "../../store/commonInfoReducer/transformResults";
-import {
-    hideAlert,
-    hideLoader,
-    showAlert,
-    showLoader,
-} from "../../store/static/actions";
 
 const initialState = {
     days: [
@@ -73,15 +67,13 @@ const initialState = {
         { value: 4, label: 4 },
     ],
     teachers: [],
-    loading: false,
-    alert: null,
 };
 
 export const getSpecialties = createAsyncThunk(
     "general/getSpecialties",
     async () => {
         const response = await getAllSpecialties();
-        return response.map(_transformSpeciality);
+        return response.map(_transformSpecialty);
     }
 );
 
@@ -117,14 +109,17 @@ export const getGroups = createAsyncThunk(
     }
 );
 
-export const getAllGroups = createAsyncThunk("general/getGroups", async () => {
-    const response = await getGroupsAll();
-    return response.map(_transformGroups);
-});
+export const getAllGroups = createAsyncThunk(
+    "general/getAllGroups",
+    async () => {
+        const response = await getGroupsAll();
+        return response.map(_transformGroups);
+    }
+);
 
 export const getTeachers = createAsyncThunk("general/getTeachers", async () => {
     const response = await getAllTeachers();
-    return response.map(_tranfromTeachers);
+    return response.map(_transformTeachers);
 });
 
 export const getLocations = createAsyncThunk(
@@ -143,45 +138,11 @@ export const getAllLocations = createAsyncThunk(
     }
 );
 
-export const getCommonData = createAsyncThunk(
-    "general/getCommonData",
-    async (dispatch) => {
-        // dispatch(getSpecialties());
-        // dispatch(getLessonTime());
-        // dispatch(getDisciplines());
-        // dispatch(getLessonType());
-        // dispatch(getTeachers());
-    }
-);
-
 const generalReducer = createSlice({
     name: "general",
     initialState,
-    reducers: {
-        showLoader: (state, action) => {
-            state.loading = true;
-        },
-        hideLoader: (state, action) => {
-            state.loading = false;
-        },
-        showAlert: (state, action) => {
-            const { text, status } = action.payload;
-            state.alert = { text, status };
-        },
-        hideAlert: (state, action) => {
-            state.alert = null;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        // builder.addCase(getSpecialties.pending, () => {
-        //     showLoader();
-        // });
-        // builder.addCase(getSpecialties.rejected, () => {
-        //     showAlert("Что-то пошло не так", "warning");
-        //     setTimeout(() => {
-        //         hideAlert();
-        //     }, 3000);
-        // });
         builder.addCase(getSpecialties.fulfilled, (state, action) => {
             state.specialties = action.payload;
             // hideLoader();
@@ -198,9 +159,9 @@ const generalReducer = createSlice({
         builder.addCase(getGroups.fulfilled, (state, action) => {
             state.groups = action.payload;
         });
-        // builder.addCase(getAllGroups.fulfilled, (state, action) => {
-        //     state.groups = action.payload;
-        // });
+        builder.addCase(getAllGroups.fulfilled, (state, action) => {
+            state.groups = action.payload;
+        });
         builder.addCase(getTeachers.fulfilled, (state, action) => {
             state.teachers = action.payload;
         });
@@ -209,14 +170,6 @@ const generalReducer = createSlice({
         });
         builder.addCase(getAllLocations.fulfilled, (state, action) => {
             state.locations = action.payload;
-        });
-        builder.addCase(getCommonData.fulfilled, (state, action) => {
-            // state.locations = action.payload;
-            getSpecialties();
-            getLessonTime();
-            getDisciplines();
-            getLessonType();
-            getTeachers();
         });
     },
 });

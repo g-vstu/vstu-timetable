@@ -22,11 +22,11 @@ import {
 } from "../static/types";
 import {
     _transformDiscipline,
-    _transformSpeciality,
+    _transformSpecialty,
     _transformPeriodClass,
     _transformTypeOfClass,
     _transformGroups,
-    _tranfromTeachers,
+    _transformTeachers,
     _transformLocations,
 } from "./transformResults";
 
@@ -35,7 +35,7 @@ export function getSpecialities() {
     return async (dispatch) => {
         await getAllSpecialties()
             .then((data) => {
-                const result = data.map(_transformSpeciality);
+                const result = data.map(_transformSpecialty);
                 dispatch({ type: GET_SPECIALTIES, payload: result });
             })
             .catch((error) => {
@@ -126,7 +126,7 @@ export function getTeachers() {
     return async (dispatch) => {
         await getAllTeachers()
             .then((data) => {
-                const result = data.map(_tranfromTeachers);
+                const result = data.map(_transformTeachers);
                 dispatch({ type: GET_TEACHERS, payload: result });
             })
             .catch((error) => {

@@ -9,18 +9,23 @@ const commonReducer = createSlice({
     name: "general",
     initialState,
     reducers: {
-        showLoader: (state, action) => {
+        showLoader: (state) => {
             state.loading = true;
         },
-        hideLoader: (state, action) => {
+        hideLoader: (state) => {
             state.loading = false;
         },
         showAlert: (state, action) => {
             const { text, status } = action.payload;
             state.alert = { text, status };
         },
-        hideAlert: (state, action) => {
+        hideAlert: (state) => {
             state.alert = null;
         },
     },
 });
+
+export const { showLoader, showAlert, hideLoader, hideAlert } =
+    commonReducer.actions;
+
+export default commonReducer.reducer;
