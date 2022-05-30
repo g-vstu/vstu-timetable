@@ -3,9 +3,14 @@ import Select from "react-select";
 import { connect } from "react-redux";
 
 import {
-    getCommonData,
+    getLessonType,
+    getLessonTime,
+    getTeachers,
+    getDisciplines,
+    getSpecialties,
     getGroups,
-} from "../../store/commonInfoReducer/actions";
+} from "../../redux/general/reducer";
+
 import {
     postPatternsList,
     clearPatternToSend,
@@ -28,7 +33,16 @@ class GenerateTable extends Component {
     };
 
     componentDidMount() {
-        this.props.getCommonData();
+        this.props.getSpecialties();
+        this.props.getLessonTime();
+        this.props.getDisciplines();
+        this.props.getLessonType();
+        this.props.getTeachers();
+        //     getLessonType,
+        // getLessonTime,
+        // getTeachers,
+        // getDisciplines,
+        // getSpecialties,
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -41,10 +55,12 @@ class GenerateTable extends Component {
             this.setState({
                 rows: [],
             });
-            this.props.getGroups(
-                selectedSpeciality.value,
-                selectedCourse.value
-            );
+            if (selectedSpeciality.value && selectedCourse.value) {
+                this.props.getGroups({
+                    id: selectedSpeciality.value,
+                    courseNum: selectedCourse.value,
+                });
+            }
         }
     }
 
@@ -106,7 +122,7 @@ class GenerateTable extends Component {
 
     render() {
         const { error, rows } = this.state;
-        const { specialities, days, courses, patternsToSend } = this.props;
+        const { specialties, days, courses, patternsToSend } = this.props;
 
         const selectedOptions = (
             <div className="choose__section">
@@ -128,7 +144,7 @@ class GenerateTable extends Component {
                             onChange={(item) =>
                                 this.onItemSelected(item, "selectedSpeciality")
                             }
-                            options={specialities}
+                            options={specialties}
                         />
                     </div>
                 </div>
@@ -167,7 +183,7 @@ class GenerateTable extends Component {
             return <ErrorMessage />;
         }
 
-        const spinner = this.props.loading ? <Spinner /> : null;
+        // const spinner = this.props.loading ? <Spinner /> : null;
         const content = rows.length ? (
             rows.map((item) => {
                 return item;
@@ -193,7 +209,7 @@ class GenerateTable extends Component {
                     {selectedOptions}
                     {buttonSection}
                 </section>
-                {spinner}
+                {/* {spinner} */}
                 <section className="table__section">
                     <table className="table">
                         <thead>
@@ -218,15 +234,20 @@ class GenerateTable extends Component {
 }
 
 const mapDispatchToProps = {
-    getCommonData,
+    // getCommonData,
     getGroups,
+    getLessonType,
+    getLessonTime,
+    getTeachers,
+    getDisciplines,
+    getSpecialties,
     postPatternsList,
     clearPatternToSend,
 };
 
 const mapStateToProps = (state) => ({
-    loading: state.edit.loading,
-    specialities: state.common.specialities,
+    // loading: state.edit.loading,
+    specialties: state.common.specialties,
     days: state.common.days,
     courses: state.common.courses,
     lessonFrame: state.common.lessonFrame,
@@ -237,7 +258,7 @@ const mapStateToProps = (state) => ({
     locations: state.common.locations,
     groups: state.common.groups,
     teachers: state.common.teachers,
-    patternsToSend: state.edit.patternsToSend,
+    // patternsToSend: state.edit.patternsToSend,
     alert: state.common.alert,
     periodicity: state.common.periodicity,
 });

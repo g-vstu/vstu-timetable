@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Header from "./components/Header";
 import GenerateTable from "./pages/GenerateTable";
 import EditPage from "./pages/EditPage";
 import Layout from "./components/Layout";
