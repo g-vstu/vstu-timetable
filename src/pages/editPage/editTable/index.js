@@ -28,7 +28,12 @@ const LightTooltip = styled(({ className, ...props }) => (
     },
 }));
 
-export default function EditTable({ pattern, day, commonInfo }) {
+export default function EditTable({
+    pattern,
+    day,
+    commonInfo,
+    isPatternsUpdate,
+}) {
     const dispatch = useDispatch();
     const [patternToChange, addToPattern] = useState({});
     const {
@@ -213,16 +218,23 @@ export default function EditTable({ pattern, day, commonInfo }) {
                         onClick={() => {
                             console.log(patternToChange);
                             dispatch(patchPattern(pattern.id, patternToChange));
-                            setTimeout(() => {
-                                dispatch(getPatterns());
-                            }, 0);
+                            // setTimeout(() => {
+                            //     dispatch(getPatterns());
+                            // }, 0);
+                            isPatternsUpdate();
                         }}
                     >
                         <img src={editIcon} alt="Редактировать" />
                     </button>
                     <button
                         className="change__button"
-                        onClick={() => deleteTableRow(pattern.id)}
+                        onClick={() => {
+                            deleteTableRow(pattern.id);
+                            // setTimeout(() => {
+                            //     dispatch(getPatterns());
+                            // }, 0);
+                            isPatternsUpdate();
+                        }}
                     >
                         <img src={deleteIcon} alt="Удалить" />
                     </button>

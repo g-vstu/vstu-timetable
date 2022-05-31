@@ -26,6 +26,7 @@ class EditPage extends Component {
     state = {
         isClearable: true,
         day: "",
+        isUpdate: false,
     };
 
     componentDidMount() {
@@ -40,9 +41,34 @@ class EditPage extends Component {
         this.props.hideLoader();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { isUpdate } = this.state;
+
+        if (prevState.isUpdate !== isUpdate) {
+            console.log(isUpdate);
+            if (isUpdate) {
+                this.props.getPatterns();
+                // this.isPatternsUpdate(false);
+                this.setState({
+                    ...this.state,
+                    isUpdate: false,
+                });
+            }
+        }
+
+        // this.props.getPatterns();
+    }
+
     componentWillUnmount() {
         this.props.addFilter({ filter: "", name: "day" });
         this.props.addFilter({ filter: "", name: "group" });
+    }
+
+    isPatternsUpdate(boolean) {
+        this.setState({
+            ...this.state,
+            isUpdate: boolean,
+        });
     }
 
     changeFilter(item, name) {
@@ -80,6 +106,12 @@ class EditPage extends Component {
                         <EditTable
                             key={Math.random()}
                             pattern={pattern}
+                            isPatternsUpdate={() =>
+                                this.setState({
+                                    ...this.state,
+                                    isUpdate: true,
+                                })
+                            }
                             commonInfo={{
                                 lessonTime,
                                 subGroups,
