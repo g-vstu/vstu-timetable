@@ -2,8 +2,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 
-import { fillPattern } from "../../../store/editPatternsReducer/actions";
-import { getLocations } from "../../../store/commonInfoReducer/actions";
+import { fillPattern } from "../../../redux/patternList/reducer";
+import { getLocations } from "../../../redux/general/reducer";
 
 import deleteIcon from "../../../assets/images/delete.svg";
 
@@ -11,6 +11,7 @@ import "./styled.css";
 
 export default function RenderTable({ dataForTable }) {
     const [pattern, setPattern] = useState({});
+    const [number, setNumber] = useState(null);
     const dispatch = useDispatch();
     const {
         selectedDay,
@@ -23,10 +24,15 @@ export default function RenderTable({ dataForTable }) {
         teachers,
         periodicity,
     } = dataForTable;
-    let locations = useSelector((state) => state.common.locations);
+    let locations = useSelector((state) => state.general.locations);
+
     useEffect(() => {
         addPropToPattern(selectedDay, "lessonDay");
     }, [selectedDay]);
+
+    useEffect(() => {
+        setNumber(Math.random());
+    }, []);
 
     function changePeriodicity(item) {
         const { value } = item;
@@ -43,9 +49,9 @@ export default function RenderTable({ dataForTable }) {
         return addPropToPattern(item, name);
     }
 
-    function whatLocation() {
-        return;
-    }
+    // function whatLocation() {
+    //     return;
+    // }
 
     function addPropToPattern(item, name) {
         const { value } = item;
@@ -63,9 +69,9 @@ export default function RenderTable({ dataForTable }) {
         }
 
         if (counter === 10) {
-            dispatch(fillPattern(pattern));
+            dispatch(fillPattern({ name: `${number}`, pattern }));
         }
-    }, [pattern, dispatch]);
+    }, [pattern, dispatch, number]);
 
     return (
         <tr>

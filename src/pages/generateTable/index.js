@@ -18,10 +18,7 @@ import {
     hideLoader,
 } from "../../redux/common/reducer";
 
-import {
-    postPatternsList,
-    clearPatternToSend,
-} from "../../store/editPatternsReducer/actions";
+import { clearPatternToSend } from "../../store/editPatternsReducer/actions";
 
 import ErrorMessage from "../../components/ErrorMessage";
 import RenderTable from "./renderTable";
@@ -29,6 +26,7 @@ import Spinner from "../../components/Spinner";
 import AlertMessage from "../../components/Alert";
 
 import "./styled.css";
+import { addPatternsList } from "../../api/timetable";
 
 class GenerateTable extends Component {
     state = {
@@ -146,7 +144,7 @@ class GenerateTable extends Component {
                     <div className="choose__item-select2">
                         <Select
                             onChange={(item) =>
-                                this.onItemSelected(item, "selectedSpeciality")
+                                this.onItemSelected(item, "selectedSpecialty")
                             }
                             options={specialties}
                         />
@@ -176,7 +174,36 @@ class GenerateTable extends Component {
                 </button>
                 <button
                     className="button__section-btn"
-                    onClick={() => this.props.postPatternsList(patternsToSend)}
+                    onClick={() => {
+                        this.props.showLoader();
+                        const arr = [];
+                        Object.keys(patternsToSend).forEach((key) => {
+                            arr.push(patternsToSend[key]);
+                        });
+                        addPatternsList(arr)
+                            .then((data) => {
+                                console.log("SUCCESS POST PATTERNS LIST");
+                                this.props.showAlert({
+                                    text: "Данные успешно отправлены на сервер!",
+                                    status: "success",
+                                });
+                                this.props.hideLoader();
+                                setTimeout(() => {
+                                    this.props.hideAlert();
+                                }, 4000);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                this.props.showAlert({
+                                    text: "Что-то пошло не так",
+                                    status: "warning",
+                                });
+                                this.props.hideLoader();
+                                setTimeout(() => {
+                                    this.props.hideAlert();
+                                }, 4000);
+                            });
+                    }}
                 >
                     Сохранить занятия
                 </button>
@@ -208,7 +235,6 @@ class GenerateTable extends Component {
                         <AlertMessage alert={this.props.alert} /> <br />
                     </div>
                 )}
-
                 <section className="table__header">
                     {selectedOptions}
                     {buttonSection}
@@ -244,7 +270,6 @@ const mapDispatchToProps = {
     getTeachers,
     getDisciplines,
     getSpecialties,
-    postPatternsList,
     clearPatternToSend,
     showAlert,
     hideAlert,
@@ -265,7 +290,7 @@ const mapStateToProps = (state) => ({
     locations: state.general.locations,
     groups: state.general.groups,
     teachers: state.general.teachers,
-    // patternsToSend: state.edit.patternsToSend,
+    patternsToSend: state.patternList,
     alert: state.common.alert,
     periodicity: state.general.periodicity,
 });
