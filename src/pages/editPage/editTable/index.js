@@ -8,7 +8,7 @@ import {
     deletePattern,
     getPatterns,
     patchPattern,
-} from "../../../store/editPatternsReducer/actions";
+} from "../../../redux/timetable/reducer";
 
 import deleteIcon from "../../../assets/images/delete.svg";
 import editIcon from "../../../assets/images/edit.svg";
@@ -217,7 +217,12 @@ export default function EditTable({
                         className="change__button"
                         onClick={() => {
                             console.log(patternToChange);
-                            dispatch(patchPattern(pattern.id, patternToChange));
+                            dispatch(
+                                patchPattern({
+                                    id: pattern.id,
+                                    bodyItems: patternToChange,
+                                })
+                            );
                             isPatternsUpdate();
                         }}
                     >

@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deletePatternById, getAllPatterns } from "../../api/timetable";
+import {
+    deletePatternById,
+    getAllPatterns,
+    updatePattern,
+} from "../../api/timetable";
 
 const initialState = {
     patterns: [],
@@ -17,6 +21,14 @@ export const getPatterns = createAsyncThunk(
     "timetable/getPatterns",
     async () => {
         const response = await getAllPatterns();
+        return response;
+    }
+);
+
+export const patchPattern = createAsyncThunk(
+    "timetable/patchPattern",
+    async ({ id, bodyItems }) => {
+        const response = await updatePattern(id, JSON.stringify(bodyItems));
         return response;
     }
 );
@@ -66,6 +78,7 @@ const timetableReducer = createSlice({
             }
         });
         builder.addCase(deletePattern.fulfilled, (state) => state);
+        builder.addCase(patchPattern.fulfilled, (state) => state);
     },
 });
 
