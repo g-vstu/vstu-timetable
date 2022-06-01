@@ -1,3 +1,7 @@
+.table {
+    border-collapse: collapse;
+}
+
 .table__header {
     display: flex;
     justify-content: space-between;
@@ -15,7 +19,7 @@
 }
 
 .choose__item-title {
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -47,7 +51,7 @@
     width: 205px;
     height: 38px;
 
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -84,7 +88,7 @@
 
 th {
     border: none;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -100,7 +104,7 @@ th {
 }
 
 .empty_rows {
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-style: normal;
     font-weight: normal;
     font-size: 25px;

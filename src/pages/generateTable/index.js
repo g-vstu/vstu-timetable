@@ -18,7 +18,8 @@ import {
     hideLoader,
 } from "../../redux/common/reducer";
 
-import { clearPatternToSend } from "../../store/editPatternsReducer/actions";
+// import { clearPatternToSend } from "../../store/editPatternsReducer/actions";
+import { clearPatterns } from "../../redux/patternList/reducer";
 
 import ErrorMessage from "../../components/ErrorMessage";
 import RenderTable from "./renderTable";
@@ -73,7 +74,7 @@ class GenerateTable extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearPatternToSend();
+        this.props.clearPatterns();
     }
 
     onItemSelected = (item, name) => {
@@ -191,6 +192,11 @@ class GenerateTable extends Component {
                                 setTimeout(() => {
                                     this.props.hideAlert();
                                 }, 4000);
+                                this.setState({
+                                    ...this.state,
+                                    rows: [],
+                                });
+                                this.props.clearPatterns();
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -270,7 +276,7 @@ const mapDispatchToProps = {
     getTeachers,
     getDisciplines,
     getSpecialties,
-    clearPatternToSend,
+    clearPatterns,
     showAlert,
     hideAlert,
     showLoader,

@@ -218,9 +218,6 @@ export default function EditTable({
                         onClick={() => {
                             console.log(patternToChange);
                             dispatch(patchPattern(pattern.id, patternToChange));
-                            // setTimeout(() => {
-                            //     dispatch(getPatterns());
-                            // }, 0);
                             isPatternsUpdate();
                         }}
                     >
@@ -230,9 +227,6 @@ export default function EditTable({
                         className="change__button"
                         onClick={() => {
                             deleteTableRow(pattern.id);
-                            // setTimeout(() => {
-                            //     dispatch(getPatterns());
-                            // }, 0);
                             isPatternsUpdate();
                         }}
                     >

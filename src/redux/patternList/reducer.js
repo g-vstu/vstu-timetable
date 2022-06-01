@@ -10,9 +10,14 @@ const patternsReducer = createSlice({
             const { name, pattern } = action.payload;
             state[name] = pattern;
         },
+        clearPatterns: (state) => {
+            state = {};
+        },
+        deletePattern: (state, action) => void delete state[action.payload],
     },
 });
 
-export const { fillPattern } = patternsReducer.actions;
+export const { fillPattern, clearPatterns, deletePattern } =
+    patternsReducer.actions;
 
 export default patternsReducer.reducer;
