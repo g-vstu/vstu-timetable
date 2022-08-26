@@ -45,7 +45,7 @@ function Login() {
                 localStorage.setItem("user", JSON.stringify(data));
                 reset();
                 signIn(data, () =>
-                    navigate(`/electronicaljournal-view/journal`, {
+                    navigate(`/timetable`, {
                         replace: true,
                     })
                 );
