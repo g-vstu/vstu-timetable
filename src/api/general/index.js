@@ -1,7 +1,7 @@
-import { api } from "..";
+import { api, api2 } from "..";
 
 export function getAllSpecialties() {
-    return api.get("/common-info/specialities");
+    return api2.get("/specialities?query=");
 }
 
 export function getLessonTimes() {
@@ -9,7 +9,7 @@ export function getLessonTimes() {
 }
 
 export function getAllDisciplines() {
-    return api.get("/common-info/disciplines");
+    return api2.get("/disciplines?query=");
 }
 
 export function getLessonTypes() {
@@ -17,17 +17,18 @@ export function getLessonTypes() {
 }
 
 export function getGroupsByParams(groupID, courseNUM) {
-    return api.get(
-        `/common-info/groups/search?q=сourse==${courseNUM};specialty.id==${groupID}`
+    return api2.get(
+        `/groups?query=course==${courseNUM};speciality.id==${groupID}`
+        // `/common-info/groups/search?q=сourse==${courseNUM};specialty.id==${groupID}`
     );
 }
 
 export function getGroupsAll() {
-    return api.get("/common-info/groups");
+    return api2.get("/groups?query=");
 }
 
 export function getAllTeachers() {
-    return api.get("/common-info/employees");
+    return api2.get("/teachers?query=");
 }
 
 export function getLocationsByFrame(frame) {

@@ -11,6 +11,9 @@ const patternsReducer = createSlice({
             state[name] = pattern;
         },
         clearPatterns: (state) => {
+            Object.getOwnPropertyNames(state).forEach(function (prop) {
+                delete state[prop];
+            });
             state = {};
         },
         deletePattern: (state, action) => void delete state[action.payload],

@@ -4,7 +4,8 @@ export const _transformDiscipline = (item) => {
     return {
         key: item.id,
         value: item.name,
-        label: item.shortName,
+        // label: item.shortName,
+        label: item.name,
         tooltip: `Наименование дисциплины: ${item.name}`,
     };
 };
